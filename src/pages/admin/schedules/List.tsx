@@ -1,78 +1,187 @@
-import { Card, Table, Button, Space, Popconfirm } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { Table, Form, Input, Select } from 'antd';
 import { useIntl } from 'react-intl';
-import { useScheduleList } from './hooks/useScheduleList';
+import { ColumnsType } from 'antd/es/table';
+
+import TableAction from '@reportify/components/Actions/TableAction';
+import CmbTeachingAssignment from '@reportify/components/Combos/CmbTeachingAssignment';
+import SearchFilter from '@reportify/components/SearchFilter';
+
+import { usePageListFilter } from '@reportify/hooks/ui';
+import usePagination from '@reportify/hooks/ui/usePagination';
+
+import { onEnter } from '@reportify/utils/Help';
+import { defaultFilterSortMaster } from '@reportify/utils/GlobalConst';
+
+import { tableWidth } from '@reportify/constant/tableWidth';
+
+import { TScheduleListData, TScheduleListParams, TItemFilterDrawer } from '@reportify/types';
+
+import useScheduleList from './hooks/useScheduleList';
+
+const defaultFilter: TScheduleListParams = {
+  ...defaultFilterSortMaster,
+  page: 1,
+  limit: 20
+}
 
 const ScheduleList = () => {
-  const navigate = useNavigate();
   const intl = useIntl();
-  const { schedules, loading, deleteSchedule } = useScheduleList();
 
-  const columns = [
+  const [dataFilter, setDataFilter, initialFilter] = usePageListFilter<TScheduleListParams>(
+    'pageListSchedule',
+    defaultFilter,
+  )    
+
+	const { page, pageSize, pageSizeOptions, onPageChange, onPageSizeChange, resetPage } =
+		usePagination({
+			initialPage: initialFilter.page,
+			initialPageSize: initialFilter.limit,
+		})    
+
+  const {
+    data,
+    isLoadingData,
+    deleteData,
+    handleTableChange,
+    formInstance,
+    onFilter,
+    onSearch,
+    resetFilter,
+  } = useScheduleList(dataFilter, page, pageSize, setDataFilter, resetPage);
+
+  const dayOptions = [
+    { label: 'Senin', value: 'Senin' },
+    { label: 'Selasa', value: 'Selasa' },
+    { label: 'Rabu', value: 'Rabu' },
+    { label: 'Kamis', value: 'Kamis' },
+    { label: 'Jumat', value: 'Jumat' },
+    { label: 'Sabtu', value: 'Sabtu' },
+  ]
+
+  const columns: ColumnsType<TScheduleListData> = [
+		{
+			title: intl.formatMessage({ id: 'field.rownum' }),
+			width: tableWidth.no,
+			align: 'center',
+			fixed: 'left',
+			render: (_text, _record, index) => (
+				<div className="text-right cell-line-clamp">
+					{pageSize * (page - 1) + index + 1}
+				</div>
+			),
+		},
+		{
+			title: intl.formatMessage({ id: 'menu.teachingassignment' }),
+			dataIndex: 'id_teaching_assignment',
+			sorter: true,
+      className: 'center-header-left-content',
+			render: (_text, record) => (
+				<div className="text-left cell-line-clamp">{record.id_teaching_assignment.label}</div>
+			),
+		},
+		{
+			title: intl.formatMessage({ id: 'field.day' }),
+			dataIndex: 'day',
+			sorter: true,
+      className: 'center-header-left-content',
+			render: (_text, record) => (
+				<div className="text-left cell-line-clamp">{record.day}</div>
+			),
+		},
+		{
+			title: intl.formatMessage({ id: 'field.starttime' }),
+			dataIndex: 'start_time',
+			sorter: true,
+      className: 'center-header-left-content',
+			render: (_text, record) => (
+				<div className="text-left cell-line-clamp">{record.start_time}</div>
+			),
+		},
+		{
+			title: intl.formatMessage({ id: 'field.endtime' }),
+			dataIndex: 'end_time',
+			sorter: true,
+      className: 'center-header-left-content',
+			render: (_text, record) => (
+				<div className="text-left cell-line-clamp">{record.end_time}</div>
+			),
+		},
+		{
+			title: intl.formatMessage({ id: 'field.room' }),
+			dataIndex: 'room',
+			sorter: true,
+      className: 'center-header-left-content',
+			render: (_text, record) => (
+				<div className="text-left cell-line-clamp">{record.room}</div>
+			),
+		},
     {
-      title: intl.formatMessage({ id: 'assignment.teacher' }),
-      dataIndex: 'teacherName',
-      key: 'teacherName',
-    },
-    {
-      title: intl.formatMessage({ id: 'assignment.class' }),
-      dataIndex: 'className',
-      key: 'className',
-    },
-    {
-      title: intl.formatMessage({ id: 'assignment.subject' }),
-      dataIndex: 'subjectName',
-      key: 'subjectName',
-    },
-    {
-      title: intl.formatMessage({ id: 'schedule.day' }),
-      dataIndex: 'day',
-      key: 'day',
-    },
-    {
-      title: intl.formatMessage({ id: 'schedule.startTime' }),
-      dataIndex: 'startTime',
-      key: 'startTime',
-    },
-    {
-      title: intl.formatMessage({ id: 'schedule.endTime' }),
-      dataIndex: 'endTime',
-      key: 'endTime',
-    },
-    {
-      title: intl.formatMessage({ id: 'common.actions' }),
-      key: 'actions',
-      render: (_: any, record: any) => (
-        <Space>
-          <Button icon={<EditOutlined />} onClick={() => navigate(`/schedules/${record.id}/edit`)} />
-          <Popconfirm
-            title={intl.formatMessage({ id: 'common.confirmDelete' })}
-            onConfirm={() => deleteSchedule(record.id)}
-          >
-            <Button danger icon={<DeleteOutlined />} />
-          </Popconfirm>
-        </Space>
+      title: intl.formatMessage({ id: 'field.action' }),
+      align: 'center',
+      width: tableWidth.action,
+      render: (_text, record) => (
+        <TableAction 
+          itemId={record.id} 
+          localId={intl.formatMessage({ id: 'menu.schedule' })}
+          viewTo={`/schedules/view/${record.id}`}
+          editTo={`/schedules/update/${record.id}`}
+          onDelete={deleteData} 
+        />
       ),
-    },
+    },    
   ];
 
+  const itemsDrawer: TItemFilterDrawer[] = [
+    {
+      name: 'id_teaching_assignment',
+      label: intl.formatMessage({ id: 'menu.teachingassignment' }),
+      picker: <CmbTeachingAssignment onInputKeyDown={onEnter(onFilter)}/>
+    },
+    {
+      name: 'day',
+      label: intl.formatMessage({ id: 'field.day' }),
+      picker: <Select options={dayOptions} onInputKeyDown={onEnter(onFilter)} placeholder={intl.formatMessage({ id: 'field.all' })} />
+    },
+    {
+      name: 'room',
+      label: intl.formatMessage({ id: 'field.room' }),
+      picker: <Input onPressEnter={onFilter} placeholder={intl.formatMessage({ id: 'field.all' })} />
+    }
+  ]  
+
   return (
-    <Card 
-      title={intl.formatMessage({ id: 'menu.schedules' })}
-      extra={
-        <Button type="primary" icon={<PlusOutlined />} onClick={() => navigate('/schedules/new')}>
-          {intl.formatMessage({ id: 'common.add' })}
-        </Button>
-      }
-    >
-      <Table 
-        columns={columns} 
-        dataSource={schedules} 
-        loading={loading}
+    <>
+      <div className="row mb-3">
+        <div className="col-24 d-flex justify-content-end align-items-center">
+          <Form form={formInstance} component={false} initialValues={initialFilter}>
+            <SearchFilter
+              onSearch={onSearch}
+              onFilter={onFilter}
+              onReset={resetFilter}
+              items={itemsDrawer}
+              formInstance={formInstance}
+              searchName="search"
+            />
+          </Form>
+        </div>
+      </div>
+      <Table
         rowKey="id"
+        columns={columns}
+        dataSource={data?.data || []}
+        loading={isLoadingData}
+        pagination={{
+          current: data?.pagination?.page ?? 1,
+          total: data?.pagination?.total ?? 0,
+          pageSize,
+          pageSizeOptions,
+          onChange: onPageChange,
+          onShowSizeChange: onPageSizeChange
+        }}
+        onChange={handleTableChange}
+        scroll={{ x: 'max-content' }}
       />
-    </Card>
+    </>
   );
 };
 

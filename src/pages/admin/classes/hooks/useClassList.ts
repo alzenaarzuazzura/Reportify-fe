@@ -11,8 +11,8 @@ import {
   TStateSetter,
   TClassListData,
   TClassListParams,
+  TTableOnChange
 } from '@reportify/types'
-import { TTableOnChange } from '@reportify/types/components/table'
 
 const QUERY_KEY = { queryKey: ['dataList', 'class'] }
 

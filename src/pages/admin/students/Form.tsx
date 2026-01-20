@@ -1,59 +1,49 @@
-import { Card, Form, Button, Space, message } from 'antd';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useIntl } from 'react-intl';
-import { useEffect } from 'react';
-import api from '@reportify/services/api';
-import General from './components/General';
-import { useStudentView } from './hooks/useStudentView';
+import { useIntl } from "react-intl"
+import { Tabs, Form as AntdForm } from 'antd'
 
-const StudentForm = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const intl = useIntl();
-  const [form] = Form.useForm();
-  const { student, loading } = useStudentView(id || '');
+import SaveCancelButton from "@reportify/components/Button/SaveCancelButton"
 
-  useEffect(() => {
-    if (student) {
-      form.setFieldsValue(student);
-    }
-  }, [student, form]);
+import { TStudentTransForm, TFormTransParams } from "@reportify/types"
 
-  const onFinish = async (values: any) => {
-    try {
-      if (id) {
-        await api.put(`/students/${id}`, values);
-        message.success('Data siswa berhasil diperbarui');
-      } else {
-        await api.post('/students', values);
-        message.success('Data siswa berhasil ditambahkan');
-      }
-      navigate('/students');
-    } catch (error) {
-      message.error('Gagal menyimpan data siswa');
-    }
-  };
+import General from "./formContent/General"
+
+const Form = ({
+  formInstance,
+  initialValues,
+  onSubmit,
+  onCancel,
+  viewMode = false,
+}: TFormTransParams<TStudentTransForm>) => {
+  const intl = useIntl()
 
   return (
-    <Card 
-      title={id ? intl.formatMessage({ id: 'common.edit' }) : intl.formatMessage({ id: 'common.add' })}
-      loading={loading}
+    <AntdForm
+      layout="vertical"
+      form={formInstance}
+      onFinish={onSubmit}
+      initialValues={initialValues}
     >
-      <Form form={form} layout="vertical" onFinish={onFinish}>
-        <General initialValues={student || undefined} />
-        <Form.Item>
-          <Space>
-            <Button type="primary" htmlType="submit">
-              {intl.formatMessage({ id: 'common.save' })}
-            </Button>
-            <Button onClick={() => navigate('/students')}>
-              {intl.formatMessage({ id: 'common.cancel' })}
-            </Button>
-          </Space>
-        </Form.Item>
-      </Form>
-    </Card>
-  );
-};
+      <div className="card rounded">
+        <Tabs 
+          className="tabs"
+          defaultActiveKey="general"
+          items={[
+            {
+              label: intl.formatMessage({ id: 'field.general' }),
+              key: 'general',
+              className: 'pb-3',
+              children: <General viewMode={viewMode} />
+            }
+          ]}
+        />
+        <div className="mb-3">
+          {!viewMode && (
+            <SaveCancelButton onSave={formInstance.submit} onCancel={onCancel} />
+          )}
+        </div>
+      </div>
+    </AntdForm>
+  )
+}
 
-export default StudentForm;
+export default Form

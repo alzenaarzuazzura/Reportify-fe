@@ -12,7 +12,20 @@ import CreateClass from '@reportify/pages/admin/classes/Create';
 import ViewClass from '@reportify/pages/admin/classes/View';
 import UpdateClass from '@reportify/pages/admin/classes/Update';
 
+import TeachingAssignmentPage from '@reportify/pages/admin/assignments';
+import CreateTeachingAssignment from '@reportify/pages/admin/assignments/Create';
+import ViewTeachingAssignment from '@reportify/pages/admin/assignments/View';
+import UpdateTeachingAssignment from '@reportify/pages/admin/assignments/Update';
+
+import SchedulePage from '@reportify/pages/admin/schedules';
+import CreateSchedule from '@reportify/pages/admin/schedules/Create';
+import ViewSchedule from '@reportify/pages/admin/schedules/View';
+import UpdateSchedule from '@reportify/pages/admin/schedules/Update';
+
 import SubjectPage from '@reportify/pages/admin/subjects';
+
+import StudentPage from '@reportify/pages/admin/students';
+import CreateStudent from '@reportify/pages/admin/students/Create';
 
 interface RouteConfig {
   path: string;
@@ -60,4 +73,44 @@ export const adminRoutes: RouteConfig[] = [
     path: '/classes/update/:id', 
     element: <UpdateClass /> 
   },  
+  { 
+    path: '/students', 
+    element: <StudentPage /> 
+  },  
+  { 
+    path: '/students/create', 
+    element: <CreateStudent /> 
+  },  
+  { 
+    path: '/teaching-assignment', 
+    element: <TeachingAssignmentPage /> 
+  },
+  { 
+    path: '/teaching-assignment/create', 
+    element: <CreateTeachingAssignment /> 
+  },  
+  { 
+    path: '/teaching-assignment/view/:id', 
+    element: <ViewTeachingAssignment /> 
+  },  
+  { 
+    path: '/teaching-assignment/update/:id', 
+    element: <UpdateTeachingAssignment /> 
+  },
+  { 
+    path: '/schedules', 
+    element: <SchedulePage /> 
+  },
+  { 
+    path: '/schedules/create', 
+    element: <CreateSchedule /> 
+  },  
+  { 
+    path: '/schedules/view/:id', 
+    element: <ViewSchedule /> 
+  },  
+  { 
+    path: '/schedules/update/:id', 
+    element: <UpdateSchedule /> 
+  },      
 ];

@@ -1,6 +1,6 @@
 import { useIntl } from "react-intl";
 
-import { classCombo } from "@reportify/services/api/combo";
+import { classes } from "@reportify/services/api/combo";
 
 import { TComboAjax, TLabelValue, TSelectValue } from "@reportify/types";
 
@@ -20,7 +20,7 @@ const CmbClass = <V extends TSelectValue = TLabelValue>({
         return (
             <SelectAjax 
                 placeholder={placeHolder}
-                fetchFn={classCombo}
+                fetchFn={classes}
                 showSearch
                 allowClear
                 labelInValue

@@ -1,7 +1,8 @@
 import { useIntl } from "react-intl"
-import useClassCreate from "./hooks/useClassCreate"
 import { Helmet } from "react-helmet-async"
+
 import Form from "./Form"
+import useClassCreate from "./hooks/useClassCreate"
 
 const Create = () => {
     const intl = useIntl()

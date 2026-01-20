@@ -83,6 +83,14 @@ const TeacherList = () => {
       )      
     },
     {
+      title: intl.formatMessage({ id: 'field.tlp' }),
+      dataIndex: 'telephone',
+      ellipsis: true,
+      sorter: true, 
+      align: 'center',
+      render: (text) => <div className="text-left cell-line-clamp">{text}</div>,      
+    },    
+    {
       title: intl.formatMessage({ id: 'field.role' }),
       dataIndex: 'role',
       width: 120,

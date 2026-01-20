@@ -35,14 +35,26 @@ export async function rombel(params: TComboFetchParams) {
         .then(validateResponse)
 }
 
-export async function classCombo(params: TComboFetchParams) {
+export async function classes(params: TComboFetchParams) {
     return apiReportify
         .get<TResponseCombo>('/combo/classes', { params: { ...params } })
+        .then(validateResponse)
+}
+
+export async function teacher(params: TComboFetchParams) {
+    return apiReportify
+        .get<TResponseCombo>('/combo/teachers', { params: { ...params } })
         .then(validateResponse)
 }
 
 export async function role(params: TComboFetchParams) {
     return apiReportify
         .get<TResponseCombo>('/combo/roles', { params: { ...params } })
+        .then(validateResponse)
+}
+
+export async function teachingAssignment(params: TComboFetchParams) {
+    return apiReportify
+        .get<TResponseCombo>('/combo/teaching-assignments', { params: { ...params } })
         .then(validateResponse)
 }

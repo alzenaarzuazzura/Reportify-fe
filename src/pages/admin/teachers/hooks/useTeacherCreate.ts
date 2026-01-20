@@ -10,7 +10,7 @@ const useTeacherCreate = () => {
     const [formInstance] = Form.useForm()
 
     const { createData } = useCreateData<TTeacherData, TTeacherPostData>({
-        menu: 'teacher',
+        menu: 'teachers',
         menuId: 'field.teacher',
         createFn: create,
         onSuccess: () => formInstance.resetFields()
@@ -22,6 +22,7 @@ const useTeacherCreate = () => {
                 email: formData.email,
                 password: formData.password,
                 name: formData.name,
+                telephone: formData.telephone,
                 role: formData.role?.value ?? undefined
             }
             createData(data)

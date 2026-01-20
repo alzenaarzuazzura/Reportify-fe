@@ -42,9 +42,9 @@ export const menuAdmin: MenuItem[] = [
     },
     { 
         key: 'assignments', 
-        label: 'menu.assignments', 
+        label: 'menu.teachingassignment', 
         icon: <ScheduleOutlined />, 
-        path: '/assignments' 
+        path: '/teaching-assignment' 
     },
     { 
         key: 'schedules', 

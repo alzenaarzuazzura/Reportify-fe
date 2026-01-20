@@ -15,3 +15,6 @@ export * from './data/class';
 export * from './data/level';
 export * from './data/major';
 export * from './data/rombel';
+export * from './data/student';
+export * from './data/teachingassignment';
+export * from './data/schedule';

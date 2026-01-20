@@ -14,6 +14,11 @@ export type TLabelValue<V = ID> = {
 	value: V
 }
 
+export type TNameId<V = ID> = {
+	name: string
+	id: V
+}
+
 export type TParamsId = {
 	id: string
 }

@@ -5,7 +5,8 @@ export const color = {
   warning: '#faad14',
   danger: '#ff0004ff',
 
-  grey: '#94a3b8'
+  grey: '#858686ff',
+  white: '#ffffff',
 
 } as const
 

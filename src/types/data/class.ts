@@ -8,31 +8,23 @@ export type TClassGeneralParams = {
     formInstance: FormInstance
 }
 
-export type TClassListForm = {
+export type TClassGeneral = {
+    id: number
     search: string
     id_level: TLabelValue
     id_major: TLabelValue
-    id_rombel: TLabelValue
+    id_rombel: TLabelValue    
 }
 
-export type TClassTransForm = Omit<TClassListForm, 'search'>
+export type TClassListForm = Omit<TClassGeneral, 'id'>
+
+export type TClassTransForm = Omit<TClassGeneral, 'search' | 'id'>
 
 export type TClassListParams = TPaginationFilter & Partial<TClassListForm>
 
-export type TClassListData = {
-    id: number
-    id_level: TLabelValue
-    id_major: TLabelValue
-    id_rombel: TLabelValue
-}
+export type TClassListData = Omit<TClassGeneral, 'search'>
 
-export type TClassData = {
-    id: number
-    id_level: TLabelValue
-    id_major: TLabelValue
-    id_rombel: TLabelValue
-    students?: any[]
-}
+export type TClassData = TClassListData
 
 export type TClassPostData = {
     id_level: number | undefined

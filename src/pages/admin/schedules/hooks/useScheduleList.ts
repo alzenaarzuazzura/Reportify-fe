@@ -1,37 +1,108 @@
-import { useState, useEffect } from 'react';
-import { message } from 'antd';
-import api from '@reportify/services/api';
-import { Schedule } from '@reportify/types';
+import { Form } from 'antd'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useCallback, useEffect } from 'react'
 
-export const useScheduleList = () => {
-  const [schedules, setSchedules] = useState<Schedule[]>([]);
-  const [loading, setLoading] = useState(false);
+import useDeleteData from '@reportify/hooks/mutations/useDeleteData'
 
-  const fetchSchedules = async () => {
-    setLoading(true);
-    try {
-      const response = await api.get<Schedule[]>('/schedules');
-      setSchedules(response.data);
-    } catch (error) {
-      message.error('Gagal memuat data jadwal');
-    } finally {
-      setLoading(false);
-    }
-  };
+import { getTableSortOrder } from '@reportify/utils/Help'
+import { deleteById, getList } from '@reportify/services/api/schedule'
 
-  const deleteSchedule = async (id: string) => {
-    try {
-      await api.delete(`/schedules/${id}`);
-      message.success('Data jadwal berhasil dihapus');
-      fetchSchedules();
-    } catch (error) {
-      message.error('Gagal menghapus data jadwal');
-    }
-  };
+import {
+  TStateSetter,
+  TScheduleListData,
+  TScheduleListParams,
+} from '@reportify/types'
+import { TTableOnChange } from '@reportify/types/components/table'
+
+const QUERY_KEY = { queryKey: ['dataList', 'schedule'] }
+
+const useScheduleList = (
+  dataFilter: TScheduleListParams,
+  page: number,
+  pageSize: number,
+  setDataFilter: TStateSetter<TScheduleListParams>,
+  resetPage: () => void,	
+) => {
+  const [formInstance] = Form.useForm()
+  const queryClient = useQueryClient()
+
+  const { data, isFetching, isLoading } = useQuery({
+    queryKey: ['dataList', 'schedule', dataFilter],
+    queryFn: () => getList(dataFilter),
+  })
+
+  const assignFilter = useCallback(
+    (values: Partial<TScheduleListParams>) => {
+      setDataFilter((prev) => ({ ...prev, ...values }))
+      queryClient.removeQueries(QUERY_KEY)
+    },
+    [queryClient, setDataFilter]
+  )
 
   useEffect(() => {
-    fetchSchedules();
-  }, []);
+    if (dataFilter.page !== page || dataFilter.limit !== pageSize) {
+      assignFilter({ page: page, limit: pageSize })
+    }
+  }, [page, pageSize, assignFilter, dataFilter])
 
-  return { schedules, loading, fetchSchedules, deleteSchedule };
-};
+  const { deleteData } = useDeleteData({
+    localeId: 'menu.schedule',
+    deleteFn: deleteById,
+    onSucces: () => queryClient.invalidateQueries(QUERY_KEY),
+    onError: () => queryClient.invalidateQueries(QUERY_KEY)
+  })
+
+  const onSearch = (value: string) => {
+    resetPage()
+    setDataFilter((prev) => ({ ...prev, search: value }))
+  }
+
+  const resetFilter = () => {
+    formInstance.resetFields()
+    resetPage()
+    setDataFilter((prev) => ({ 
+      ...prev, 
+      search: '',
+      id_teaching_assignment: undefined,
+      day: undefined,
+      room: undefined,
+      order: '',
+      sort: 'asc'
+    }))
+  }
+
+  const handleTableChange: TTableOnChange<TScheduleListData> = (_pagination, _filters, sorter) => {
+    const sortFilter = getTableSortOrder(sorter)
+    assignFilter(sortFilter)
+  }
+
+  const onFilter = () => {
+    resetPage()
+    const values = formInstance.getFieldsValue()
+    const id_teaching_assignment = values.id_teaching_assignment?.value || null
+
+    delete values?.id_teaching_assignment
+
+    const fieldsValue = {
+      ...values,
+      id_teaching_assignment,
+    }
+    assignFilter(fieldsValue)
+  }
+
+  const isLoadingData = isFetching || isLoading
+
+  return {
+    deleteData,
+    onSearch,
+    onFilter,
+    resetFilter,
+    handleTableChange,
+    data,
+    formInstance,
+    isLoadingData,
+    refetch: () => queryClient.invalidateQueries(QUERY_KEY),
+  }
+}
+
+export default useScheduleList

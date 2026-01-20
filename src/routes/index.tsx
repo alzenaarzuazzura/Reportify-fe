@@ -1,9 +1,9 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Spin } from 'antd';
 import { useAuth } from '@reportify/contexts/AuthContext';
-import Login from '@reportify/pages/Login';
-import ForgotPassword from '@reportify/pages/ForgotPassword';
-import ResetPassword from '@reportify/pages/ResetPassword';
+import Login from '@reportify/pages/auth/login/Login';
+import ForgotPassword from '@reportify/pages/auth/forgotpw/ForgotPassword';
+import ResetPassword from '@reportify/pages/auth/resetpw/ResetPassword';
 import AdminLayout from '@reportify/layouts/AdminLayout';
 import TeacherLayout from '@reportify/layouts/TeacherLayout';
 import { adminRoutes } from './adminRoutes';

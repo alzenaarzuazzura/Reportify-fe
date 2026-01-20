@@ -41,6 +41,7 @@ const View = ({ isOnEdit = false }) => {
   const formInitialValues = data?.data ? {
     name: data.data.name,
     email: data.data.email,
+    telephone: data.data.telephone,
     password: '',
     role: {
       value: data.data.role === 'admin' ? 1 : 2,
