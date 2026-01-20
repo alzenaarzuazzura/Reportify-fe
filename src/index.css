@@ -186,27 +186,6 @@ body {
 	flex-grow: 1;
 }
 
-/* login */
-
-.bg-login {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;  
-  padding: 16;
-  background: linear-gradient(135deg, #0F172A, #1E293B, #0F172A);
-}
-
-.card-login {
-  width: '100%';
-  max-width: 420;
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(20px);
-  border-radius: 16;
-  box-shadow: 0 25px 50px rgba(0,0,0,0.4);
-  border: 1px solid rgba(148,163,184,0.15);
-}
-
 .bc-link {
 	text-decoration: inherit !important;
 }

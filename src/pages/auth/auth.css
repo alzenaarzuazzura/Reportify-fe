@@ -1,0 +1,208 @@
+/* BACKGROUND */
+.auth-bg {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #020617, #1e1b4b, #020617);
+  position: relative;
+  overflow: hidden;
+  padding: 16px;
+}
+
+/* CARD */
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 32px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+  z-index: 1;
+}
+
+/* HEADER */
+.auth-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.auth-header h2 {
+  color: #ffffff;
+  margin-bottom: 8px;
+  font-size: 28px;
+}
+
+.auth-header span {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+
+/* INPUT */
+.auth-card .ant-input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-radius: 14px;
+  height: 48px;
+}
+
+.auth-card .ant-input::placeholder {
+  color: #9ca3af;
+}
+
+.auth-card .ant-input-prefix {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.auth-card .ant-form-item-label > label {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* BUTTON */
+.auth-btn {
+  height: 48px;
+  border-radius: 14px;
+  border: none;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+  transition: all 0.3s ease;
+}
+
+.auth-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px rgba(124, 58, 237, 0.45);
+}
+
+/* FOOTER */
+.auth-footer {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.auth-footer a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+}
+
+.auth-footer a:hover {
+  color: white;
+}
+
+/* RESPONSIVE - TABLET */
+@media (max-width: 768px) {
+  .auth-card {
+    max-width: 380px;
+    padding: 28px;
+    border-radius: 24px;
+  }
+
+  .auth-header h2 {
+    font-size: 24px;
+  }
+
+  .auth-header {
+    margin-bottom: 28px;
+  }
+
+  .auth-card .ant-input {
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .auth-btn {
+    height: 44px;
+    border-radius: 12px;
+  }
+}
+
+/* RESPONSIVE - MOBILE */
+@media (max-width: 480px) {
+  .auth-bg {
+    padding: 12px;
+  }
+
+  .auth-card {
+    max-width: 100%;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .auth-header {
+    margin-bottom: 24px;
+  }
+
+  .auth-header h2 {
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+
+  .auth-header span {
+    font-size: 13px;
+  }
+
+  .auth-card .ant-input {
+    height: 42px;
+    border-radius: 10px;
+    font-size: 14px;
+  }
+
+  .auth-btn {
+    height: 42px;
+    border-radius: 10px;
+    font-size: 14px;
+  }
+
+  .auth-footer {
+    margin-top: 12px;
+    font-size: 13px;
+  }
+
+  /* Reduce form item margins on mobile */
+  .auth-card .ant-form-item {
+    margin-bottom: 16px;
+  }
+}
+
+/* RESPONSIVE - SMALL MOBILE */
+@media (max-width: 360px) {
+  .auth-bg {
+    padding: 8px;
+  }
+
+  .auth-card {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .auth-header {
+    margin-bottom: 20px;
+  }
+
+  .auth-header h2 {
+    font-size: 20px;
+  }
+
+  .auth-header span {
+    font-size: 12px;
+  }
+
+  .auth-card .ant-input {
+    height: 40px;
+    font-size: 13px;
+  }
+
+  .auth-btn {
+    height: 40px;
+    font-size: 13px;
+  }
+
+  .auth-card .ant-form-item {
+    margin-bottom: 14px;
+  }
+}
+

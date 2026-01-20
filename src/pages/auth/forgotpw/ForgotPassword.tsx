@@ -1,36 +1,35 @@
-import { Card, Form, Input, Button, Typography } from 'antd'
-import { MailOutlined } from '@ant-design/icons'
+import { useIntl } from 'react-intl'
+import { Icon } from '@iconify/react'
 import { Link } from 'react-router-dom'
+import { Card, Form, Input, Button, Typography } from 'antd'
+
+import RequiredMark from '@reportify/components/RequiredMark'
+
 import useForgotPassword from '@reportify/hooks/auth/useForgotPassword'
+
+import { rules } from '@reportify/utils/rules'
+import { color } from '@reportify/constant/color'
+
+import '../auth.css'
 
 const { Title, Text } = Typography
 
 const ForgotPassword = () => {
+  const intl = useIntl()
+
   const { formInstance, onSubmit, isLoading } = useForgotPassword({
     onSuccess: () => {
-      // Optional: redirect atau tampilkan pesan sukses
+      // optional success handler
     },
   })
 
   return (
-    <div className="bg-login">
-      <Card
-        style={{
-          width: '100%',
-          maxWidth: 420,
-          background: 'rgba(15, 23, 42, 0.6)',
-          backdropFilter: 'blur(20px)',
-          borderRadius: 16,
-          boxShadow: '0 25px 50px rgba(0,0,0,0.4)',
-          border: '1px solid rgba(148,163,184,0.15)',
-        }}
-      >
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <Title level={2} style={{ color: 'white', marginBottom: 8 }}>
-            Lupa Kata Sandi
-          </Title>
-          <Text style={{ color: 'rgba(255,255,255,0.7)' }}>
-            Masukkan email Anda untuk menerima link reset password
+    <div className="auth-bg">
+      <Card className="auth-card">
+        <div className="auth-header">
+          <Title level={2}>{intl.formatMessage({ id: 'field.forgotpassword' })}</Title>
+          <Text>
+            {intl.formatMessage({ id: 'msg.input.email' })}
           </Text>
         </div>
 
@@ -42,50 +41,38 @@ const ForgotPassword = () => {
         >
           <Form.Item
             name="email"
+            label={
+              <RequiredMark
+                prefix={intl.formatMessage({ id: 'field.email' })}
+              />
+            }
             rules={[
-              { required: true, message: 'Email wajib diisi' },
-              { type: 'email', message: 'Format email tidak valid' },
+              rules.required(
+                intl.formatMessage({ id: 'global.rulesfield' })
+              ),
             ]}
           >
             <Input
-              prefix={<MailOutlined style={{ color: 'rgba(255,255,255,0.5)' }} />}
-              placeholder="Email"
               size="large"
-              style={{
-                background: 'rgba(255,255,255,0.1)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                color: 'white',
-              }}
+              prefix={<Icon icon='lucide:mail' style={{ color: color.grey }} />}
+              placeholder={intl.formatMessage({
+                id: 'input.exEmail',
+              })}
             />
           </Form.Item>
 
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              size="large"
-              block
-              loading={isLoading}
-              style={{
-                height: 48,
-                fontSize: 16,
-                fontWeight: 600,
-              }}
-            >
-              Kirim Link Reset Password
-            </Button>
-          </Form.Item>
+          <Button
+            htmlType="submit"
+            block
+            size="large"
+            loading={isLoading}
+            className="auth-btn"
+          >
+            {intl.formatMessage({ id: 'msg.send.link.rstpw' })}
+          </Button>
 
-          <div style={{ textAlign: 'center' }}>
-            <Link
-              to="/login"
-              style={{
-                color: 'rgba(255,255,255,0.7)',
-                textDecoration: 'none',
-              }}
-            >
-              Kembali ke Login
-            </Link>
+          <div className="auth-footer">
+            <Link to="/login">{intl.formatMessage({ id: 'msg.back.to.login' })}</Link>
           </div>
         </Form>
       </Card>

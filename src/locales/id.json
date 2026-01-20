@@ -42,6 +42,11 @@
   "dlgmsg.errmsg": "Maaf terjadi kesalahan",
 	"dlgmsg.successupd": "{thing} berhasil diubah!",
 	"dlgmsg.successupd.subtitle": "Apakah anda ingin menambah {thing} baru?",  
+
+	"msg.input.email": "Masukkan email Anda untuk menerima link reset password",  
+	"msg.send.link.rstpw": "Kirim Link Reset Password",  
+	"msg.back.to.login": "Kembali ke Login",  
+	"msg.input.newpw": "Masukkan password baru Anda",  
   
   "field.rownum": "No",
   "field.code": "Kode",
@@ -49,6 +54,7 @@
   "field.email": "Email",
   "field.tlp": "Telephone",
   "field.password": "Password",
+  "field.confirmpassword": "Konfirmasi Password",
   "field.role": "Role",
   "field.action": "Aksi",
   "field.admin": "Admin",
@@ -71,6 +77,8 @@
   "field.endtime": "Jam Selesai",
   "field.room": "Ruangan",
   "field.all": "Semua",
+  "field.forgotpassword": "Lupa Kata Sandi",
+  "field.resetpassword": "Reset Kata Sandi",
 
   "global.rulesfield": "Kolom wajib diisi",
   "global.required": "*",

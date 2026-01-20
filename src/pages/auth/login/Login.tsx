@@ -1,12 +1,18 @@
-import { Form, Input, Button, Card } from 'antd'
 import { useIntl } from 'react-intl'
-import { Link } from 'react-router-dom'
-import { useLogin } from '@reportify/hooks/useLogin'
-import { TLoginRequest } from '@reportify/types'
-import { rules } from '@reportify/utils/rules'
-import RequiredMark from '@reportify/components/RequiredMark'
-import { color } from '@reportify/constant/color'
 import { Icon } from '@iconify/react'
+import { Link } from 'react-router-dom'
+import { Form, Input, Button, Card, Typography } from 'antd'
+
+import RequiredMark from '@reportify/components/RequiredMark'
+
+import { useLogin } from '@reportify/hooks/useLogin'
+
+import { rules } from '@reportify/utils/rules'
+import { color } from '@reportify/constant/color'
+
+import { TLoginRequest } from '@reportify/types'
+
+const { Title, Text } = Typography
 
 const Login = () => {
   const intl = useIntl()
@@ -18,45 +24,28 @@ const Login = () => {
   }
 
   return (
-    <div className='bg-login'>
-      <Card
-        style={{
-          width: '100%',
-          maxWidth: 420,
-          backdropFilter: 'blur(20px)',
-          borderRadius: 24,
-          boxShadow: '0 25px 50px rgba(0,0,0,0.4)',
-          border: '1px solid rgba(148,163,184,0.15)',
-        }}
-      >
+    <div className='auth-bg'>
+      <Card className='auth-card'>
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <h1
-            style={{
-              fontSize: 28,
-              fontWeight: 700,
-              color: color.primary,
-              marginBottom: 8,
-            }}
-          >
-            {intl.formatMessage({ id: 'field.welcome' })}
-          </h1>
-          <p style={{ color: color.grey }}>
+        <div className="auth-header">
+          <Title level={2}>{intl.formatMessage({ id: 'field.welcome' })}</Title>
+          <Text>
             {intl.formatMessage({ id: 'field.pleaselogin' })}
-          </p>
+          </Text>
         </div>
 
         <Form
           form={form}
           layout="vertical"
           onFinish={onFinish}
+          autoComplete="off"
         >
           {/* Email */}
           <Form.Item
             name="email"
             label={
               <RequiredMark
-                prefix={intl.formatMessage({ id: 'field.name' })}
+                prefix={intl.formatMessage({ id: 'field.email' })}
               />
             }
             rules={[
@@ -102,12 +91,12 @@ const Login = () => {
             <Link
               to="/forgot-password"
               style={{
-                color: color.primary,
+                color: color.white,
                 textDecoration: 'none',
                 fontSize: 14,
               }}
             >
-              Lupa Kata Sandi?
+              {intl.formatMessage({ id: 'field.forgotpassword' })}?
             </Link>
           </div>
 
@@ -117,20 +106,7 @@ const Login = () => {
               htmlType="submit"
               loading={isPending}
               block
-              style={{
-                height: 48,
-                borderRadius: 12,
-                background: '#334155',
-                color: '#fff',
-                fontWeight: 600,
-                border: 'none',
-              }}
-              onMouseOver={(e) =>
-                (e.currentTarget.style.background = '#475569')
-              }
-              onMouseOut={(e) =>
-                (e.currentTarget.style.background = '#334155')
-              }
+              className="auth-btn"
             >
               {intl.formatMessage({ id: 'button.come' })}
             </Button>

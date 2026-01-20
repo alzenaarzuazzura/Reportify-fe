@@ -1,12 +1,19 @@
-import { Card, Form, Input, Button, Typography, Alert } from 'antd'
-import { LockOutlined } from '@ant-design/icons'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useIntl } from 'react-intl'
+import { Icon } from '@iconify/react'
 import { useEffect, useState } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Card, Form, Input, Button, Typography, Alert } from 'antd'
+
 import useResetPassword from '@reportify/hooks/auth/useResetPassword'
+
+import { color } from '@reportify/constant/color'
+import RequiredMark from '@reportify/components/RequiredMark'
+import { rules } from '@reportify/utils/rules'
 
 const { Title, Text } = Typography
 
 const ResetPassword = () => {
+  const intl = useIntl()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const [token, setToken] = useState<string>('')
@@ -34,24 +41,12 @@ const ResetPassword = () => {
   }
 
   return (
-    <div className="bg-login">
-      <Card
-        style={{
-          width: '100%',
-          maxWidth: 420,
-          background: 'rgba(15, 23, 42, 0.6)',
-          backdropFilter: 'blur(20px)',
-          borderRadius: 16,
-          boxShadow: '0 25px 50px rgba(0,0,0,0.4)',
-          border: '1px solid rgba(148,163,184,0.15)',
-        }}
-      >
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <Title level={2} style={{ color: 'white', marginBottom: 8 }}>
-            Reset Kata Sandi
-          </Title>
+    <div className="auth-bg">
+      <Card className="auth-card">
+        <div className="auth-header">
+          <Title level={2}>{intl.formatMessage({ id: 'field.resetpassword' })}</Title>
           <Text style={{ color: 'rgba(255,255,255,0.7)' }}>
-            Masukkan password baru Anda
+            {intl.formatMessage({ id: 'msg.input.newpw' })}
           </Text>
         </div>
 
@@ -70,28 +65,37 @@ const ResetPassword = () => {
         >
           <Form.Item
             name="password"
+            label={
+              <RequiredMark
+                prefix={intl.formatMessage({ id: 'field.password' })}
+              />
+            }
             rules={[
-              { required: true, message: 'Password wajib diisi' },
-              { min: 8, message: 'Password minimal 8 karakter' },
+              rules.required(
+                intl.formatMessage({ id: 'global.rulesfield' })
+              ),
             ]}
           >
             <Input.Password
-              prefix={<LockOutlined style={{ color: 'rgba(255,255,255,0.5)' }} />}
-              placeholder="Password Baru"
-              size="large"
-              style={{
-                background: 'rgba(255,255,255,0.1)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                color: 'white',
-              }}
+              prefix={<Icon icon='lucide:lock' style={{ color: color.grey }} />}
+              placeholder={intl.formatMessage({
+                id: 'input.exPassword',
+              })}
             />
           </Form.Item>
 
           <Form.Item
             name="confirmPassword"
             dependencies={['password']}
+            label={
+              <RequiredMark
+                prefix={intl.formatMessage({ id: 'field.confirmpassword' })}
+              />
+            }
             rules={[
-              { required: true, message: 'Konfirmasi password wajib diisi' },
+              rules.required(
+                intl.formatMessage({ id: 'global.rulesfield' })
+              ),
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (!value || getFieldValue('password') === value) {
@@ -101,35 +105,25 @@ const ResetPassword = () => {
                     new Error('Password tidak cocok')
                   )
                 },
-              }),
-            ]}
+              })              
+            ]}            
           >
             <Input.Password
-              prefix={<LockOutlined style={{ color: 'rgba(255,255,255,0.5)' }} />}
-              placeholder="Konfirmasi Password"
-              size="large"
-              style={{
-                background: 'rgba(255,255,255,0.1)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                color: 'white',
-              }}
+              prefix={<Icon icon='lucide:lock' style={{ color: color.grey }} />}
+              placeholder={intl.formatMessage({
+                id: 'input.exPassword',
+              })}
             />
           </Form.Item>
 
           <Form.Item>
             <Button
-              type="primary"
               htmlType="submit"
-              size="large"
-              block
               loading={isLoading}
-              style={{
-                height: 48,
-                fontSize: 16,
-                fontWeight: 600,
-              }}
+              block
+              className="auth-btn"
             >
-              Reset Password
+              {intl.formatMessage({ id: 'field.resetpassword'})}
             </Button>
           </Form.Item>
         </Form>
