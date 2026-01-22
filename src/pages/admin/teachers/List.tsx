@@ -84,7 +84,7 @@ const TeacherList = () => {
     },
     {
       title: intl.formatMessage({ id: 'field.tlp' }),
-      dataIndex: 'telephone',
+      dataIndex: 'phone',
       ellipsis: true,
       sorter: true, 
       align: 'center',

@@ -33,7 +33,7 @@ const General = ({ viewMode, createMode }: TTeacherGeneralParams) => {
                 <Input placeholder={intl.formatMessage({ id: 'input.exEmail' })} disabled={viewMode}/>
             </Form.Item>
             <Form.Item
-                name='telephone'
+                name='phone'
                 label={
 					<RequiredMark prefix={intl.formatMessage({ id: 'field.tlp' })} />
 				}
