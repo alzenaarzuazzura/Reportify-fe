@@ -10,6 +10,7 @@
   "menu.attendance": "Absensi",
   "menu.tasks": "Tugas",
   "menu.announcements": "Pengumuman",
+  "menu.reports": "Laporan",
   "menu.logout": "Keluar",
   "menu.role": "Peran",
   "menu.level": "Angkatan",
@@ -47,6 +48,7 @@
 	"msg.send.link.rstpw": "Kirim Link Reset Password",  
 	"msg.back.to.login": "Kembali ke Login",  
 	"msg.input.newpw": "Masukkan password baru Anda",  
+  "msg.alert.profileinfo": "Apabila anda ingin merubah informasi <thing></thing>, ubah <link>disini</link>",
   
   "field.rownum": "No",
   "field.code": "Kode",
@@ -79,6 +81,10 @@
   "field.all": "Semua",
   "field.forgotpassword": "Lupa Kata Sandi",
   "field.resetpassword": "Reset Kata Sandi",
+  "field.profileinfo": "Informasi Akun",
+  "field.changepw": "Ganti Password",
+  "field.historylogin": "History Login",
+  "field.profile": "Akun",
 
   "global.rulesfield": "Kolom wajib diisi",
   "global.required": "*",

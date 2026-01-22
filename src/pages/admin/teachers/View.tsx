@@ -1,13 +1,16 @@
-import { TParamsId } from "@reportify/types"
-import { Form as AntdForm, Spin } from "antd"
 import { useIntl } from "react-intl"
-import { useNavigate, useParams } from "react-router-dom"
-import useTeacherView from "./hooks/useTeacherView"
 import { Icon } from "@iconify/react"
 import { Helmet } from "react-helmet-async"
-import Form from "./Form"
+import { Form as AntdForm, Spin } from "antd"
+import { useNavigate, useParams } from "react-router-dom"
+
 import BackDetailButton from "@reportify/components/Button/BackDetailButton"
 import ActionsButton from "@reportify/components/Button/ActionButton"
+
+import { TParamsId } from "@reportify/types"
+
+import Form from "./Form"
+import useTeacherView from "./hooks/useTeacherView"
 
 const View = ({ isOnEdit = false }) => {
   const intl = useIntl()
@@ -41,7 +44,7 @@ const View = ({ isOnEdit = false }) => {
   const formInitialValues = data?.data ? {
     name: data.data.name,
     email: data.data.email,
-    telephone: data.data.telephone,
+    phone: data.data.phone,
     password: '',
     role: {
       value: data.data.role === 'admin' ? 1 : 2,

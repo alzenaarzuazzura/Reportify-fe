@@ -69,7 +69,7 @@ const useStudentList = (
     setDataFilter((prev) => ({ 
       ...prev, 
       search: '',
-      class: undefined,
+      id_class: undefined,
       level: undefined,
       major: undefined,
       rombel: undefined,
@@ -88,8 +88,8 @@ const useStudentList = (
     resetPage()
     const values = formInstance.getFieldsValue()
     
-    const fieldsValue = {
-      class: values.class?.value,
+    const fieldsValue: Partial<TStudentListParams> = {
+      id_class: values.class?.value,
       level: values.level?.value,
       major: values.major?.value,
       rombel: values.rombel?.value,

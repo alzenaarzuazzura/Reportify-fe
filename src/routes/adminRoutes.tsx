@@ -26,6 +26,12 @@ import SubjectPage from '@reportify/pages/admin/subjects';
 
 import StudentPage from '@reportify/pages/admin/students';
 import CreateStudent from '@reportify/pages/admin/students/Create';
+import ViewStudent from '@reportify/pages/admin/students/View';
+import UpdateStudent from '@reportify/pages/admin/students/Update';
+
+import ReportsPage from '@reportify/pages/admin/reports';
+
+import ProfilePage from '@reportify/pages/admin/profile';
 
 interface RouteConfig {
   path: string;
@@ -82,6 +88,14 @@ export const adminRoutes: RouteConfig[] = [
     element: <CreateStudent /> 
   },  
   { 
+    path: '/students/view/:id', 
+    element: <ViewStudent /> 
+  },
+  { 
+    path: '/students/update/:id', 
+    element: <UpdateStudent /> 
+  },  
+  { 
     path: '/teaching-assignment', 
     element: <TeachingAssignmentPage /> 
   },
@@ -112,5 +126,13 @@ export const adminRoutes: RouteConfig[] = [
   { 
     path: '/schedules/update/:id', 
     element: <UpdateSchedule /> 
+  },
+  { 
+    path: '/reports', 
+    element: <ReportsPage /> 
+  },
+  { 
+    path: '/profile', 
+    element: <ProfilePage /> 
   },      
 ];

@@ -66,7 +66,9 @@ const useCreateData = <
 				.mutateAsync(params)
 				.then((response) => {
 					console.log('Create success response:', response);
-					showDialogMessage(response, !response.status);
+					// Check for success field, default to true if not present
+					const isSuccess = response.status !== undefined ? response.status : true;
+					showDialogMessage(response, !isSuccess);
 				})
 				.catch((e) => {
 					console.error('Create error:', e);

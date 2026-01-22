@@ -22,7 +22,7 @@ const useTeacherCreate = () => {
                 email: formData.email,
                 password: formData.password,
                 name: formData.name,
-                telephone: formData.telephone,
+                phone: formData.phone,
                 role: formData.role?.value ?? undefined
             }
             createData(data)

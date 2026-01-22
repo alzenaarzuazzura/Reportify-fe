@@ -74,7 +74,11 @@ const useUpdateData = <
 		(updateData: TParams) => {
 			mutationUpdate
 				.mutateAsync({ id: updateData.id, data: updateData })
-				.then((response) => showDialogMessage(response, !response.status))
+				.then((response) => {
+					// Check for success field, default to true if not present
+					const isSuccess = response.status !== undefined ? response.status : true;
+					showDialogMessage(response, !isSuccess);
+				})
 				.catch((e) => {
 					if (isAxiosError<TResponseData<TData>>(e) && e.response)
 						showDialogMessage(e.response?.data, true)

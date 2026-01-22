@@ -18,3 +18,5 @@ export * from './data/rombel';
 export * from './data/student';
 export * from './data/teachingassignment';
 export * from './data/schedule';
+export * from './data/report';
+export * from './data/profile';

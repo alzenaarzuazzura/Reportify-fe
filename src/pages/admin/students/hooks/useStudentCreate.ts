@@ -26,7 +26,7 @@ const useStudentCreate = () => {
         nis: formData.nis,
         parent_telephone: formData.parent_telephone,
         student_telephone: formData.student_telephone,
-        id_class: formData.id_class?.value,
+        id_class: formData.id_class.value,
       }
 
       createData(data)

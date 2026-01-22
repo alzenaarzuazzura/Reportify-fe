@@ -21,7 +21,7 @@ export type TTeacherGeneral = {
   id: number
   name: string
   email: string
-  telephone: string
+  phone: string
   password: string
   role: TUserRole
   created_at: string
@@ -36,7 +36,7 @@ export type TTeacherData = Omit<TTeacherGeneral, 'password'>
 export type TTeacherTransForm = {
   name: string
   email: string
-  telephone: string
+  phone: string
   password: string
   role: TLabelValue | undefined
 }
@@ -44,7 +44,7 @@ export type TTeacherTransForm = {
 export type TTeacherPostData = {
   name: string
   email: string
-  telephone: string
+  phone: string
   password: string
   role: number | undefined
 }

@@ -6,7 +6,8 @@ import {
   BookOutlined,
   HomeOutlined,
   ScheduleOutlined,
-  CalendarOutlined
+  CalendarOutlined,
+  BarChartOutlined
 } from '@ant-design/icons';
 
 export const menuAdmin: MenuItem[] = [
@@ -51,5 +52,11 @@ export const menuAdmin: MenuItem[] = [
         label: 'menu.schedules', 
         icon: <CalendarOutlined />, 
         path: '/schedules' 
+    },
+    { 
+        key: 'reports', 
+        label: 'menu.reports', 
+        icon: <BarChartOutlined />, 
+        path: '/reports' 
     },
 ]

@@ -9,9 +9,10 @@ const { Sider } = Layout;
 type SidebarProps = {
   menuItems: MenuItem[];
   collapsed: boolean;
+  onMenuClick?: () => void;
 }
 
-const Sidebar = ({ menuItems, collapsed }: SidebarProps) => {
+const Sidebar = ({ menuItems, collapsed, onMenuClick }: SidebarProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const intl = useIntl();
@@ -20,7 +21,10 @@ const Sidebar = ({ menuItems, collapsed }: SidebarProps) => {
     key: item.key,
     icon: item.icon,
     label: intl.formatMessage({ id: item.label }),
-    onClick: () => navigate(item.path),
+    onClick: () => {
+      navigate(item.path);
+      onMenuClick?.(); // Close drawer on mobile
+    },
   }));
 
   const selectedKey = menuItems.find((item) => 

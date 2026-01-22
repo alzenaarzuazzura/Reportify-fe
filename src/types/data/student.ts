@@ -9,8 +9,7 @@ export type TStudentGeneralParams = {
 export type TStudentGeneral = {
     id: number
     search: string
-    id_class: TLabelValue
-    class: number
+    id_class: TLabelValue 
     level: number
     major: number
     rombel: number

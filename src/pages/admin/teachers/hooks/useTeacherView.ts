@@ -27,7 +27,7 @@ const useTeacherView = (id: number) => {
     })
 
     const { updateData } = useUpdateData<TTeacherData, TTeacherPostData & { id: number }>({
-        menu: 'teacher',
+        menu: 'teachers',
         menuId: 'field.teacher',
         updateFn: update,
         onSuccess: () => queryClient.invalidateQueries({ queryKey })
@@ -36,7 +36,7 @@ const useTeacherView = (id: number) => {
     const { deleteData } = useDeleteData({
         localeId: 'field.teacher',
         deleteFn: deleteById,
-        onSucces: () => navigate('/teacher')
+        onSucces: () => navigate('/teachers')
     })
 
     const onSubmit = useCallback(
@@ -47,6 +47,7 @@ const useTeacherView = (id: number) => {
           email: formData.email,
           password: formData.password || '', // Jika kosong, backend tidak akan update password
           role: formData.role?.value, 
+          phone: formData.phone,
         }
 
         updateData(data)

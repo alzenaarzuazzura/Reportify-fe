@@ -1,51 +1,72 @@
-import { Card, Descriptions, Button, Space } from 'antd';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useIntl } from 'react-intl';
-import { EditOutlined, ArrowLeftOutlined } from '@ant-design/icons';
-import { useStudentView } from './hooks/useStudentView';
+import { useIntl } from "react-intl"
+import { Icon } from "@iconify/react"
+import { Helmet } from "react-helmet-async"
+import { Form as AntdForm, Spin } from "antd"
+import { useNavigate, useParams } from "react-router-dom"
 
-const StudentView = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const intl = useIntl();
-  const { student, loading } = useStudentView(id || '');
+import BackDetailButton from "@reportify/components/Button/BackDetailButton"
+import ActionsButton from "@reportify/components/Button/ActionButton"
+
+import { TParamsId } from "@reportify/types"
+
+import Form from "./Form"
+import useStudentView from "./hooks/useStudentView"
+
+const View = ({ isOnEdit = false }) => {
+  const intl = useIntl()
+  const navigate = useNavigate()
+  const { id } = useParams<TParamsId>()
+
+  const [formInstance] = AntdForm.useForm()
+
+  const { data, isSuccess, onSubmit, onDelete, onCancel } = useStudentView(Number(id))
+
+  const title = intl.formatMessage(
+    { id: isOnEdit ? 'global.update' : 'global.view' },
+    {
+      thing: intl.formatMessage({ id: 'field.student' }),
+      code: data?.data.name,
+    }
+  )
+
+  const menuOther = {
+    items: [
+      {
+        key: 'void',
+        icon: <Icon icon="lucide:trash" />,
+        label: intl.formatMessage({ id: 'button.delete' }),
+        onClick: onDelete,
+      },
+    ],
+  }
+
+  if (!isSuccess) return <Spin />
 
   return (
-    <Card 
-      title={intl.formatMessage({ id: 'common.detail' })}
-      loading={loading}
-      extra={
-        <Space>
-          <Button icon={<EditOutlined />} onClick={() => navigate(`/students/${id}/edit`)}>
-            {intl.formatMessage({ id: 'common.edit' })}
-          </Button>
-          <Button icon={<ArrowLeftOutlined />} onClick={() => navigate('/students')}>
-            {intl.formatMessage({ id: 'common.back' })}
-          </Button>
-        </Space>
-      }
-    >
-      {student && (
-        <Descriptions bordered column={1}>
-          <Descriptions.Item label={intl.formatMessage({ id: 'student.nis' })}>
-            {student.nis}
-          </Descriptions.Item>
-          <Descriptions.Item label={intl.formatMessage({ id: 'student.name' })}>
-            {student.name}
-          </Descriptions.Item>
-          <Descriptions.Item label={intl.formatMessage({ id: 'student.class' })}>
-            {student.class}
-          </Descriptions.Item>
-          <Descriptions.Item label={intl.formatMessage({ id: 'student.parentPhone' })}>
-            {student.parentPhone}
-          </Descriptions.Item>
-          <Descriptions.Item label={intl.formatMessage({ id: 'student.studentPhone' })}>
-            {student.studentPhone}
-          </Descriptions.Item>
-        </Descriptions>
-      )}
-    </Card>
-  );
-};
+    <div>
+        <Helmet>{title}</Helmet>
+        <div className="title-underline">
+          <h5 className="heading-back">
+            {!isOnEdit && <BackDetailButton onCancel={onCancel} />}
+            {title}
+          </h5>
+        </div> 
+        <div className="text-right mb-3">
+          <ActionsButton 
+            editButton={!isOnEdit}
+            moreMenu={menuOther}
+            onEdit={() => navigate(`/students/update/${data?.data.id}`)}
+          />
+        </div>
+        <Form 
+            formInstance={formInstance}
+            onCancel={onCancel}
+            onSubmit={onSubmit}
+            initialValues={data?.data}
+            viewMode={!isOnEdit}
+        />           
+    </div>    
+  )
+}
 
-export default StudentView;
+export default View

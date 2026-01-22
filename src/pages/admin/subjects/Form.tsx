@@ -1,57 +1,49 @@
-import { Card, Form, Input, message } from 'antd';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useIntl } from 'react-intl';
-import { useEffect, useState } from 'react';
-import api from '@reportify/services/api';
-import { Subject } from '@reportify/types';
+import { useIntl } from "react-intl"
+import { Tabs, Form as AntdForm } from 'antd'
 
-const SubjectForm = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const intl = useIntl();
-  const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
+import SaveCancelButton from "@reportify/components/Button/SaveCancelButton"
 
-  useEffect(() => {
-    if (id) {
-      setLoading(true);
-      api.get<Subject>(`/subjects/${id}`)
-        .then(res => form.setFieldsValue(res.data))
-        .finally(() => setLoading(false));
-    }
-  }, [id, form]);
+import { TFormTransParams, TSubjectTransForm } from "@reportify/types"
 
-  const onFinish = async (values: any) => {
-    try {
-      if (id) {
-        await api.put(`/subjects/${id}`, values);
-        message.success('Data mata pelajaran berhasil diperbarui');
-      } else {
-        await api.post('/subjects', values);
-        message.success('Data mata pelajaran berhasil ditambahkan');
-      }
-      navigate('/subjects');
-    } catch (error) {
-      message.error('Gagal menyimpan data mata pelajaran');
-    }
-  };
+import General from "./formContent/General"
+
+const Form = ({
+  formInstance,
+  initialValues,
+  onSubmit,
+  onCancel,
+  viewMode = false,
+}: TFormTransParams<TSubjectTransForm>) => {
+  const intl = useIntl()
 
   return (
-    <Card 
-      title={id ? intl.formatMessage({ id: 'common.edit' }) : intl.formatMessage({ id: 'common.add' })}
-      loading={loading}
-  >
-      <Form form={form} layout="vertical" onFinish={onFinish}>
-        <Form.Item
-          name="name"
-          label={intl.formatMessage({ id: 'subject.name' })}
-          rules={[{ required: true, message: 'Nama mata pelajaran harus diisi' }]}
-        >
-          <Input />
-        </Form.Item>
-      </Form>
-    </Card>
-  );
-};
+    <AntdForm
+      layout="vertical"
+      form={formInstance}
+      onFinish={onSubmit}
+      initialValues={initialValues}
+    >
+      <div className="card rounded">
+        <Tabs 
+          className="tabs"
+          defaultActiveKey="general"
+          items={[
+            {
+              label: intl.formatMessage({ id: 'field.general' }),
+              key: 'general',
+              className: 'pb-3',
+              children: <General viewMode={viewMode} />
+            }
+          ]}
+        />
+        <div className="mb-3">
+          {!viewMode && (
+            <SaveCancelButton onSave={formInstance.submit} onCancel={onCancel} />
+          )}
+        </div>
+      </div>
+    </AntdForm>
+  )
+}
 
-export default SubjectForm;
+export default Form

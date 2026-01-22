@@ -1,0 +1,122 @@
+/* ROOT */
+.admin-layout {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf4 100%);
+}
+
+/* MAIN LAYOUT */
+.admin-main {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: transparent;
+}
+
+.admin-main.expanded {
+  margin-left: 239px;
+}
+
+.admin-main.collapsed {
+  margin-left: 80px;
+}
+
+.admin-main.mobile {
+  margin-left: 0;
+}
+
+/* HEADER */
+.admin-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 64px;
+  padding: 0 32px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+@media (max-width: 768px) {
+  .admin-header {
+    padding: 0 16px;
+  }
+}
+
+/* MENU BUTTON */
+.menu-btn {
+  font-size: 18px;
+  color: #4f46e5;
+  transition: all 0.3s;
+}
+
+.menu-btn:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(79, 70, 229, 0.1),
+    rgba(99, 102, 241, 0.1)
+  );
+  transform: scale(1.1);
+}
+
+/* USER */
+.user-box {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    rgba(79, 70, 229, 0.05),
+    rgba(99, 102, 241, 0.05)
+  );
+  transition: all 0.3s;
+}
+
+.user-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+}
+
+.user-avatar {
+  margin-right: 12px;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  font-weight: 600;
+}
+
+.user-name {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+/* CONTENT */
+.admin-content {
+  margin: 24px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 768px) {
+  .admin-content {
+    margin: 12px;
+    padding: 16px;
+    border-radius: 12px;
+  }
+}
+
+/* DRAWER */
+.admin-drawer .ant-drawer-body {
+  padding: 0;
+  background: linear-gradient(
+    180deg,
+    #1a1f3a 0%,
+    #2d3561 50%,
+    #1a1f3a 100%
+  );
+}
