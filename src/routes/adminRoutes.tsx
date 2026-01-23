@@ -100,15 +100,15 @@ export const adminRoutes: RouteConfig[] = [
     element: <TeachingAssignmentPage /> 
   },
   { 
-    path: '/teaching-assignment/create', 
+    path: '/teaching-assignments/create', 
     element: <CreateTeachingAssignment /> 
   },  
   { 
-    path: '/teaching-assignment/view/:id', 
+    path: '/teaching-assignments/view/:id', 
     element: <ViewTeachingAssignment /> 
   },  
   { 
-    path: '/teaching-assignment/update/:id', 
+    path: '/teaching-assignments/update/:id', 
     element: <UpdateTeachingAssignment /> 
   },
   { 

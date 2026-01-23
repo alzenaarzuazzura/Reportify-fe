@@ -44,6 +44,15 @@ const ResetPassword = () => {
     <div className="auth-bg">
       <Card className="auth-card">
         <div className="auth-header">
+          <img
+            src="/logo-reportify.png"
+            alt="Reportify Logo"
+            style={{
+              height: 30,
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))',
+            }}
+          />          
           <Title level={2}>{intl.formatMessage({ id: 'field.resetpassword' })}</Title>
           <Text style={{ color: 'rgba(255,255,255,0.7)' }}>
             {intl.formatMessage({ id: 'msg.input.newpw' })}

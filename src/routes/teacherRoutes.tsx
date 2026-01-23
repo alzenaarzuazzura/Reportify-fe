@@ -17,16 +17,16 @@ interface RouteConfig {
 }
 
 export const teacherRoutes: RouteConfig[] = [
-  { path: '/teacher', element: <TeacherDashboard /> },
-  { path: '/teacher/attendance', element: <AttendancePage /> },
-  { path: '/teacher/attendance/create', element: <AttendanceCreate /> },
-  { path: '/teacher/attendance/view/:id', element: <AttendanceView /> },
-  { path: '/teacher/attendance/update/:id', element: <AttendanceUpdate /> },
-  { path: '/teacher/tasks', element: <AssignmentPage /> },
-  { path: '/teacher/tasks/create', element: <AssignmentCreate /> },
-  { path: '/teacher/tasks/view/:id', element: <AssignmentView /> },
-  { path: '/teacher/tasks/update/:id', element: <AssignmentUpdate /> },
-  { path: '/teacher/announcements', element: <AnnouncementList /> },
-  { path: '/teacher/announcements/new', element: <AnnouncementForm /> },
-  { path: '/teacher/announcements/:id/edit', element: <AnnouncementForm /> },
+  { path: '/', element: <TeacherDashboard /> },
+  { path: '/attendance', element: <AttendancePage /> },
+  { path: '/attendance/create', element: <AttendanceCreate /> },
+  { path: '/attendance/view/:id', element: <AttendanceView /> },
+  { path: '/attendance/update/:id', element: <AttendanceUpdate /> },
+  { path: '/tasks', element: <AssignmentPage /> },
+  { path: '/tasks/create', element: <AssignmentCreate /> },
+  { path: '/tasks/view/:id', element: <AssignmentView /> },
+  { path: '/tasks/update/:id', element: <AssignmentUpdate /> },
+  { path: '/announcements', element: <AnnouncementList /> },
+  { path: '/announcements/new', element: <AnnouncementForm /> },
+  { path: '/announcements/:id/edit', element: <AnnouncementForm /> },
 ];
