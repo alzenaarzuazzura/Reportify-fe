@@ -73,8 +73,8 @@ const useStudentList = (
       level: undefined,
       major: undefined,
       rombel: undefined,
-      sortBy: '',
-      order: 'asc'
+      order: 'nis',
+      sort: 'asc'
     }))
   }
 

@@ -72,6 +72,10 @@ body {
   text-align: left !important;
 }
 
+.ant-table-thead > tr > th.center-header-right-content {
+  text-align: center !important;
+}
+
 .ant-table-tbody > tr > td.center-header-right-content {
   text-align: right !important;
 }

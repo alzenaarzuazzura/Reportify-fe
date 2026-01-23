@@ -14,7 +14,6 @@ import { usePageListFilter } from '@reportify/hooks/ui';
 import usePagination from '@reportify/hooks/ui/usePagination';
 
 import { onEnter } from '@reportify/utils/Help';
-import { defaultFilterSortMaster } from '@reportify/utils/GlobalConst';
 
 import { tableWidth } from '@reportify/constant/tableWidth';
 
@@ -23,7 +22,8 @@ import { TStudentListData, TStudentListParams, TItemFilterDrawer } from '@report
 import useStudentList from './hooks/useStudentList';
 
 const defaultFilter: TStudentListParams = {
-  ...defaultFilterSortMaster,
+  order: 'nis',
+  sort: 'asc',
   page: 1,
   limit: 20
 }
@@ -69,9 +69,8 @@ const ClassList = () => {
       title: intl.formatMessage({ id: 'field.nis' }),
       dataIndex: 'nis',
       ellipsis: true,
-      responsive: ['sm'],
       sorter: true, 
-      className: 'center-header-left-content',
+      className: 'center-header-right-content',
       render: (text, record) => (
         <LinkTable to={`/students/view/${record.id}`}>{text}</LinkTable>
       )      
@@ -82,14 +81,15 @@ const ClassList = () => {
       ellipsis: true,
       sorter: true, 
       className: 'center-header-left-content',
-      render: (text) => <div className="text-left cell-line-clamp">{text}</div>,      
+      render: (text, record) => (
+        <LinkTable to={`/students/view/${record.id}`}>{text}</LinkTable>
+      )   
     },
     {
       title: intl.formatMessage({ id: 'field.class' }),
       dataIndex: 'id_class',
       align: 'center',
       sorter: true,
-      // width: tableWidth.combo,
       className: 'center-header-right-content',
       render: (_text, record) => (
         <div className="text-left cell-line-clamp">{record.id_class.label}</div>
@@ -100,7 +100,7 @@ const ClassList = () => {
       dataIndex: 'parent_telephone',
       ellipsis: true,
       sorter: true, 
-      className: 'center-header-left-content',
+      className: 'center-header-right-content',
       render: (text) => <div className="text-left cell-line-clamp">{text}</div>,      
     },
     {
@@ -108,7 +108,7 @@ const ClassList = () => {
       dataIndex: 'student_telephone',
       ellipsis: true,
       sorter: true, 
-      className: 'center-header-left-content',
+      className: 'center-header-right-content',
       render: (text) => <div className="text-left cell-line-clamp">{text}</div>,      
     },        
     {

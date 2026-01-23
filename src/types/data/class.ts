@@ -18,13 +18,15 @@ export type TClassGeneral = {
 
 export type TClassListForm = Omit<TClassGeneral, 'id'>
 
-export type TClassTransForm = Omit<TClassGeneral, 'search' | 'id'>
+export type TClassTransForm = Omit<TClassGeneral, 'search' | 'id'> & { students?: TClassStudentData[] }
 
 export type TClassListParams = TPaginationFilter & Partial<TClassListForm>
 
 export type TClassListData = Omit<TClassGeneral, 'search'>
 
-export type TClassData = TClassListData
+export type TClassData = TClassListData & {
+    students?: TClassStudentData[]
+}
 
 export type TClassPostData = {
     id_level: number | undefined
@@ -35,3 +37,11 @@ export type TClassPostData = {
 export type TClassListResponse = TResponseList<TClassListData>
 
 export type TClassResponse = TResponseData<TClassData>
+
+export type TClassStudentData = {
+    id: number
+    nis: string
+    name: string
+    parent_telephone: string
+    student_telephone?: string
+}

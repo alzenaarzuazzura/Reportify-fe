@@ -57,6 +57,7 @@ const TeacherList = () => {
 			width: tableWidth.no,
 			align: 'center',
 			fixed: 'left',
+      className: 'center-header-right-content',      
 			render: (_text, _record, index) => (
 				<div className="text-right cell-line-clamp">
 					{pageSize * (page - 1) + index + 1}
@@ -69,13 +70,14 @@ const TeacherList = () => {
       ellipsis: true,
       sorter: true, 
       className: 'center-header-left-content',
-      render: (text) => <div className="text-left cell-line-clamp">{text}</div>,      
+      render: (text, record) => (
+        <LinkTable to={`/teachers/view/${record.id}`}>{text}</LinkTable>
+      )  
     },
     {
       title: intl.formatMessage({ id: 'field.email' }),
       dataIndex: 'email',
       ellipsis: true,
-      responsive: ['sm'],
       sorter: true, 
       className: 'center-header-left-content',
       render: (text, record) => (
@@ -88,13 +90,14 @@ const TeacherList = () => {
       ellipsis: true,
       sorter: true, 
       align: 'center',
+      className: 'center-header-right-content',      
       render: (text) => <div className="text-left cell-line-clamp">{text}</div>,      
     },    
     {
       title: intl.formatMessage({ id: 'field.role' }),
       dataIndex: 'role',
       width: 120,
-      className: 'center-header-left-content',
+      className: 'center-header-right-content',
       render: (role: TUserRole) => (
         <Tag color={role === 'admin' ? color.danger : color.success} bordered={false}>
           {role === 'admin' ? 'Admin' : 'Teacher'}

@@ -48,11 +48,11 @@ const General = ({ viewMode, createMode }: TTeacherGeneralParams) => {
                 <Form.Item
                     name='password'
                     label={intl.formatMessage({ id: 'field.password' })}
-                    help="Password akan di-generate otomatis jika tidak diisi"
+                    help="Password akan di-generate otomatis"
                 >
-                    <Input.Password 
-                        placeholder="Opsional - akan di-generate otomatis" 
-                        disabled={viewMode}
+                    <Input 
+                        placeholder="AUTO"
+                        disabled
                     />
                 </Form.Item>
             )}

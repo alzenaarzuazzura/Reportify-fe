@@ -6,6 +6,7 @@ import SaveCancelButton from "@reportify/components/Button/SaveCancelButton"
 import { TClassTransForm, TFormTransParams } from "@reportify/types"
 
 import General from "./formContent/General"
+import StudentTable from "./components/StudentTable"
 
 const Form = ({
   formInstance,
@@ -33,7 +34,13 @@ const Form = ({
               key: 'general',
               className: 'pb-3',
               children: <General viewMode={viewMode} formInstance={formInstance} />
-            }
+            },
+            {
+              label: intl.formatMessage({ id: 'field.student' }),
+              key: 'students',
+              className: 'pb-3',
+              children: <StudentTable data={initialValues?.students ?? []}/>
+            },
           ]}
         />
         <div className="mb-3">
