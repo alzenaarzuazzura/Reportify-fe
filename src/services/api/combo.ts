@@ -59,8 +59,36 @@ export async function role(params: TComboFetchParams) {
         .then(validateResponse)
 }
 
+// For teacher - only their own teaching assignments
 export async function teachingAssignment(params: TComboFetchParams) {
     return apiReportify
+        .get<TResponseCombo>('/combo/my-teaching-assignments', { params: { ...params } })
+        .then(validateResponse)
+}
+
+// For admin - all teaching assignments
+export async function allTeachingAssignments(params: TComboFetchParams) {
+    return apiReportify
         .get<TResponseCombo>('/combo/teaching-assignments', { params: { ...params } })
+        .then(validateResponse)
+}
+
+export async function schedule(params: TComboFetchParams) {
+    return apiReportify
+        .get<TResponseCombo>('/combo/schedules', { params: { ...params } })
+        .then(validateResponse)
+}
+
+// Get current active schedule for logged-in teacher based on current day & time
+export async function currentSchedule() {
+    return apiReportify
+        .get<TResponseCombo>('/combo/my-current-schedule')
+        .then(validateResponse)
+}
+
+// Get students by class ID
+export async function studentByClass(params: TComboFetchParams & { id_class?: number }) {
+    return apiReportify
+        .get<TResponseCombo>('/combo/students', { params: { ...params } })
         .then(validateResponse)
 }

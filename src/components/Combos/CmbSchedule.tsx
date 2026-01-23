@@ -1,37 +1,32 @@
 import { useIntl } from "react-intl";
 
-import { teachingAssignment, allTeachingAssignments } from "@reportify/services/api/combo";
+import { schedule } from "@reportify/services/api/combo";
 
 import { TComboAjax, TLabelValue, TSelectValue } from "@reportify/types";
 
 import SelectAjax from "../SelectAjax";
 
-const CmbTeachingAssignment = <V extends TSelectValue = TLabelValue>({
+const CmbSchedule = <V extends TSelectValue = TLabelValue>({
     isFilter = false,
-    isAdmin = false,
     ...props
-}: TComboAjax<V> & { isAdmin?: boolean }) => {
+}: TComboAjax<V>) => {
     const { formatMessage } = useIntl()
 
-    const thing = formatMessage({ id: 'menu.teachingassignment' })
+    const thing = formatMessage({ id: 'field.schedule' })
     const placeHolder = isFilter
         ? formatMessage({ id: 'field.all' })
         : formatMessage({ id: 'global.choose' }, { thing })
 
-    // Use different endpoint for admin vs teacher
-    const fetchFn = isAdmin ? allTeachingAssignments : teachingAssignment
-
         return (
             <SelectAjax 
                 placeholder={placeHolder}
-                fetchFn={fetchFn}
+                fetchFn={schedule}
                 showSearch
                 allowClear
                 labelInValue
-                loadOnce={true}
                 {...props}
             />
         )
 }
 
-export default CmbTeachingAssignment
+export default CmbSchedule

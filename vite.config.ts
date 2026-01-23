@@ -9,4 +9,9 @@ export default defineConfig({
     '@reportify': '/src',
   }
   },
+    server: {
+    allowedHosts: [
+      'tehpucuk.devops.my.id',       // allows my-app.com   // relevant for Docker setups where hostnames are container names
+    ]
+  },
 });

@@ -11,24 +11,24 @@ export const menuTeacher: MenuItem[] = [
         key: 'dashboard', 
         label: 'menu.dashboard', 
         icon: <DashboardOutlined />, 
-        path: '/' 
+        path: '/teacher' 
     },
     { 
         key: 'attendance', 
         label: 'menu.attendance', 
         icon: <CheckSquareOutlined />, 
-        path: '/attendance' 
+        path: '/teacher/attendance' 
     },
     { 
         key: 'tasks', 
         label: 'menu.tasks', 
         icon: <FileTextOutlined />, 
-        path: '/tasks' 
+        path: '/teacher/tasks' 
     },
     { 
         key: 'announcements', 
         label: 'menu.announcements', 
         icon: <NotificationOutlined />, 
-        path: '/announcements' 
+        path: '/teacher/announcements' 
     },
   ];

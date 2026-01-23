@@ -33,6 +33,7 @@ const General = ({ viewMode }: TScheduleGeneralParams) => {
                     <CmbTeachingAssignment 
                         disabled={viewMode}
                         allowClear={!viewMode}
+                        isAdmin={true}
                     />
                 </Form.Item>
                 <Form.Item

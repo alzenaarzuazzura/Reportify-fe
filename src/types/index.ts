@@ -20,3 +20,5 @@ export * from './data/teachingassignment';
 export * from './data/schedule';
 export * from './data/report';
 export * from './data/profile';
+export * from './data/assignment';
+export * from './data/attendance';

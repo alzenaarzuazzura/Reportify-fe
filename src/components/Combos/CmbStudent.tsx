@@ -1,32 +1,47 @@
 import { useIntl } from "react-intl";
+import { useCallback } from "react";
 
-import { student } from "@reportify/services/api/combo";
+import { student, studentByClass } from "@reportify/services/api/combo";
 
-import { TComboAjax, TLabelValue, TSelectValue } from "@reportify/types";
+import { TComboAjax, TComboFetchParams, TLabelValue, TSelectValue } from "@reportify/types";
 
 import SelectAjax from "../SelectAjax";
 
+type TCmbStudentProps<V extends TSelectValue = TLabelValue> = TComboAjax<V> & { 
+    onCreate?: () => void
+    fetchParams?: { id_class?: number }
+}
+
 const CmbStudent = <V extends TSelectValue = TLabelValue>({
     isFilter = false,
+    fetchParams,
     ...props
-}: TComboAjax<V> & { onCreate?: () => void}) => {
+}: TCmbStudentProps<V>) => {
     const { formatMessage } = useIntl()
 
-    const thing = formatMessage({ id: 'menu.student' })
+    const thing = formatMessage({ id: 'menu.students' })
     const placeHolder = isFilter
         ? formatMessage({ id: 'field.all' })
         : formatMessage({ id: 'global.choose' }, { thing })
 
-        return (
-            <SelectAjax 
-                placeholder={placeHolder}
-                fetchFn={student}
-                showSearch
-                allowClear
-                labelInValue
-                {...props}
-            />
-        )
+    // Use studentByClass if id_class is provided, otherwise use generic student
+    const fetchFn = useCallback((params: TComboFetchParams) => {
+        if (fetchParams?.id_class) {
+            return studentByClass({ ...params, id_class: fetchParams.id_class })
+        }
+        return student(params)
+    }, [fetchParams?.id_class])
+
+    return (
+        <SelectAjax 
+            placeholder={placeHolder}
+            fetchFn={fetchFn}
+            showSearch
+            allowClear
+            labelInValue
+            {...props}
+        />
+    )
 }
 
 export default CmbStudent

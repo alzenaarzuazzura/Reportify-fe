@@ -1,18 +1,18 @@
 import { Form } from 'antd'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useState } from 'react'
-import { useIntl } from 'react-intl'
 
-import { deleteById, getList } from '@reportify/services/api/attendance'
+import { deleteById, getList } from '@reportify/services/api/assignment'
+
+import { TAssignmentListData, TAssignmentListParams, TStateSetter } from '@reportify/types'
+import { useIntl } from 'react-intl'
 import usePopupMessage from '@reportify/hooks/ui/usePopupMessage'
 
-import { TAttendanceListData, TAttendanceListParams, TStateSetter } from '@reportify/types'
+const QUERY_KEY = { queryKey: ['dataList', 'assignment'] }
 
-const QUERY_KEY = { queryKey: ['dataList', 'attendance'] }
-
-const useAttendanceList = (
-	dataFilter: TAttendanceListParams,
-	setDataFilter: TStateSetter<TAttendanceListParams>,
+const useAssignmentList = (
+	dataFilter: TAssignmentListParams,
+	setDataFilter: TStateSetter<TAssignmentListParams>,
 	resetPage: () => void,	
 ) => {
 	const [formInstance] = Form.useForm()
@@ -20,19 +20,22 @@ const useAttendanceList = (
 	const intl = useIntl()
 	const { showMessage } = usePopupMessage()
 
+	// Fetch data
 	const { data, isFetching, isLoading } = useQuery({
-		queryKey: ['dataList', 'attendance', dataFilter],
+		queryKey: ['dataList', 'assignment', dataFilter],
 		queryFn: () => getList(),
 	})
 
+	// Assign filter helper
 	const assignFilter = useCallback(
-		(values: Partial<TAttendanceListParams>) => {
+		(values: Partial<TAssignmentListParams>) => {
 			setDataFilter((prev) => ({ ...prev, ...values }))
 			queryClient.removeQueries(QUERY_KEY)
 		},
 		[queryClient, setDataFilter]
 	)
 
+	// Delete handler
 	const [isDeleting, setIsDeleting] = useState(false)
 	
 	const deleteData = useCallback(
@@ -44,7 +47,7 @@ const useAttendanceList = (
 					'success',
 					intl.formatMessage(
 						{ id: 'dlgmsg.successdel' },
-						{ thing: intl.formatMessage({ id: 'field.attendance' }) },
+						{ thing: intl.formatMessage({ id: 'field.assignment' }) },
 					),
 					() => {
 						queryClient.invalidateQueries(QUERY_KEY)
@@ -59,11 +62,13 @@ const useAttendanceList = (
 		[intl, showMessage, queryClient],
 	)
 
+	// Search handler
 	const onSearch = (value: string) => {
 		resetPage()
 		setDataFilter((prev) => ({ ...prev, search: value }))
 	}
 
+	// Reset filter handler
 	const resetFilter = () => {
 		formInstance.resetFields()
 		resetPage()
@@ -96,4 +101,4 @@ const useAttendanceList = (
 	}
 }
 
-export default useAttendanceList
+export default useAssignmentList
