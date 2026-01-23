@@ -179,7 +179,7 @@ const useAttendanceCreate = () => {
         [currentSchedule, students, intl, navigate, showMessage]
     )
 
-    const onCancel = useCallback(() => navigate('/teacher/attendance'), [navigate])
+    const onCancel = useCallback(() => navigate('/attendance'), [navigate])
 
     return { 
         formInstance, 

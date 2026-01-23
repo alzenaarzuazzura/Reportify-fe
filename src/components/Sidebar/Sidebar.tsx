@@ -28,18 +28,19 @@ const Sidebar = ({ menuItems, collapsed, onMenuClick }: SidebarProps) => {
     },
   }));
 
-  const sortedMenuItems = [...menuItems].sort(
-    (a, b) => b.path.length - a.path.length
-  );
-
-  const selectedKey =
-    sortedMenuItems.find((item) => {
-      if (location.pathname === item.path) return true;
-      if (item.path !== '/' && item.path !== '/teacher' && item.path !== '/admin') {
-        return location.pathname.startsWith(item.path);
-      }
-      return false;
-    })?.key || menuItems[0]?.key;
+  // Sort menu items by path length (longest first) to prioritize more specific paths
+  const sortedMenuItems = [...menuItems].sort((a, b) => b.path.length - a.path.length);
+  
+  const selectedKey = sortedMenuItems.find((item) => {
+    // Exact match
+    if (location.pathname === item.path) return true;
+    // Prefix match but not for root paths (avoid / matching everything)
+    if (item.path !== '/' && item.path !== '/admin') {
+      return location.pathname.startsWith(item.path);
+    }
+    // For root paths, only exact match
+    return false;
+  })?.key || menuItems[0]?.key;
 
   return (
     <Sider

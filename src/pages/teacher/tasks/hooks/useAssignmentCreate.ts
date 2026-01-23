@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { useIntl } from "react-intl"
 import dayjs from "dayjs"
 
-import { create } from "@reportify/services/api/assignment"
+import { create, generateStudentAssignments } from "@reportify/services/api/assignment"
 import { TAssignmentPostData, TAssignmentTransForm } from "@reportify/types"
 import usePopupMessage from "@reportify/hooks/ui/usePopupMessage"
 
@@ -25,7 +25,10 @@ const useAssignmentCreate = () => {
                     student_ids: formData.student_ids || []
                 }
                 
-                await create(data)
+                const createdAssignment = await create(data)
+                
+                // Generate student assignments for the class
+                await generateStudentAssignments(createdAssignment.id)
                 
                 showMessage(
                     'success',
@@ -35,7 +38,7 @@ const useAssignmentCreate = () => {
                     ),
                     () => {
                         formInstance.resetFields()
-                        navigate('/teacher/tasks')
+                        navigate('/tasks')
                     }
                 )
             } catch (error) {
@@ -45,7 +48,7 @@ const useAssignmentCreate = () => {
         [formInstance, intl, navigate, showMessage]
     )
 
-    const onCancel = useCallback(() => navigate('/teacher/tasks'), [navigate])
+    const onCancel = useCallback(() => navigate('/tasks'), [navigate])
 
     return { formInstance, onSubmit, onCancel }
 }

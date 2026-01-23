@@ -10,6 +10,7 @@ import useAssignmentView from "./hooks/useAssignmentView"
 import Form from "./Form"
 import BackDetailButton from "@reportify/components/Button/BackDetailButton"
 import ActionsButton from "@reportify/components/Button/ActionButton"
+import StudentSubmissions from "./components/StudentSubmissions"
 
 const View = ({ isOnEdit = false }) => {
   const intl = useIntl()
@@ -18,7 +19,7 @@ const View = ({ isOnEdit = false }) => {
 
   const [formInstance] = AntdForm.useForm()
 
-  const { data, isSuccess, isLoading, onSubmit, onDelete, onCancel } = useAssignmentView(Number(id))
+  const { data, isSuccess, isLoading, onSubmit, onDelete, onCancel, handleStudentSubmissionUpdate } = useAssignmentView(Number(id))
 
   const title = intl.formatMessage(
     { id: isOnEdit ? 'global.update' : 'global.view' },
@@ -55,6 +56,8 @@ const View = ({ isOnEdit = false }) => {
 
   if (!isSuccess || !data) return null
 
+  const classId = data.teaching_assignment.class.id
+
   return (
     <div>
         <Helmet>{title}</Helmet>
@@ -68,7 +71,7 @@ const View = ({ isOnEdit = false }) => {
           <ActionsButton 
             editButton={!isOnEdit}
             moreMenu={menuOther}
-            onEdit={() => navigate(`/teacher/tasks/update/${data.id}`)}
+            onEdit={() => navigate(`/tasks/update/${data.id}`)}
           />
         </div>
         <Form 
@@ -77,7 +80,18 @@ const View = ({ isOnEdit = false }) => {
             onSubmit={onSubmit}
             initialValues={formInitialValues}
             viewMode={!isOnEdit}
-        />           
+        />
+        
+        {/* Student Submissions - Show in view mode */}
+        {!isOnEdit && (
+            <div className="mt-4">
+                <StudentSubmissions
+                    assignmentId={data.id}
+                    onUpdate={handleStudentSubmissionUpdate}
+                    viewMode={false}
+                />
+            </div>
+        )}           
     </div>    
   )
 }

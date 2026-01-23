@@ -69,7 +69,7 @@ const BulkAttendance = ({
                 title="Tidak Ada Jadwal Mengajar"
                 subTitle={noScheduleMessage || "Anda tidak memiliki jadwal mengajar pada waktu ini. Pastikan jadwal Anda sudah diatur sesuai hari dan jam saat ini."}
                 extra={
-                    <Button type="primary" onClick={() => navigate('/teacher/attendance')}>
+                    <Button type="primary" onClick={() => navigate('/attendance')}>
                         Kembali ke Daftar Absensi
                     </Button>
                 }
@@ -99,7 +99,7 @@ const BulkAttendance = ({
                     </div>
                 }
                 extra={
-                    <Button type="primary" onClick={() => navigate('/teacher/attendance')}>
+                    <Button type="primary" onClick={() => navigate('/attendance')}>
                         Lihat Daftar Absensi
                     </Button>
                 }

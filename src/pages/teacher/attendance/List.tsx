@@ -165,8 +165,8 @@ const AttendanceList = () => {
         <TableAction
           itemId={record.id}
           localId={intl.formatMessage({ id: 'field.attendance' })}
-          viewTo={`/teacher/attendance/view/${record.id}`}
-          editTo={`/teacher/attendance/update/${record.id}`}
+          viewTo={`/attendance/view/${record.id}`}
+          editTo={`/attendance/update/${record.id}`}
           onDelete={deleteData}
         />
       )

@@ -73,7 +73,7 @@ const View = ({ isOnEdit = false }) => {
         title="Data tidak ditemukan"
         subTitle="Data absensi yang Anda cari tidak ditemukan."
         extra={
-          <Button type="primary" onClick={() => navigate('/teacher/attendance')}>
+          <Button type="primary" onClick={() => navigate('/attendance')}>
             Kembali ke Daftar
           </Button>
         }
@@ -94,7 +94,7 @@ const View = ({ isOnEdit = false }) => {
           <ActionsButton 
             editButton={!isOnEdit}
             moreMenu={menuOther}
-            onEdit={() => navigate(`/teacher/attendance/update/${data.id}`)}
+            onEdit={() => navigate(`/attendance/update/${data.id}`)}
           />
         </div>
         <Form 

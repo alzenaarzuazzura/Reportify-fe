@@ -7,9 +7,9 @@ import dayjs from "dayjs"
 import useDialogDelete from "@reportify/hooks/ui/useDialogDelete"
 import usePopupMessage from "@reportify/hooks/ui/usePopupMessage"
 
-import { deleteById, getById, update } from "@reportify/services/api/assignment"
+import { deleteById, getById, update, updateStudentAssignment } from "@reportify/services/api/assignment"
 
-import { TAssignmentData, TAssignmentPostData, TAssignmentTransForm } from "@reportify/types"
+import { TAssignmentData, TAssignmentPostData, TAssignmentTransForm, TStudentAssignmentUpdateData } from "@reportify/types"
 
 const useAssignmentView = (id: number) => {
     const intl = useIntl()
@@ -46,7 +46,7 @@ const useAssignmentView = (id: number) => {
                     ),
                     () => {
                         queryClient.invalidateQueries({ queryKey })
-                        navigate('/teacher/tasks')
+                        navigate('/tasks')
                     }
                 )
             } catch (error) {
@@ -66,7 +66,7 @@ const useAssignmentView = (id: number) => {
                         { id: 'dlgmsg.successdel' },
                         { thing: intl.formatMessage({ id: 'field.assignment' }) }
                     ),
-                    () => navigate('/teacher/tasks')
+                    () => navigate('/tasks')
                 )
             } catch (error) {
                 showMessage('error', intl.formatMessage({ id: 'dlgmsg.errmsg' }))
@@ -84,7 +84,26 @@ const useAssignmentView = (id: number) => {
         [intl, deleteData, showDialogDelete]
     )
 
-    const onCancel = useCallback(() => navigate('/teacher/tasks'), [navigate])
+    const onCancel = useCallback(() => navigate('/tasks'), [navigate])
+
+    const handleStudentSubmissionUpdate = useCallback(
+        async (studentAssignmentId: number, status: boolean, note: string) => {
+            try {
+                const updateData: TStudentAssignmentUpdateData = {
+                    status,
+                    note: note || undefined
+                }
+                await updateStudentAssignment(studentAssignmentId, updateData)
+                // Refresh data
+                queryClient.invalidateQueries({ queryKey })
+                showMessage('success', 'Status pengumpulan berhasil diperbarui')
+            } catch (error) {
+                showMessage('error', 'Gagal memperbarui status pengumpulan')
+                throw error
+            }
+        },
+        [queryClient, queryKey, showMessage]
+    )
 
     return {
         data,
@@ -93,6 +112,7 @@ const useAssignmentView = (id: number) => {
         onSubmit,
         onCancel,
         onDelete,
+        handleStudentSubmissionUpdate,
     }
 }
 

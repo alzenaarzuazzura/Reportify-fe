@@ -85,7 +85,7 @@ const useAttendanceView = (id: number) => {
         [intl, deleteData, showDialogDelete]
     )
 
-    const onCancel = useCallback(() => navigate('/teacher/attendance'), [navigate])
+    const onCancel = useCallback(() => navigate('/attendance'), [navigate])
 
     return {
         data,
