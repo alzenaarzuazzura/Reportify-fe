@@ -17,7 +17,7 @@ const StudentPage = () => {
       <Helmet title={title} />
       <div className="clearfix">
         <div className="float-right">
-          <CreateButton onClick={() => navigate('/students/create')} />
+          <CreateButton onClick={() => navigate('/admin/students/create')} />
         </div>
       </div>
       <div className="title-underline">

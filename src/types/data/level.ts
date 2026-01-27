@@ -1,16 +1,19 @@
+import { TResponseData, TResponseList } from "../api";
+import { TPaginationFilter } from "../components/filter";
+
+export type TLevelGeneralParams = {
+    viewMode: boolean
+}
+
+export type TLevelListParams = TPaginationFilter 
+
 export type TLevelData = {
-    id: number
-    name: string
+  id: number
+  name: string
 }
 
-export type TLevelPostData = Omit<TLevelData, 'id'>
+export type TLevelTransForm = Omit<TLevelData, 'id'>
 
-export type TLevelCreate = Omit<TLevelData, 'id'>
+export type TLevelResponse = TResponseData<TLevelData>
 
-export type TDialogLevelCreate = {
-    isVisible: boolean
-    setVisible: (visible: boolean) => void
-    initialValues?: Partial<TLevelCreate>
-    onReset?: () => void
-    onSuccess?: (data: TLevelData) => void
-}
+export type TLevelListResponse = TResponseList<TLevelData>

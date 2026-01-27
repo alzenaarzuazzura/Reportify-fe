@@ -168,7 +168,7 @@ const useAttendanceCreate = () => {
                         { id: 'dlgmsg.successcreate' },
                         { thing: `Absensi ${students.length} siswa` }
                     ),
-                    () => navigate('/teacher/attendance')
+                    () => navigate('/teacher/attendances')
                 )
             } catch (error) {
                 showMessage('error', intl.formatMessage({ id: 'dlgmsg.errmsg' }))
@@ -179,7 +179,7 @@ const useAttendanceCreate = () => {
         [currentSchedule, students, intl, navigate, showMessage]
     )
 
-    const onCancel = useCallback(() => navigate('/attendance'), [navigate])
+    const onCancel = useCallback(() => navigate('/teacher/attendances'), [navigate])
 
     return { 
         formInstance, 

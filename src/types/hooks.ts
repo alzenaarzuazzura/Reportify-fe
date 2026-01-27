@@ -11,6 +11,7 @@ export type TCreateDataParams<TData, TParams, TError> = {
 	onError?: (data?: TData, error?: TError) => void
 	onLater?: (data: TData) => void
 	redirectWhenSuccess?: boolean
+	baseRoute: 'admin' | 'teacher'
 }
 
 export type TUpdateDataParams<TData, TParams, TError> = {
@@ -21,6 +22,7 @@ export type TUpdateDataParams<TData, TParams, TError> = {
 	onSuccess?: (data?: TData) => void
 	onError?: (data?: TData, error?: TError) => void
 	onLater?: (data: TData & { goTo: 'create' | 'view' }) => void
+	baseRoute: 'admin' | 'teacher'
 }
 
 export type TDeleteDataParams = {

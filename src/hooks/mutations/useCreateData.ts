@@ -17,6 +17,7 @@ const useCreateData = <
 	menu,
 	createFn,
 	onSuccess,
+	baseRoute,
 	onError,
 	onLater,
 }: TCreateDataParams<TResponseData<TData>, TParams, TError>) => {
@@ -48,7 +49,7 @@ const useCreateData = <
 					handler: () => {
 						if (!isError) {
 							if (onLater) onLater(data)
-							else navigate(`/${menu}/view/${data.data.id}`)
+							else navigate(`/${baseRoute}/${menu}/view/${data.data.id}`)
 
 							if (onError) onError(data, error)
 						}

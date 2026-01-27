@@ -30,6 +30,10 @@
   "button.later": "Nanti Saja",
   "button.other": "Lainnya",
   "button.close": "Tutup",
+  "button.changePassword": "Ubah Password",
+  "button.importExcel": "Import Excel",
+  "button.upload": "Upload",
+  "button.selectFile": "Pilih File Excel",
 
   "confirm.delete.title": "Hapus {thing} ?",
   
@@ -57,6 +61,8 @@
   "field.tlp": "Telephone",
   "field.password": "Password",
   "field.confirmpassword": "Konfirmasi Password",
+  "field.currentPassword": "Password Lama",
+  "field.newPassword": "Password Baru",
   "field.role": "Role",
   "field.action": "Aksi",
   "field.admin": "Admin",
@@ -77,6 +83,7 @@
   "field.day": "Hari",
   "field.starttime": "Jam Mulai",
   "field.endtime": "Jam Selesai",
+  "field.teachingtime": "Jam Mengajar",
   "field.room": "Ruangan",
   "field.all": "Semua",
   "field.forgotpassword": "Lupa Kata Sandi",
@@ -103,6 +110,8 @@
   "field.statusalfa": "Alfa",
   "field.date": "Tanggal",
   "field.status": "Status",
+  "field.title": "Judul",
+  "field.desc": "Deskripsi",
 
   "attendance.title": "Absensi",
   "attendance.create": "Tambah Absensi",
@@ -147,7 +156,49 @@
   "input.exTelephone": "Cth. 0888-8888-8888",
   "input.exAssignmentTitle": "Cth. Tugas Matematika Bab 1",
   "input.exAssignmentDesc": "Cth. Kerjakan soal halaman 10-15",
+  "input.room": "Masukkan nama ruangan",
+  "input.day": "Masukkan hari",
+  "input.currentPassword": "Masukkan password lama",
+  "input.newPassword": "Masukkan password baru",
+  "input.confirmPassword": "Konfirmasi password baru",
+
+  "validation.currentPasswordRequired": "Password lama harus diisi",
+  "validation.newPasswordRequired": "Password baru harus diisi",
+  "validation.confirmPasswordRequired": "Konfirmasi password harus diisi",
+  "validation.passwordMinLength": "Password minimal 8 karakter",
+  "validation.passwordNotMatch": "Password tidak cocok",
+
+  "message.changePasswordSuccess": "Password berhasil diubah",
+  "message.changePasswordFailed": "Gagal mengubah password",
+
+  "profile.accountSecurity": "Keamanan Akun",
+  "profile.securityDescription": "Pastikan password Anda kuat dan unik untuk menjaga keamanan akun",
+  "profile.securityTips": "Tips Keamanan Password",
+  "profile.tip1": "Gunakan minimal 8 karakter",
+  "profile.tip2": "Kombinasikan huruf besar, kecil, angka, dan simbol",
+  "profile.tip3": "Jangan gunakan informasi pribadi yang mudah ditebak",
+  "profile.tip4": "Ubah password secara berkala",
 
   "cmb.fetching": "Mencari...",
-  "cmb.selectnotfound": "Data tidak ditemukan"
+  "cmb.selectnotfound": "Data tidak ditemukan",
+
+  "modal.importExcel": "Import Data dari Excel",
+
+  "import.templateInfo": "Informasi Template Excel",
+  "import.fileName": "Nama File",
+  "import.sheetName": "Nama Sheet",
+  "import.columns": "Kolom",
+  "import.result": "Hasil Import",
+  "import.total": "Total Data",
+  "import.success": "Berhasil",
+  "import.failed": "Gagal",
+  "import.failedItems": "Data yang Gagal",
+
+  "message.importSuccess": "Import berhasil! {success} data berhasil, {failed} data gagal dari total {total} data",
+  "message.importSuccessGeneral": "Import data berhasil",
+  "message.importFailed": "Gagal mengimport data",
+  "message.invalidFileFormat": "Format File Tidak Valid",
+  "message.onlyExcelAllowed": "Hanya file Excel (.xlsx atau .xls) yang diperbolehkan",
+  "message.fileTooLarge": "File Terlalu Besar",
+  "message.maxFileSize10MB": "Ukuran file maksimal 10MB"
 }

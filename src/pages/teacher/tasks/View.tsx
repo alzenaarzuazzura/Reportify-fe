@@ -56,7 +56,7 @@ const View = ({ isOnEdit = false }) => {
 
   if (!isSuccess || !data) return null
 
-  const classId = data.teaching_assignment.class.id
+  // const classId = data.teaching_assignment.class.id
 
   return (
     <div>
@@ -71,7 +71,7 @@ const View = ({ isOnEdit = false }) => {
           <ActionsButton 
             editButton={!isOnEdit}
             moreMenu={menuOther}
-            onEdit={() => navigate(`/tasks/update/${data.id}`)}
+            onEdit={() => navigate(`/teacher/tasks/update/${data.id}`)}
           />
         </div>
         <Form 

@@ -1,6 +1,6 @@
 import { useIntl } from "react-intl";
 
-import { teachingAssignment, allTeachingAssignments } from "@reportify/services/api/combo";
+import { teachingAssignment } from "@reportify/services/api/combo";
 
 import { TComboAjax, TLabelValue, TSelectValue } from "@reportify/types";
 
@@ -18,13 +18,10 @@ const CmbTeachingAssignment = <V extends TSelectValue = TLabelValue>({
         ? formatMessage({ id: 'field.all' })
         : formatMessage({ id: 'global.choose' }, { thing })
 
-    // Use different endpoint for admin vs teacher
-    const fetchFn = isAdmin ? allTeachingAssignments : teachingAssignment
-
         return (
             <SelectAjax 
                 placeholder={placeHolder}
-                fetchFn={fetchFn}
+                fetchFn={teachingAssignment}
                 showSearch
                 allowClear
                 labelInValue

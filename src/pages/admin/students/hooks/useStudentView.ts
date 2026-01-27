@@ -29,6 +29,7 @@ const useStudentView = (id: number) => {
     const { updateData } = useUpdateData<TStudentData, TStudentPostData & { id: number }>({
         menu: 'students',
         menuId: 'field.student',
+        baseRoute: 'admin',
         updateFn: update,
         onSuccess: () => queryClient.invalidateQueries({ queryKey })
     })
@@ -36,7 +37,7 @@ const useStudentView = (id: number) => {
     const { deleteData } = useDeleteData({
         localeId: 'field.student',
         deleteFn: deleteById,
-        onSucces: () => navigate('/students')
+        onSucces: () => navigate('/admin/students')
     })
 
     const onSubmit = useCallback(
@@ -64,7 +65,7 @@ const useStudentView = (id: number) => {
             [intl, id, deleteData, showDialogDelete]
     )
 
-    const onCancel = useCallback(() => navigate('/students'), [navigate])
+    const onCancel = useCallback(() => navigate('/admin/students'), [navigate])
 
     return {
         data,

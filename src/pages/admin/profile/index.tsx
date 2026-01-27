@@ -6,7 +6,6 @@ import useRouterTab from '@reportify/hooks/ui/useRouterTab'
 
 import profileInfor from './ProfileInfo'
 import changepw from './ChangePassword'
-import historylogin from './LoginHistory'
 
 const Profile = () => {
 	const intl = useIntl()
@@ -26,11 +25,6 @@ const Profile = () => {
 			key: '/change-password',
 			intl: 'field.changepw',
 			Component: changepw,
-		},
-		{
-			key: '/history-login',
-			intl: 'field.historylogin',
-			Component: historylogin,
 		},
 	]
 

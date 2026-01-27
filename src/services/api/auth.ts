@@ -33,3 +33,16 @@ export const resetPassword = async (
   )
   return res.data
 }
+
+/**
+ * Change Password - Update password for logged in user
+ */
+export const changePassword = async (
+  payload: { currentPassword: string; newPassword: string }
+): Promise<{ status: boolean; message: string }> => {
+  const res = await api.post<{ status: boolean; message: string }>(
+    '/auth/change-password',
+    payload
+  )
+  return res.data
+}

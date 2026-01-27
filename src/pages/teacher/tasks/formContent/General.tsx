@@ -5,7 +5,7 @@ import { rules } from "@reportify/utils/rules"
 import { Form, Input, DatePicker } from "antd"
 import { useIntl } from "react-intl"
 
-const General = ({ viewMode, createMode }: TAssignmentGeneralParams) => {
+const General = ({ viewMode }: TAssignmentGeneralParams) => {
     const intl = useIntl()
 
     return (

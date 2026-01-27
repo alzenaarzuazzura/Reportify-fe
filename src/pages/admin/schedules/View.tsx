@@ -22,7 +22,7 @@ const View = ({ isOnEdit = false }) => {
     { id: isOnEdit ? 'global.update' : 'global.view' },
     {
       thing: intl.formatMessage({ id: 'menu.schedule' }),
-      code: `${data?.data.day} - ${data?.data.start_time} - ${data?.data.room}`,
+      code: `${data?.data.id_teaching_assignment.label} - ${data?.data.day}`,
     }
   )
 

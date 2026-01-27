@@ -8,6 +8,7 @@ export * from './components/form';
 export * from './components/filter';
 export * from './components/table';
 export * from './components/combo';
+export * from './components/tabs';
 
 export * from './data/teacher';
 export * from './data/subject';
@@ -22,3 +23,4 @@ export * from './data/report';
 export * from './data/profile';
 export * from './data/assignment';
 export * from './data/attendance';
+export * from './data/announcement';

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { Layout, Button, Dropdown, Avatar } from 'antd';
 
 import { 
@@ -7,6 +7,7 @@ import {
   MenuUnfoldOutlined, 
   UserOutlined,
   LogoutOutlined,
+  ProfileOutlined,
 } from '@ant-design/icons';
 
 import Sidebar from '@reportify/components/Sidebar/Sidebar';
@@ -19,6 +20,7 @@ import { getMenuByRole } from '@reportify/utils/getMenuByRole';
 const { Header, Content } = Layout;
 
 const TeacherLayout = () => {
+  const navigate = useNavigate()
   const [collapsed, setCollapsed] = useState(window.innerWidth <= 800);
   const { user } = useAuth();
 
@@ -39,15 +41,22 @@ const TeacherLayout = () => {
 
   const handleLogout = () => {
     authService.logout();
-    window.location.href = '/login';
+    window.location.href = '/';
   };
 
   const userMenuItems = [
+    {
+      key: 'profile',
+      icon: <ProfileOutlined />,
+      label: 'Profile',
+      onClick: () => navigate('/teacher/profile'),
+    },    
     {
       key: 'logout',
       icon: <LogoutOutlined />,
       label: 'Keluar',
       onClick: handleLogout,
+      danger: true
     },
   ];
 

@@ -3,8 +3,8 @@ import { TBaseResponse, TResponseData, TUpdateWithIDPayload } from '@reportify/t
 import { TStudentData, TStudentListParams, TStudentListResponse, TStudentPostData } from '@reportify/types/data/student';
 
 export const getList = async (params?: TStudentListParams): Promise<TStudentListResponse> => {
-    const res = await api.get<TStudentListResponse>('/students', { params })
-    return res.data
+  const res = await api.get<TStudentListResponse>('/students', { params })
+  return res.data
 }
 
 export const deleteById = async (id: number): Promise<TBaseResponse> => {
@@ -29,4 +29,16 @@ export const update = async (payload: TUpdateWithIDPayload<TStudentPostData>): P
     data,
   )
   return res.data
+}
+
+export const importFromExcel = async (file: File): Promise<TResponseData<any>> => {
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  const res = await api.post<TResponseData<any>>('/students/import', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return res.data;
 }

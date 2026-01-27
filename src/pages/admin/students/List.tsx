@@ -9,6 +9,7 @@ import CmbRombel from '@reportify/components/Combos/CmbRombel';
 import SearchFilter from '@reportify/components/SearchFilter';
 import LinkTable from '@reportify/components/LinkTable';
 import CmbClass from '@reportify/components/Combos/CmbClass';
+import ImportExcelButton from '@reportify/components/ImportExcelButton';
 
 import { usePageListFilter } from '@reportify/hooks/ui';
 import usePagination from '@reportify/hooks/ui/usePagination';
@@ -20,6 +21,7 @@ import { tableWidth } from '@reportify/constant/tableWidth';
 import { TStudentListData, TStudentListParams, TItemFilterDrawer } from '@reportify/types';
 
 import useStudentList from './hooks/useStudentList';
+import { importFromExcel } from '@reportify/services/api/student';
 
 const defaultFilter: TStudentListParams = {
   order: 'nis',
@@ -89,7 +91,6 @@ const ClassList = () => {
       title: intl.formatMessage({ id: 'field.class' }),
       dataIndex: 'id_class',
       align: 'center',
-      sorter: true,
       className: 'center-header-right-content',
       render: (_text, record) => (
         <div className="text-left cell-line-clamp">{record.id_class.label}</div>
@@ -99,7 +100,6 @@ const ClassList = () => {
       title: intl.formatMessage({ id: 'field.parenttlp' }),
       dataIndex: 'parent_telephone',
       ellipsis: true,
-      sorter: true, 
       className: 'center-header-right-content',
       render: (text) => <div className="text-left cell-line-clamp">{text}</div>,      
     },
@@ -107,7 +107,6 @@ const ClassList = () => {
       title: intl.formatMessage({ id: 'field.studenttlp' }),
       dataIndex: 'student_telephone',
       ellipsis: true,
-      sorter: true, 
       className: 'center-header-right-content',
       render: (text) => <div className="text-left cell-line-clamp">{text}</div>,      
     },        
@@ -119,8 +118,8 @@ const ClassList = () => {
         <TableAction 
           itemId={record.id} 
           localId={intl.formatMessage({ id: 'field.class' })}
-          viewTo={`/students/view/${record.id}`}
-          editTo={`/students/update/${record.id}`}
+          viewTo={`/admin/students/view/${record.id}`}
+          editTo={`/admin/students/update/${record.id}`}
           onDelete={deleteData} 
         />
       ),
@@ -153,17 +152,31 @@ const ClassList = () => {
   return (
     <>
       <div className="row mb-3">
-        <div className="col-24 d-flex justify-content-end align-items-center">
-          <Form form={formInstance} component={false} initialValues={initialFilter}>
-            <SearchFilter
-              onSearch={onSearch}
-              onFilter={onFilter}
-              onReset={resetFilter}
-              items={itemsDrawer}
-              formInstance={formInstance}
-              searchName="search"
+        <div className="col-24 d-flex justify-content-end">
+          <div className="d-flex align-items-center gap-2">
+            {/* Import di kiri */}
+            <ImportExcelButton
+              queryKey={['dataList', 'student']}
+              importFn={importFromExcel}
+              templateInfo={{
+                fileName: 'Reportify.xlsx',
+                sheetName: 'Data Siswa',
+                columns: ['NIS', 'NAMA', 'KELAS', 'TELPON ORANGTUA', 'TELPON MURID'],
+              }}
             />
-          </Form>
+
+            {/* Search di kanan */}
+            <Form form={formInstance} component={false} initialValues={initialFilter}>
+              <SearchFilter
+                onSearch={onSearch}
+                onFilter={onFilter}
+                onReset={resetFilter}
+                items={itemsDrawer}
+                formInstance={formInstance}
+                searchName="search"
+              />
+            </Form>
+          </div>
         </div>
       </div>
       <Table

@@ -1,10 +1,13 @@
+import dayjs from "dayjs"
+import { useIntl } from "react-intl"
+import { Form, Input, Select, TimePicker } from "antd"
+
 import CmbTeachingAssignment from "@reportify/components/Combos/CmbTeachingAssignment"
 import RequiredMark from "@reportify/components/RequiredMark"
-import { TScheduleGeneralParams } from "@reportify/types"
+
 import { rules } from "@reportify/utils/rules"
-import { Form, Input, Select, TimePicker } from "antd"
-import { useIntl } from "react-intl"
-import dayjs from "dayjs"
+
+import { TScheduleGeneralParams } from "@reportify/types"
 
 const General = ({ viewMode }: TScheduleGeneralParams) => {
     const intl = useIntl()
@@ -33,7 +36,6 @@ const General = ({ viewMode }: TScheduleGeneralParams) => {
                     <CmbTeachingAssignment 
                         disabled={viewMode}
                         allowClear={!viewMode}
-                        isAdmin={true}
                     />
                 </Form.Item>
                 <Form.Item

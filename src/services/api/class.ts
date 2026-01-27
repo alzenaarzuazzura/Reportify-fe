@@ -1,6 +1,6 @@
 import api from '@reportify/services/api';
 import { TBaseResponse, TResponseData, TUpdateWithIDPayload } from '@reportify/types';
-import { TClassData, TClassListParams, TClassListResponse, TClassPostData } from '@reportify/types/data/class';
+import { TClassData, TClassListParams, TClassListResponse, TClassPostData } from '@reportify/types';
 
 export const getList = async (params?: TClassListParams): Promise<TClassListResponse> => {
     const res = await api.get<TClassListResponse>('/classes', { params })

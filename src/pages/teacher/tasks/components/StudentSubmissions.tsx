@@ -1,6 +1,5 @@
 import { Card, Switch, Input, Tag, Divider, Space, Spin } from "antd"
 import { Icon } from "@iconify/react"
-import { useIntl } from "react-intl"
 import { useState, useEffect } from "react"
 import { getCompletionStatus } from "@reportify/services/api/assignment"
 
@@ -45,7 +44,6 @@ const StudentSubmissions = ({
     onUpdate, 
     viewMode = false 
 }: TStudentSubmissionsProps) => {
-    const intl = useIntl()
     const [updatingId, setUpdatingId] = useState<number | null>(null)
     const [students, setStudents] = useState<TStudentWithStatus[]>([])
     const [loading, setLoading] = useState(true)

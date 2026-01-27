@@ -63,9 +63,13 @@ const useScheduleList = (
     setDataFilter((prev) => ({ 
       ...prev, 
       search: '',
-      id_teaching_assignment: undefined,
+      id_user: undefined,
+      id_class: undefined,
+      id_subject: undefined,
       day: undefined,
       room: undefined,
+      start_time: undefined,
+      end_time: undefined,
       order: '',
       sort: 'asc'
     }))
@@ -79,13 +83,30 @@ const useScheduleList = (
   const onFilter = () => {
     resetPage()
     const values = formInstance.getFieldsValue()
-    const id_teaching_assignment = values.id_teaching_assignment?.value || null
+    const id_user = values.id_user?.value || null
+    const id_class = values.id_class?.value || null
+    const id_subject = values.id_subject?.value || null
+    
+    // Handle time range
+    let start_time = null
+    let end_time = null
+    if (values.time_range && values.time_range.length === 2) {
+      start_time = values.time_range[0]?.format('HH:mm') || null
+      end_time = values.time_range[1]?.format('HH:mm') || null
+    }
 
-    delete values?.id_teaching_assignment
+    delete values?.id_user
+    delete values?.id_class
+    delete values?.id_subject
+    delete values?.time_range
 
     const fieldsValue = {
       ...values,
-      id_teaching_assignment,
+      id_user,
+      id_class,
+      id_subject,
+      start_time,
+      end_time,
     }
     assignFilter(fieldsValue)
   }

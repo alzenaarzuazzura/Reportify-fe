@@ -1,8 +1,9 @@
-import { Card, Row, Col, Typography, Tag } from 'antd';
-import { ClockCircleOutlined, BookOutlined, HomeOutlined } from '@ant-design/icons';
+import { Card, Row, Col, Typography, Tag, Button, message, Modal } from 'antd';
+import { ClockCircleOutlined, BookOutlined, HomeOutlined, WhatsAppOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { currentSchedule } from '@reportify/services/api/combo';
+import { sendReportToParents } from '@reportify/services/api/attendance';
 
 const { Title, Text } = Typography;
 
@@ -21,6 +22,7 @@ type TActiveSchedule = {
 const TeacherDashboard = () => {
   const [currentTime, setCurrentTime] = useState(dayjs());
   const [activeSchedule, setActiveSchedule] = useState<TActiveSchedule | null>(null);
+  const [sending, setSending] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -42,6 +44,48 @@ const TeacherDashboard = () => {
     return () => clearInterval(timer);
   }, []);
 
+  const handleSendReport = async () => {
+    if (!activeSchedule) {
+      message.warning('Tidak ada kelas aktif saat ini');
+      return;
+    }
+
+    Modal.confirm({
+      title: 'Kirim Laporan ke Wali Murid',
+      content: `Apakah Anda yakin ingin mengirim laporan kegiatan belajar hari ini untuk kelas ${activeSchedule.class_name} - ${activeSchedule.subject_name} ke semua wali murid?`,
+      okText: 'Ya, Kirim',
+      cancelText: 'Batal',
+      onOk: async () => {
+        try {
+          setSending(true);
+          const today = dayjs().format('YYYY-MM-DD');
+          const result = await sendReportToParents(activeSchedule.value, today);
+
+          if (result.status) {
+            Modal.success({
+              title: 'Laporan Berhasil Dikirim',
+              content: (
+                <div>
+                  <p>Total siswa: {result.summary.total}</p>
+                  <p style={{ color: '#52c41a' }}>✓ Berhasil dikirim: {result.summary.sent}</p>
+                  {result.summary.failed > 0 && (
+                    <p style={{ color: '#ff4d4f' }}>✗ Gagal dikirim: {result.summary.failed}</p>
+                  )}
+                </div>
+              ),
+            });
+          } else {
+            message.error('Gagal mengirim laporan');
+          }
+        } catch (error: any) {
+          message.error(error?.response?.data?.message || 'Gagal mengirim laporan ke wali murid');
+        } finally {
+          setSending(false);
+        }
+      },
+    });
+  };
+
   return (
     <div>
       <Title level={2}>Dashboard Guru</Title>
@@ -58,7 +102,25 @@ const TeacherDashboard = () => {
         </Col>
 
         <Col xs={24} lg={12}>
-          <Card title="Kelas Aktif Saat Ini">
+          <Card 
+            title="Kelas Aktif Saat Ini"
+            extra={
+              activeSchedule && (
+                <Button
+                  type="primary"
+                  icon={<WhatsAppOutlined />}
+                  loading={sending}
+                  onClick={handleSendReport}
+                  style={{
+                    backgroundColor: '#25D366',
+                    borderColor: '#25D366',
+                  }}
+                >
+                  Kirim Laporan ke Wali Murid
+                </Button>
+              )
+            }
+          >
             {activeSchedule ? (
               <div>
                 <div style={{ marginBottom: 12 }}>

@@ -1,11 +1,9 @@
-import { FormInstance } from "antd"
 import { TResponseData, TResponseList } from "../api"
 import { TPaginationFilter } from "../components/filter"
 import { TLabelValue } from "../global"
 
 export type TClassGeneralParams = {
     viewMode: boolean
-    formInstance: FormInstance
 }
 
 export type TClassGeneral = {

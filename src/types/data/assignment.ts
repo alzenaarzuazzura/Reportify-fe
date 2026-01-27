@@ -1,3 +1,4 @@
+import { Dayjs } from "dayjs"
 import { TPaginationFilter } from "../components/filter"
 import { TLabelValue } from "../global"
 
@@ -79,7 +80,7 @@ export type TAssignmentTransForm = {
     id_teaching_assignment: TLabelValue | undefined
     assignment_title: string
     assignment_desc: string
-    deadline: string
+    deadline: Dayjs
     student_ids: number[]
 }
 

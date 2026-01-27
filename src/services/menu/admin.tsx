@@ -15,48 +15,48 @@ export const menuAdmin: MenuItem[] = [
         key: 'dashboard', 
         label: 'menu.dashboard', 
         icon: <DashboardOutlined />, 
-        path: '/' 
+        path: '/admin' 
     },
     { 
         key: 'students', 
         label: 'menu.students', 
         icon: <TeamOutlined />, 
-        path: '/students' 
+        path: '/admin/students' 
     },
     { 
         key: 'teachers', 
         label: 'menu.teachers', 
         icon: <UserOutlined />, 
-        path: '/teachers' 
+        path: '/admin/teachers' 
     },
     { 
         key: 'subjects', 
         label: 'menu.subjects', 
         icon: <BookOutlined />, 
-        path: '/subjects' 
+        path: '/admin/subjects' 
     },
     { 
         key: 'classes', 
         label: 'menu.classes', 
         icon: <HomeOutlined />, 
-        path: '/classes' 
+        path: '/admin/classes' 
     },
     { 
         key: 'assignments', 
         label: 'menu.teachingassignment', 
         icon: <ScheduleOutlined />, 
-        path: '/teaching-assignment' 
+        path: '/admin/teaching-assignments' 
     },
     { 
         key: 'schedules', 
         label: 'menu.schedules', 
         icon: <CalendarOutlined />, 
-        path: '/schedules' 
+        path: '/admin/schedules' 
     },
     { 
         key: 'reports', 
         label: 'menu.reports', 
         icon: <BarChartOutlined />, 
-        path: '/reports' 
+        path: '/admin/reports' 
     },
 ]

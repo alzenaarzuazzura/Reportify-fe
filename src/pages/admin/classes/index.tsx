@@ -1,32 +1,46 @@
-import { useIntl } from 'react-intl';
-import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom';
+import { Tabs } from 'antd'
+import { useIntl } from 'react-intl'
+import { useMemo } from 'react'
 
-import CreateButton from '@reportify/components/Button/CreateButton';
+import type { TTabItem } from '@reportify/types'
 
-import List from './List';
+import Classes from './classes'
+import Level from './level'
+import Major from './major'
+import Rombel from './rombel'
 
-const ClassPage = () => {
-  const intl = useIntl();
-  const navigate = useNavigate()
-  
-  const title = intl.formatMessage({ id: 'menu.classes' });
+const subTabs = [
+  { key: 'classes', intl: 'menu.classes', Component: Classes },
+  { key: 'level', intl: 'menu.level', Component: Level },
+  { key: 'major', intl: 'menu.major', Component: Major },
+  { key: 'rombel', intl: 'menu.rombel', Component: Rombel },
+]
+
+const General = () => {
+  const intl = useIntl()
+
+  const subTabsItems = useMemo(
+    (): TTabItem[] =>
+      subTabs.map(({ key, intl: label, Component }) => ({
+        key,
+        label: (
+          <span style={{ fontSize: 14 }}>
+            {intl.formatMessage({ id: label })}
+          </span>
+        ),
+        children: <Component />,
+      })),
+    [intl],
+  )
 
   return (
-    <>
-      <Helmet title={title} />
-      <div className="clearfix">
-        <div className="float-right">
-          <CreateButton onClick={() => navigate('/classes/create')} />
-        </div>
-      </div>
-      <div className="title-underline">
-        <h5 style={{ margin: 0 }}>{title}</h5>
-      </div>
+    <Tabs
+      className="kit-tabs-pills"
+      tabPosition="left"
+      style={{ lineHeight: 'normal' }}
+      items={subTabsItems}
+    />
+  )
+}
 
-      <List />
-    </>
-  );
-};
-
-export default ClassPage;
+export default General

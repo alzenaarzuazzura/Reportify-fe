@@ -9,7 +9,7 @@ import usePopupMessage from "@reportify/hooks/ui/usePopupMessage"
 
 import { deleteById, getById, update, updateStudentAssignment } from "@reportify/services/api/assignment"
 
-import { TAssignmentData, TAssignmentPostData, TAssignmentTransForm, TStudentAssignmentUpdateData } from "@reportify/types"
+import { TAssignmentPostData, TAssignmentTransForm, TStudentAssignmentUpdateData } from "@reportify/types"
 
 const useAssignmentView = (id: number) => {
     const intl = useIntl()
@@ -46,7 +46,7 @@ const useAssignmentView = (id: number) => {
                     ),
                     () => {
                         queryClient.invalidateQueries({ queryKey })
-                        navigate('/tasks')
+                        navigate('/teacher/tasks')
                     }
                 )
             } catch (error) {
@@ -66,7 +66,7 @@ const useAssignmentView = (id: number) => {
                         { id: 'dlgmsg.successdel' },
                         { thing: intl.formatMessage({ id: 'field.assignment' }) }
                     ),
-                    () => navigate('/tasks')
+                    () => navigate('/teacher/tasks')
                 )
             } catch (error) {
                 showMessage('error', intl.formatMessage({ id: 'dlgmsg.errmsg' }))
@@ -84,7 +84,7 @@ const useAssignmentView = (id: number) => {
         [intl, deleteData, showDialogDelete]
     )
 
-    const onCancel = useCallback(() => navigate('/tasks'), [navigate])
+    const onCancel = useCallback(() => navigate('/teacher/tasks'), [navigate])
 
     const handleStudentSubmissionUpdate = useCallback(
         async (studentAssignmentId: number, status: boolean, note: string) => {

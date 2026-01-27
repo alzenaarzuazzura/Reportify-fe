@@ -47,7 +47,7 @@ const useAttendanceView = (id: number) => {
                     ),
                     () => {
                         queryClient.invalidateQueries({ queryKey })
-                        navigate('/teacher/attendance')
+                        navigate('/teacher/attendances')
                     }
                 )
             } catch (error) {
@@ -67,7 +67,7 @@ const useAttendanceView = (id: number) => {
                         { id: 'dlgmsg.successdel' },
                         { thing: intl.formatMessage({ id: 'field.attendance' }) }
                     ),
-                    () => navigate('/teacher/attendance')
+                    () => navigate('/teacher/attendances')
                 )
             } catch (error) {
                 showMessage('error', intl.formatMessage({ id: 'dlgmsg.errmsg' }))
@@ -85,7 +85,7 @@ const useAttendanceView = (id: number) => {
         [intl, deleteData, showDialogDelete]
     )
 
-    const onCancel = useCallback(() => navigate('/attendance'), [navigate])
+    const onCancel = useCallback(() => navigate('/teacher/attendances'), [navigate])
 
     return {
         data,

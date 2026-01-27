@@ -19,16 +19,3 @@ export type TChangePassword = {
   newPassword: string
   confirmPassword: string
 }
-
-export type TLoginHistory = {
-  id: number
-  id_user: number
-  login_at: string
-  ip_address: string | null
-  user_agent: string | null
-}
-
-export type TLoginHistoryParams = {
-  page: number
-  limit: number
-}

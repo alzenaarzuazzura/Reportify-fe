@@ -8,9 +8,9 @@ import UpdateTeacher from '@reportify/pages/admin/teachers/Update';
 import CreateTeacher from '@reportify/pages/admin/teachers/Create';
 
 import ClassPage from '@reportify/pages/admin/classes';
-import CreateClass from '@reportify/pages/admin/classes/Create';
-import ViewClass from '@reportify/pages/admin/classes/View';
-import UpdateClass from '@reportify/pages/admin/classes/Update';
+import CreateClass from '@reportify/pages/admin/classes/classes/Create';
+import ViewClass from '@reportify/pages/admin/classes/classes/View';
+import UpdateClass from '@reportify/pages/admin/classes/classes/Update';
 
 import TeachingAssignmentPage from '@reportify/pages/admin/assignments';
 import CreateTeachingAssignment from '@reportify/pages/admin/assignments/Create';
@@ -40,99 +40,99 @@ interface RouteConfig {
 
 export const adminRoutes: RouteConfig[] = [
   { 
-    path: '/', 
+    path: '', 
     element: <AdminDashboard /> 
   },
   { 
-    path: '/subjects', 
+    path: 'subjects', 
     element: <SubjectPage /> 
   },
   { 
-    path: '/teachers', 
+    path: 'teachers', 
     element: <TeacherPage /> 
   },
   { 
-    path: '/teachers/create', 
+    path: 'teachers/create', 
     element: <CreateTeacher /> 
   },
   { 
-    path: '/teachers/view/:id', 
+    path: 'teachers/view/:id', 
     element: <ViewTeacher /> 
   },
   { 
-    path: '/teachers/update/:id', 
+    path: 'teachers/update/:id', 
     element: <UpdateTeacher /> 
   },
   { 
-    path: '/classes', 
+    path: 'classes', 
     element: <ClassPage /> 
   },
   { 
-    path: '/classes/create', 
+    path: 'classes/create', 
     element: <CreateClass /> 
   },  
   { 
-    path: '/classes/view/:id', 
+    path: 'classes/view/:id', 
     element: <ViewClass /> 
   },  
   { 
-    path: '/classes/update/:id', 
+    path: 'classes/update/:id', 
     element: <UpdateClass /> 
   },  
   { 
-    path: '/students', 
+    path: 'students', 
     element: <StudentPage /> 
   },  
   { 
-    path: '/students/create', 
+    path: 'students/create', 
     element: <CreateStudent /> 
   },  
   { 
-    path: '/students/view/:id', 
+    path: 'students/view/:id', 
     element: <ViewStudent /> 
   },
   { 
-    path: '/students/update/:id', 
+    path: 'students/update/:id', 
     element: <UpdateStudent /> 
   },  
   { 
-    path: '/teaching-assignment', 
+    path: 'teaching-assignments', 
     element: <TeachingAssignmentPage /> 
   },
   { 
-    path: '/teaching-assignments/create', 
+    path: 'teaching-assignments/create', 
     element: <CreateTeachingAssignment /> 
   },  
   { 
-    path: '/teaching-assignments/view/:id', 
+    path: 'teaching-assignments/view/:id', 
     element: <ViewTeachingAssignment /> 
   },  
   { 
-    path: '/teaching-assignments/update/:id', 
+    path: 'teaching-assignments/update/:id', 
     element: <UpdateTeachingAssignment /> 
   },
   { 
-    path: '/schedules', 
+    path: 'schedules', 
     element: <SchedulePage /> 
   },
   { 
-    path: '/schedules/create', 
+    path: 'schedules/create', 
     element: <CreateSchedule /> 
   },  
   { 
-    path: '/schedules/view/:id', 
+    path: 'schedules/view/:id', 
     element: <ViewSchedule /> 
   },  
   { 
-    path: '/schedules/update/:id', 
+    path: 'schedules/update/:id', 
     element: <UpdateSchedule /> 
   },
   { 
-    path: '/reports', 
+    path: 'reports', 
     element: <ReportsPage /> 
   },
   { 
-    path: '/profile', 
+    path: 'profile', 
     element: <ProfilePage /> 
   },      
 ];

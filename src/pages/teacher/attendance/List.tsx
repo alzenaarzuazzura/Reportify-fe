@@ -1,8 +1,9 @@
 import { useIntl } from 'react-intl';
-import { Tag, Form, Table, Card, Collapse, Badge, Space } from 'antd';
+import { Tag, Form, Table, Card, Collapse, Badge, Space, Button, message, Modal } from 'antd';
+import { WhatsAppOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Icon } from '@iconify/react';
 
 import TableAction from '@reportify/components/Actions/TableAction';
@@ -16,6 +17,7 @@ import { defaultFilterSortMaster } from '@reportify/utils/GlobalConst';
 import { TAttendanceData, TAttendanceListParams, TItemFilterDrawer } from '@reportify/types';
 
 import useAttendanceList from './hooks/useAttendanceList';
+import { sendReportToParents } from '@reportify/services/api/attendance';
 
 const defaultFilter: TAttendanceListParams = {
   ...defaultFilterSortMaster,
@@ -31,6 +33,7 @@ type TGroupedAttendance = {
   className: string
   subjectName: string
   scheduleInfo: string
+  scheduleId: number
   totalStudents: number
   hadirCount: number
   izinCount: number
@@ -40,13 +43,14 @@ type TGroupedAttendance = {
 
 const AttendanceList = () => {
   const intl = useIntl();
+  const [sendingReport, setSendingReport] = useState<string | null>(null);
 
-  const [dataFilter, setDataFilter, initialFilter] = usePageListFilter<TAttendanceListParams>(
-    'pageListAttendance',
-    defaultFilter,
-  )    
+	const [dataFilter, setDataFilter, initialFilter] = usePageListFilter<TAttendanceListParams>(
+		'pageListAttendance',
+		defaultFilter,
+	)   
 
-  const { page, pageSize, pageSizeOptions, onPageChange, onPageSizeChange, resetPage } =
+  const { page, pageSize, resetPage } =
     usePagination({
       initialPage: initialFilter.page,
       initialPageSize: initialFilter.limit,
@@ -60,15 +64,15 @@ const AttendanceList = () => {
     onFilter,
     onSearch,
     resetFilter,
-  } = useAttendanceList(dataFilter, setDataFilter, resetPage);
+  } = useAttendanceList(dataFilter, page, pageSize, setDataFilter, resetPage);
 
   // Group attendance by class + date + schedule
   const groupedData = useMemo(() => {
-    if (!Array.isArray(data) || data.length === 0) return []
+    if (!data?.data || !Array.isArray(data.data) || data.data.length === 0) return []
     
     const groups: Record<string, TGroupedAttendance> = {}
     
-    data.forEach((item) => {
+    data.data.forEach((item: TAttendanceData) => {
       const ta = item.teaching_assignment
       const className = ta?.class 
         ? `${ta.class.level?.name || ''} ${ta.class.major?.code || ''} ${ta.class.rombel?.name || ''}`.trim()
@@ -89,6 +93,7 @@ const AttendanceList = () => {
           scheduleInfo: item.schedule 
             ? `${item.schedule.day} ${item.schedule.start_time}-${item.schedule.end_time}` 
             : '',
+          scheduleId: scheduleId,
           totalStudents: 0,
           hadirCount: 0,
           izinCount: 0,
@@ -109,6 +114,42 @@ const AttendanceList = () => {
       dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
     )
   }, [data])
+
+  const handleSendReport = async (group: TGroupedAttendance) => {
+    Modal.confirm({
+      title: 'Kirim Laporan ke Wali Murid',
+      content: `Apakah Anda yakin ingin mengirim laporan kegiatan belajar tanggal ${group.dateFormatted} untuk kelas ${group.className} - ${group.subjectName} ke semua wali murid?`,
+      okText: 'Ya, Kirim',
+      cancelText: 'Batal',
+      onOk: async () => {
+        try {
+          setSendingReport(group.key);
+          const result = await sendReportToParents(group.scheduleId, group.date);
+
+          if (result.status) {
+            Modal.success({
+              title: 'Laporan Berhasil Dikirim',
+              content: (
+                <div>
+                  <p>Total siswa: {result.summary.total}</p>
+                  <p style={{ color: '#52c41a' }}>✓ Berhasil dikirim: {result.summary.sent}</p>
+                  {result.summary.failed > 0 && (
+                    <p style={{ color: '#ff4d4f' }}>✗ Gagal dikirim: {result.summary.failed}</p>
+                  )}
+                </div>
+              ),
+            });
+          } else {
+            message.error('Gagal mengirim laporan');
+          }
+        } catch (error: any) {
+          message.error(error?.response?.data?.message || 'Gagal mengirim laporan ke wali murid');
+        } finally {
+          setSendingReport(null);
+        }
+      },
+    });
+  };
 
   // Columns for student detail table
   const studentColumns: ColumnsType<TAttendanceData> = [
@@ -165,8 +206,8 @@ const AttendanceList = () => {
         <TableAction
           itemId={record.id}
           localId={intl.formatMessage({ id: 'field.attendance' })}
-          viewTo={`/attendance/view/${record.id}`}
-          editTo={`/attendance/update/${record.id}`}
+          viewTo={`/teacher/attendances/view/${record.id}`}
+          editTo={`/teacher/attendances/update/${record.id}`}
           onDelete={deleteData}
         />
       )
@@ -197,6 +238,23 @@ const AttendanceList = () => {
           <Badge count={group.izinCount} style={{ backgroundColor: '#faad14' }} title="Izin" />
           <Badge count={group.alfaCount} style={{ backgroundColor: '#ff4d4f' }} title="Alfa" />
           <span className="text-muted ms-2">({group.totalStudents} siswa)</span>
+          <Button
+            type="primary"
+            size="small"
+            icon={<WhatsAppOutlined />}
+            loading={sendingReport === group.key}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleSendReport(group);
+            }}
+            style={{
+              backgroundColor: '#25D366',
+              borderColor: '#25D366',
+              marginLeft: 8
+            }}
+          >
+            Kirim Laporan
+          </Button>
         </Space>
       </div>
     ),

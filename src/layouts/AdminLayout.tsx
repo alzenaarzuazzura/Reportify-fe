@@ -50,7 +50,7 @@ const AdminLayout = () => {
 
   const handleLogout = () => {
     authService.logout()
-    window.location.href = '/login'
+    window.location.href = '/'
   }
 
   const userMenuItems = [
@@ -58,7 +58,7 @@ const AdminLayout = () => {
       key: 'profile',
       icon: <ProfileOutlined />,
       label: 'Profile',
-      onClick: () => navigate('/profile'),
+      onClick: () => navigate('/admin/profile'),
     },
     {
       key: 'logout',

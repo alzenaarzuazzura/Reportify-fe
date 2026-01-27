@@ -6,7 +6,7 @@ import usePopupMessage from '@reportify/hooks/ui/usePopupMessage'
 
 import { create, update, getById } from '@reportify/services/api/subject'
 
-import { TSubjectTransForm, TSubjectPostData } from '@reportify/types/data/subject'
+import { TSubjectTransForm, TSubjectPostData } from '@reportify/types'
 
 const QUERY_KEY = { queryKey: ['dataList', 'subject'] }
 

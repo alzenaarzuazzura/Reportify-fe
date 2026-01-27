@@ -12,6 +12,7 @@ const useTeachingAssignmentCreate = () => {
   const { createData } = useCreateData<TTeachingAssignmentData, TTeachingAssignmentPostData>({
     menu: 'teaching-assignments',
     menuId: 'menu.teachingassignment',
+    baseRoute: 'admin',
     createFn: create,
     onSuccess: () => formInstance.resetFields(),
   })
@@ -30,7 +31,7 @@ const useTeachingAssignmentCreate = () => {
   )
 
   const onCancel = useCallback(
-    () => navigate('/teaching-assignments'),
+    () => navigate('/admin/teaching-assignments'),
     [navigate]
   )
 

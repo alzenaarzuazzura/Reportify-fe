@@ -81,7 +81,7 @@ const ProfileInfo = () => {
 				<AlertFormatted
 					id="msg.alert.profileinfo"
 					thing="field.profile"
-          onClick={() => navigate('/teachers')}
+          onClick={() => navigate('/admin/teachers')}
 					show
 					style={{
 						marginBottom: '20px',

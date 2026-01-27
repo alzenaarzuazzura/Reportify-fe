@@ -1,36 +1,34 @@
-import { Card, Form, Input, Button, message } from 'antd';
+import { Card, Form, Input, Button } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
-import { useMutation } from '@tanstack/react-query';
+import { useIntl } from 'react-intl';
 
-import { changePassword } from '@reportify/services/api/profile';
-import { TChangePassword } from '@reportify/types/data/profile';
-import { useNavigate } from 'react-router-dom';
+import useChangePassword from '@reportify/hooks/auth/useChangePassword';
 
 const ChangePassword = () => {
-  const navigate = useNavigate()
+  const intl = useIntl();
   const [form] = Form.useForm();
+  const { changePassword, isLoading } = useChangePassword();
 
-  const mutation = useMutation({
-    mutationFn: changePassword,
-    onSuccess: () => {
-      message.success('Password berhasil diubah');
-      form.resetFields();
-    },
-    onError: (error: any) => {
-      message.error(error.response?.data?.message || 'Gagal mengubah password');
-    },
-  });
-
-  const onFinish = (values: TChangePassword) => {
-    mutation.mutate(values);
+  const onFinish = (values: { currentPassword: string; newPassword: string; confirmPassword: string }) => {
+    const { currentPassword, newPassword } = values;
+    changePassword(
+      { currentPassword, newPassword },
+      {
+        onSuccess: () => {
+          form.resetFields();
+        },
+      }
+    );
   };
 
   return (
     <Card style={{ maxWidth: 600, margin: '0 auto', borderRadius: '12px' }}>
       <div style={{ marginBottom: 24 }}>
-        <h3 style={{ marginBottom: 8 }}>Keamanan Akun</h3>
+        <h3 style={{ marginBottom: 8 }}>
+          {intl.formatMessage({ id: 'profile.accountSecurity' })}
+        </h3>
         <p style={{ color: '#666', margin: 0 }}>
-          Pastikan password Anda kuat dan unik untuk menjaga keamanan akun
+          {intl.formatMessage({ id: 'profile.securityDescription' })}
         </p>
       </div>
 
@@ -40,50 +38,66 @@ const ChangePassword = () => {
         onFinish={onFinish}
       >
         <Form.Item
-          label="Password Lama"
+          label={intl.formatMessage({ id: 'field.currentPassword' })}
           name="currentPassword"
-          rules={[{ required: true, message: 'Password lama harus diisi' }]}
-        >
-          <Input.Password 
-            placeholder="Masukkan password lama" 
-            size="large"
-            prefix={<LockOutlined />}
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Password Baru"
-          name="newPassword"
           rules={[
-            { required: true, message: 'Password baru harus diisi' },
-            { min: 6, message: 'Password minimal 6 karakter' }
+            { 
+              required: true, 
+              message: intl.formatMessage({ id: 'validation.currentPasswordRequired' }) 
+            }
           ]}
         >
           <Input.Password 
-            placeholder="Masukkan password baru" 
+            placeholder={intl.formatMessage({ id: 'input.currentPassword' })}
             size="large"
             prefix={<LockOutlined />}
           />
         </Form.Item>
 
         <Form.Item
-          label="Konfirmasi Password Baru"
+          label={intl.formatMessage({ id: 'field.newPassword' })}
+          name="newPassword"
+          rules={[
+            { 
+              required: true, 
+              message: intl.formatMessage({ id: 'validation.newPasswordRequired' }) 
+            },
+            { 
+              min: 8, 
+              message: intl.formatMessage({ id: 'validation.passwordMinLength' }) 
+            }
+          ]}
+        >
+          <Input.Password 
+            placeholder={intl.formatMessage({ id: 'input.newPassword' })}
+            size="large"
+            prefix={<LockOutlined />}
+          />
+        </Form.Item>
+
+        <Form.Item
+          label={intl.formatMessage({ id: 'field.confirmpassword' })}
           name="confirmPassword"
           dependencies={['newPassword']}
           rules={[
-            { required: true, message: 'Konfirmasi password harus diisi' },
+            { 
+              required: true, 
+              message: intl.formatMessage({ id: 'validation.confirmPasswordRequired' }) 
+            },
             ({ getFieldValue }) => ({
               validator(_, value) {
                 if (!value || getFieldValue('newPassword') === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error('Password tidak cocok'));
+                return Promise.reject(
+                  new Error(intl.formatMessage({ id: 'validation.passwordNotMatch' }))
+                );
               },
             }),
           ]}
         >
           <Input.Password 
-            placeholder="Konfirmasi password baru" 
+            placeholder={intl.formatMessage({ id: 'input.confirmPassword' })}
             size="large"
             prefix={<LockOutlined />}
           />
@@ -94,7 +108,7 @@ const ChangePassword = () => {
             type="primary"
             htmlType="submit"
             icon={<LockOutlined />}
-            loading={mutation.isPending}
+            loading={isLoading}
             size="large"
             block
             style={{
@@ -104,9 +118,8 @@ const ChangePassword = () => {
               borderRadius: '12px',
               fontWeight: 600,
             }}
-            onClick={() => navigate('/login')}
           >
-            Ubah Password
+            {intl.formatMessage({ id: 'button.changePassword' })}
           </Button>
         </Form.Item>
       </Form>
@@ -118,12 +131,14 @@ const ChangePassword = () => {
         borderRadius: '8px',
         border: '1px solid #d6e4ff'
       }}>
-        <h4 style={{ marginBottom: 8, color: '#1890ff' }}>💡 Tips Keamanan Password:</h4>
+        <h4 style={{ marginBottom: 8, color: '#1890ff' }}>
+          💡 {intl.formatMessage({ id: 'profile.securityTips' })}:
+        </h4>
         <ul style={{ margin: 0, paddingLeft: 20, color: '#666' }}>
-          <li>Gunakan minimal 6 karakter</li>
-          <li>Kombinasikan huruf besar, kecil, angka, dan simbol</li>
-          <li>Jangan gunakan informasi pribadi yang mudah ditebak</li>
-          <li>Ubah password secara berkala</li>
+          <li>{intl.formatMessage({ id: 'profile.tip1' })}</li>
+          <li>{intl.formatMessage({ id: 'profile.tip2' })}</li>
+          <li>{intl.formatMessage({ id: 'profile.tip3' })}</li>
+          <li>{intl.formatMessage({ id: 'profile.tip4' })}</li>
         </ul>
       </div>
     </Card>

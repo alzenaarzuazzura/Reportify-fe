@@ -130,8 +130,8 @@ const AssignmentList = () => {
         <TableAction 
           itemId={record.id} 
           localId={intl.formatMessage({ id: 'field.assignment' })}
-          viewTo={`/tasks/view/${record.id}`}
-          editTo={`/tasks/update/${record.id}`}
+          viewTo={`/teacher/tasks/view/${record.id}`}
+          editTo={`/teacher/tasks/update/${record.id}`}
           onDelete={deleteData} 
         />
       ),

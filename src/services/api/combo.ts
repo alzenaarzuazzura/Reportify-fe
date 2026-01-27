@@ -59,15 +59,8 @@ export async function role(params: TComboFetchParams) {
         .then(validateResponse)
 }
 
-// For teacher - only their own teaching assignments
-export async function teachingAssignment(params: TComboFetchParams) {
-    return apiReportify
-        .get<TResponseCombo>('/combo/my-teaching-assignments', { params: { ...params } })
-        .then(validateResponse)
-}
-
 // For admin - all teaching assignments
-export async function allTeachingAssignments(params: TComboFetchParams) {
+export async function teachingAssignment(params: TComboFetchParams) {
     return apiReportify
         .get<TResponseCombo>('/combo/teaching-assignments', { params: { ...params } })
         .then(validateResponse)

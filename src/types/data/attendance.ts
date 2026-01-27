@@ -71,6 +71,18 @@ export type TAttendanceData = {
 
 export type TAttendanceListData = TAttendanceData
 
+export type TAttendanceListResponse = {
+    status: boolean
+    message: string
+    data: TAttendanceData[]
+    pagination: {
+        total: number
+        page: number
+        limit: number
+        totalPages: number
+    }
+}
+
 // Form types
 export type TAttendanceTransForm = {
     id_student: TLabelValue | undefined

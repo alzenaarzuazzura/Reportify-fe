@@ -29,6 +29,7 @@ const useTeacherView = (id: number) => {
     const { updateData } = useUpdateData<TTeacherData, TTeacherPostData & { id: number }>({
         menu: 'teachers',
         menuId: 'field.teacher',
+        baseRoute: 'admin',
         updateFn: update,
         onSuccess: () => queryClient.invalidateQueries({ queryKey })
     })
@@ -36,7 +37,7 @@ const useTeacherView = (id: number) => {
     const { deleteData } = useDeleteData({
         localeId: 'field.teacher',
         deleteFn: deleteById,
-        onSucces: () => navigate('/teachers')
+        onSucces: () => navigate('/admin/teachers')
     })
 
     const onSubmit = useCallback(
@@ -64,7 +65,7 @@ const useTeacherView = (id: number) => {
             [intl, id, deleteData, showDialogDelete]
     )
 
-    const onCancel = useCallback(() => navigate('/teachers'), [navigate])
+    const onCancel = useCallback(() => navigate('/admin/teachers'), [navigate])
 
     return {
         data,

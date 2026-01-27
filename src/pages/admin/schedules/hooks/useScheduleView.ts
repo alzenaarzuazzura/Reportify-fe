@@ -29,6 +29,7 @@ const useScheduleView = (id: number) => {
     const { updateData } = useUpdateData<TScheduleData, TSchedulePostData & { id: number }>({
         menu: 'schedules',
         menuId: 'menu.schedule',
+        baseRoute: 'admin',
         updateFn: update,
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey })
@@ -39,7 +40,7 @@ const useScheduleView = (id: number) => {
     const { deleteData } = useDeleteData({
         localeId: 'menu.schedule',
         deleteFn: deleteById,
-        onSucces: () => navigate('/schedules')
+        onSucces: () => navigate('/admin/schedules')
     })
 
     const onSubmit = useCallback(
@@ -67,7 +68,7 @@ const useScheduleView = (id: number) => {
             [intl, id, deleteData, showDialogDelete]
     )
 
-    const onCancel = useCallback(() => navigate('/schedules'), [navigate])
+    const onCancel = useCallback(() => navigate('/admin/schedules'), [navigate])
 
     return {
         data,

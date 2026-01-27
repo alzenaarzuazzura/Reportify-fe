@@ -1,9 +1,8 @@
-import { Table, Form, Input, Select } from 'antd';
+import { Table, Form, Input, Select, TimePicker } from 'antd';
 import { useIntl } from 'react-intl';
 import { ColumnsType } from 'antd/es/table';
 
 import TableAction from '@reportify/components/Actions/TableAction';
-import CmbTeachingAssignment from '@reportify/components/Combos/CmbTeachingAssignment';
 import SearchFilter from '@reportify/components/SearchFilter';
 
 import { usePageListFilter } from '@reportify/hooks/ui';
@@ -17,6 +16,10 @@ import { tableWidth } from '@reportify/constant/tableWidth';
 import { TScheduleListData, TScheduleListParams, TItemFilterDrawer } from '@reportify/types';
 
 import useScheduleList from './hooks/useScheduleList';
+import CmbTeacher from '@reportify/components/Combos/CmbTeacher';
+import CmbClass from '@reportify/components/Combos/CmbClass';
+import CmbSubject from '@reportify/components/Combos/CmbSubject';
+import LinkTable from '@reportify/components/LinkTable';
 
 const defaultFilter: TScheduleListParams = {
   ...defaultFilterSortMaster,
@@ -75,9 +78,9 @@ const ScheduleList = () => {
 			dataIndex: 'id_teaching_assignment',
 			sorter: true,
       className: 'center-header-left-content',
-			render: (_text, record) => (
-				<div className="text-left cell-line-clamp">{record.id_teaching_assignment.label}</div>
-			),
+      render: (_text, record) => (
+        <LinkTable to={`/schedules/view/${record.id}`}>{record.id_teaching_assignment.label}</LinkTable>
+      )  
 		},
 		{
 			title: intl.formatMessage({ id: 'field.day' }),
@@ -92,7 +95,7 @@ const ScheduleList = () => {
 			title: intl.formatMessage({ id: 'field.starttime' }),
 			dataIndex: 'start_time',
 			sorter: true,
-      className: 'center-header-left-content',
+      className: 'center-header-right-content',
 			render: (_text, record) => (
 				<div className="text-left cell-line-clamp">{record.start_time}</div>
 			),
@@ -101,7 +104,7 @@ const ScheduleList = () => {
 			title: intl.formatMessage({ id: 'field.endtime' }),
 			dataIndex: 'end_time',
 			sorter: true,
-      className: 'center-header-left-content',
+      className: 'center-header-right-content',
 			render: (_text, record) => (
 				<div className="text-left cell-line-clamp">{record.end_time}</div>
 			),
@@ -123,8 +126,8 @@ const ScheduleList = () => {
         <TableAction 
           itemId={record.id} 
           localId={intl.formatMessage({ id: 'menu.schedule' })}
-          viewTo={`/schedules/view/${record.id}`}
-          editTo={`/schedules/update/${record.id}`}
+          viewTo={`/admin/schedules/view/${record.id}`}
+          editTo={`/admin/schedules/update/${record.id}`}
           onDelete={deleteData} 
         />
       ),
@@ -133,19 +136,46 @@ const ScheduleList = () => {
 
   const itemsDrawer: TItemFilterDrawer[] = [
     {
-      name: 'id_teaching_assignment',
-      label: intl.formatMessage({ id: 'menu.teachingassignment' }),
-      picker: <CmbTeachingAssignment onInputKeyDown={onEnter(onFilter)}/>
+      name: 'id_user',
+      label: intl.formatMessage({ id: 'menu.teachers' }),
+      picker: <CmbTeacher onInputKeyDown={onEnter(onFilter)}/>
+    },
+    {
+      name: 'id_class',
+      label: intl.formatMessage({ id: 'menu.classes' }),
+      picker: <CmbClass onInputKeyDown={onEnter(onFilter)}/>
+    },
+    {
+      name: 'id_subject',
+      label: intl.formatMessage({ id: 'menu.subjects' }),
+      picker: <CmbSubject onInputKeyDown={onEnter(onFilter)}/>
     },
     {
       name: 'day',
       label: intl.formatMessage({ id: 'field.day' }),
-      picker: <Select options={dayOptions} onInputKeyDown={onEnter(onFilter)} placeholder={intl.formatMessage({ id: 'field.all' })} />
+      picker: <Select options={dayOptions} onInputKeyDown={onEnter(onFilter)} placeholder={intl.formatMessage({ id: 'input.day' })} />
+    },
+    {
+      name: 'time_range',
+      label: intl.formatMessage({ id: 'field.teachingtime' }),
+      picker: (
+        <TimePicker.RangePicker 
+          format='HH:mm'
+          className='w-100'
+          minuteStep={5}
+          onChange={() => onEnter(onFilter)}
+          placeholder={[
+            intl.formatMessage({ id: 'field.starttime' }),
+            intl.formatMessage({ id: 'field.endtime' }),
+          ]}
+
+        />
+      )
     },
     {
       name: 'room',
       label: intl.formatMessage({ id: 'field.room' }),
-      picker: <Input onPressEnter={onFilter} placeholder={intl.formatMessage({ id: 'field.all' })} />
+      picker: <Input onPressEnter={onFilter} placeholder={intl.formatMessage({ id: 'input.room' })} />
     }
   ]  
 

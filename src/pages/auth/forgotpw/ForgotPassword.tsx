@@ -81,7 +81,7 @@ const ForgotPassword = () => {
           </Button>
 
           <div className="auth-footer">
-            <Link to="/login">{intl.formatMessage({ id: 'msg.back.to.login' })}</Link>
+            <Link to="/">{intl.formatMessage({ id: 'msg.back.to.login' })}</Link>
           </div>
         </Form>
       </Card>

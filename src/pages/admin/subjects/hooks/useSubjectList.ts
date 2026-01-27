@@ -6,13 +6,9 @@ import useDeleteData from '@reportify/hooks/mutations/useDeleteData'
 
 import { deleteById, getList } from '@reportify/services/api/subject'
 
-import {
-	TSubjectListData,
-	TSubjectListParams,
-} from '@reportify/types/data/subject'
-import { TTableOnChange } from '@reportify/types/components/table'
 import { getTableSortOrder } from '@reportify/utils/Help'
-import { TStateSetter } from '@reportify/types'
+
+import { TStateSetter, TSubjectListData, TSubjectListParams, TTableOnChange } from '@reportify/types'
 
 const QUERY_KEY = { queryKey: ['dataList', 'subject'] }
 

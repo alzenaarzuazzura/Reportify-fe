@@ -38,7 +38,7 @@ const useAssignmentCreate = () => {
                     ),
                     () => {
                         formInstance.resetFields()
-                        navigate('/tasks')
+                        navigate('/teacher/tasks')
                     }
                 )
             } catch (error) {
@@ -48,7 +48,7 @@ const useAssignmentCreate = () => {
         [formInstance, intl, navigate, showMessage]
     )
 
-    const onCancel = useCallback(() => navigate('/tasks'), [navigate])
+    const onCancel = useCallback(() => navigate('/teacher/tasks'), [navigate])
 
     return { formInstance, onSubmit, onCancel }
 }

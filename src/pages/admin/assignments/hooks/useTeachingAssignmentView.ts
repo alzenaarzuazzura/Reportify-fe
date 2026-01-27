@@ -29,6 +29,7 @@ const useTeachingAssignmentView = (id: number) => {
     const { updateData } = useUpdateData<TTeachingAssignmentData, TTeachingAssignmentPostData & { id: number }>({
         menu: 'teaching-assignments',
         menuId: 'menu.teachingassignment',
+        baseRoute: 'admin',
         updateFn: update,
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey })
@@ -39,7 +40,7 @@ const useTeachingAssignmentView = (id: number) => {
     const { deleteData } = useDeleteData({
         localeId: 'menu.teachingassignment',
         deleteFn: deleteById,
-        onSucces: () => navigate('/teaching-assignments')
+        onSucces: () => navigate('/admin/teaching-assignments')
     })
 
     const onSubmit = useCallback(
@@ -65,7 +66,7 @@ const useTeachingAssignmentView = (id: number) => {
             [intl, id, deleteData, showDialogDelete]
     )
 
-    const onCancel = useCallback(() => navigate('/teaching-assignments'), [navigate])
+    const onCancel = useCallback(() => navigate('/admin/teaching-assignments'), [navigate])
 
     return {
         data,

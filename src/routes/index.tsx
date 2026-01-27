@@ -26,40 +26,45 @@ const AppRoutes = () => {
     );
   }
 
+  // Not authenticated - show login and auth pages
   if (!isAuthenticated) {
     return (
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
-    );
-  }
-
-  if (user?.role === 'admin') {
-    return (
-      <Routes>
-        <Route path="/" element={<AdminLayout />}>
-          {adminRoutes.map((route) => (
-            <Route key={route.path} path={route.path} element={route.element} />
-          ))}
-        </Route>
-        <Route path="/login" element={<Navigate to="/" replace />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     );
   }
 
+  // Admin routes
+  if (user?.role === 'admin') {
+    return (
+      <Routes>
+        <Route path="/" element={<Navigate to="/admin" replace />} />
+        <Route path="/admin/*" element={<AdminLayout />}>
+          {adminRoutes.map((route) => (
+            <Route key={route.path} path={route.path} element={route.element} />
+          ))}
+        </Route>
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="*" element={<Navigate to="/admin" replace />} />
+      </Routes>
+    );
+  }
+
+  // Teacher routes
   return (
     <Routes>
-      <Route path="/" element={<TeacherLayout />}>
+      <Route path="/" element={<Navigate to="/teacher" replace />} />
+      <Route path="/teacher/*" element={<TeacherLayout />}>
         {teacherRoutes.map((route) => (
           <Route key={route.path} path={route.path} element={route.element} />
         ))}
       </Route>
-      <Route path="/login" element={<Navigate to="/" replace />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="*" element={<Navigate to="/teacher" replace />} />
     </Routes>
   );
 };

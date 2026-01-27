@@ -1,37 +1,104 @@
-import { useState, useEffect } from 'react';
-import { message } from 'antd';
-import api from '@reportify/services/api';
-import { Announcement } from '@reportify/types';
+import { Form } from 'antd'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useCallback, useState } from 'react'
 
-export const useAnnouncementList = () => {
-  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
-  const [loading, setLoading] = useState(false);
+import { deleteById, getList } from '@reportify/services/api/announcement'
 
-  const fetchAnnouncements = async () => {
-    setLoading(true);
-    try {
-      const response = await api.get<Announcement[]>('/announcements/my');
-      setAnnouncements(response.data);
-    } catch (error) {
-      message.error('Gagal memuat data pengumuman');
-    } finally {
-      setLoading(false);
-    }
-  };
+import { TAnnouncementListParams, TStateSetter } from '@reportify/types'
+import { useIntl } from 'react-intl'
+import usePopupMessage from '@reportify/hooks/ui/usePopupMessage'
 
-  const deleteAnnouncement = async (id: string) => {
-    try {
-      await api.delete(`/announcements/${id}`);
-      message.success('Data pengumuman berhasil dihapus');
-      fetchAnnouncements();
-    } catch (error) {
-      message.error('Gagal menghapus data pengumuman');
-    }
-  };
+const QUERY_KEY = { queryKey: ['dataList', 'announcement'] }
 
-  useEffect(() => {
-    fetchAnnouncements();
-  }, []);
+const useAnnouncementList = (
+	dataFilter: TAnnouncementListParams,
+	setDataFilter: TStateSetter<TAnnouncementListParams>,
+	resetPage: () => void,	
+) => {
+	const [formInstance] = Form.useForm()
+	const queryClient = useQueryClient()
+	const intl = useIntl()
+	const { showMessage } = usePopupMessage()
 
-  return { announcements, loading, fetchAnnouncements, deleteAnnouncement };
-};
+	// Fetch data
+	const { data, isFetching, isLoading } = useQuery({
+		queryKey: ['dataList', 'announcement', dataFilter],
+		queryFn: () => getList(),
+	})
+
+	// Assign filter helper
+	const assignFilter = useCallback(
+		(values: Partial<TAnnouncementListParams>) => {
+			setDataFilter((prev) => ({ ...prev, ...values }))
+			queryClient.removeQueries(QUERY_KEY)
+		},
+		[queryClient, setDataFilter]
+	)
+
+	// Delete handler
+	const [isDeleting, setIsDeleting] = useState(false)
+	
+	const deleteData = useCallback(
+		async (id: number) => {
+			setIsDeleting(true)
+			try {
+				await deleteById(id)
+				showMessage(
+					'success',
+					intl.formatMessage(
+						{ id: 'dlgmsg.successdel' },
+						{ thing: intl.formatMessage({ id: 'menu.announcements' }) },
+					),
+					() => {
+						queryClient.invalidateQueries(QUERY_KEY)
+					},
+				)
+			} catch (error) {
+				showMessage('error', intl.formatMessage({ id: 'dlgmsg.errmsg' }))
+			} finally {
+				setIsDeleting(false)
+			}
+		},
+		[intl, showMessage, queryClient],
+	)
+
+	// Search handler
+	const onSearch = (value: string) => {
+		resetPage()
+		setDataFilter((prev) => ({ ...prev, search: value }))
+	}
+
+	// Reset filter handler
+	const resetFilter = () => {
+		formInstance.resetFields()
+		resetPage()
+		setDataFilter((prev) => ({ 
+			...prev, 
+			search: '', 
+			order: '',
+			sort: 'asc'
+		}))
+	}
+
+	const onFilter = () => {
+		resetPage()
+		const values = formInstance.getFieldsValue()
+		assignFilter(values)
+	}
+
+	const isLoadingData = isFetching || isLoading
+
+	return {
+		deleteData,
+		onSearch,
+		onFilter,
+		resetFilter,
+		data,
+		formInstance,
+		isLoadingData,
+		isDeleting,
+		refetch: () => queryClient.invalidateQueries(QUERY_KEY),
+	}
+}
+
+export default useAnnouncementList

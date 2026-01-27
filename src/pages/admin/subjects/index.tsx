@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async'
 import { useIntl } from 'react-intl'
 import CreateButton from '@reportify/components/Button/CreateButton'
 import SubjectList from './List'
-import SubjectFormModal from './components/SubjectFormModal'
+import SubjectFormModal from './components/DlgSubject'
 import { useVisibilityHandler } from '@reportify/hooks/ui/useVisibilityHandler'
 
 const SubjectPage = () => {

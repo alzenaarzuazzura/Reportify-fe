@@ -12,6 +12,7 @@ const useScheduleCreate = () => {
   const { createData } = useCreateData<TScheduleData, TSchedulePostData>({
     menu: 'schedules',
     menuId: 'menu.schedule',
+    baseRoute: 'admin',
     createFn: create,
     onSuccess: () => formInstance.resetFields(),
   })
@@ -32,7 +33,7 @@ const useScheduleCreate = () => {
   )
 
   const onCancel = useCallback(
-    () => navigate('/schedules'),
+    () => navigate('/admin/schedules'),
     [navigate]
   )
 

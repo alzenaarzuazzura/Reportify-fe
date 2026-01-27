@@ -10,10 +10,10 @@ import SearchBar from '@reportify/components/SearchBar'
 
 import { tableWidth } from '@reportify/constant/tableWidth'
 
-import { TSubjectData, TSubjectListData, TSubjectListParams } from '@reportify/types/data/subject'
+import { TSubjectData, TSubjectListData, TSubjectListParams } from '@reportify/types'
 
 import useSubjectList from './hooks/useSubjectList'
-import SubjectModal from './components/SubjectFormModal'
+import SubjectModal from './components/DlgSubject'
 import { usePageListFilter } from '@reportify/hooks/ui'
 import { defaultFilterSortMaster } from '@reportify/utils/GlobalConst'
 import usePagination from '@reportify/hooks/ui/usePagination'

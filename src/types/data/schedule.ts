@@ -11,8 +11,13 @@ export type TScheduleGeneralParams = {
 export type TScheduleListForm = {
     search: string
     id_teaching_assignment: TLabelValue
+    id_user: TLabelValue
+    id_class: TLabelValue
+    id_subject: TLabelValue
     day: string
     room: string
+    start_time: string
+    end_time: string
 }
 
 export type TScheduleTransForm = {

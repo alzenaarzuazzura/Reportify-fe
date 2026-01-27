@@ -5,6 +5,8 @@ import type { ColumnsType } from 'antd/es/table';
 import CmbRole from '@reportify/components/Combos/CmbRole';
 import SearchFilter from '@reportify/components/SearchFilter';
 import TableAction from '@reportify/components/Actions/TableAction';
+import SendWaEmailButton from '@reportify/components/Button/SendWaEmailButton';
+import ImportExcelButton from '@reportify/components/ImportExcelButton';
 
 import usePagination from '@reportify/hooks/ui/usePagination';
 import usePageListFilter from '@reportify/hooks/ui/usePageListFilter';
@@ -19,6 +21,7 @@ import { TItemFilterDrawer, TTeacherListData, TTeacherListParams, TUserRole } fr
 
 import useTeacherList from './hooks/useTeacherList';
 import LinkTable from '@reportify/components/LinkTable';
+import { importFromExcel } from '@reportify/services/api/teacher';
 
 const defaultFilter: TTeacherListParams = {
   ...defaultFilterSortMaster,
@@ -107,15 +110,24 @@ const TeacherList = () => {
     {
       title: intl.formatMessage({ id: 'field.action' }),
       align: 'center',
-      width: tableWidth.action,
+      width: tableWidth.action + 50,
       render: (_text, record) => (
-        <TableAction 
-          itemId={record.id} 
-          localId={intl.formatMessage({ id: 'field.teacher' })}
-          viewTo={`/teachers/view/${record.id}`}
-          editTo={`/teachers/update/${record.id}`}
-          onDelete={deleteData} 
-        />
+        <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+          <TableAction 
+            itemId={record.id} 
+            localId={intl.formatMessage({ id: 'field.teacher' })}
+            viewTo={`/admin/teachers/view/${record.id}`}
+            editTo={`/admin/teachers/update/${record.id}`}
+            onDelete={deleteData} 
+          />
+          {record.role === 'teacher' && (
+            <SendWaEmailButton 
+              teacherId={record.id}
+              teacherName={record.name}
+              phone={record.phone}
+            />
+          )}
+        </div>
       ),
     },
   ];
@@ -131,17 +143,31 @@ const TeacherList = () => {
   return (
     <>
       <div className="row mb-3">
-        <div className="col-24 d-flex justify-content-end align-items-center">
-          <Form form={formInstance} component={false} initialValues={initialFilter}>
-            <SearchFilter
-              onSearch={onSearch}
-              onFilter={onFilter}
-              onReset={resetFilter}
-              items={itemsDrawer}
-              formInstance={formInstance}
-              searchName="search"
+        <div className="col-24 d-flex justify-content-end">
+          <div className="d-flex align-items-center gap-2">
+            {/* Import di kiri */}
+            <ImportExcelButton
+              queryKey={['dataList', 'teacher']}
+              importFn={importFromExcel}
+              templateInfo={{
+                fileName: 'Reportify.xlsx',
+                sheetName: 'Data Guru',
+                columns: ['NAME', 'EMAIL', 'TELEPON', 'ROLE'],
+              }}
             />
-          </Form>
+
+            {/* Search di kanan */}
+            <Form form={formInstance} component={false} initialValues={initialFilter}>
+              <SearchFilter
+                onSearch={onSearch}
+                onFilter={onFilter}
+                onReset={resetFilter}
+                items={itemsDrawer}
+                formInstance={formInstance}
+                searchName="search"
+              />
+            </Form>
+          </div>
         </div>
       </div>
       <Table

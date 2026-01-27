@@ -17,6 +17,7 @@ const useUpdateData = <
 	menu,
 	updateFn,
 	onSuccess,
+	baseRoute,
 	onError,
 	onLater,
 }: TUpdateDataParams<TResponseData<TData>, TUpdateWithIDPayload<TParams>, TError>) => {
@@ -45,7 +46,7 @@ const useUpdateData = <
 							if (onLater) {
 								onLater({ ...data, goTo: 'create' })
 							} else {
-								navigate(`/${menu}/create`)
+								navigate(`/${baseRoute}/${menu}/create`)
 							}
 						} else if (onError) {
 							onError(data, error)
@@ -60,7 +61,7 @@ const useUpdateData = <
 							if (onLater) {
 								onLater({ ...data, goTo: 'view' })
 							} else {
-								navigate(`/${menu}/view/${data.data.id}`)
+								navigate(`/${baseRoute}/${menu}/view/${data.data.id}`)
 							}
 						}
 					},

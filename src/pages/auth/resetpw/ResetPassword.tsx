@@ -21,7 +21,7 @@ const ResetPassword = () => {
   useEffect(() => {
     const tokenParam = searchParams.get('token')
     if (!tokenParam) {
-      navigate('/login')
+      navigate('/')
     } else {
       setToken(tokenParam)
     }
@@ -29,11 +29,6 @@ const ResetPassword = () => {
 
   const { formInstance, onSubmit, isLoading } = useResetPassword({
     token,
-    onSuccess: () => {
-      setTimeout(() => {
-        navigate('/login')
-      }, 2000)
-    },
   })
 
   if (!token) {
@@ -133,6 +128,13 @@ const ResetPassword = () => {
               className="auth-btn"
             >
               {intl.formatMessage({ id: 'field.resetpassword'})}
+            </Button>
+            <Button
+              type="link"
+              onClick={() => navigate('/')}
+              block
+            >
+              {intl.formatMessage({ id: 'msg.back.to.login'})}
             </Button>
           </Form.Item>
         </Form>

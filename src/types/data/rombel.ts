@@ -1,16 +1,19 @@
+import { TResponseData, TResponseList } from "../api";
+import { TPaginationFilter } from "../components/filter";
+
+export type TRombelGeneralParams = {
+    viewMode: boolean
+}
+
+export type TRombelListParams = TPaginationFilter 
+
 export type TRombelData = {
-    id: number
-    name: string
+  id: number
+  name: string
 }
 
-export type TRombelPostData = Omit<TRombelData, 'id'>
+export type TRombelTransForm = Omit<TRombelData, 'id'>
 
-export type TRombelCreate = Omit<TRombelData, 'id'>
+export type TRombelResponse = TResponseData<TRombelData>
 
-export type TDialogRombelCreate = {
-    isVisible: boolean
-    setVisible: (visible: boolean) => void
-    initialValues?: Partial<TRombelCreate>
-    onReset?: () => void
-    onSuccess?: (data: TRombelData) => void
-}
+export type TRombelListResponse = TResponseList<TRombelData>

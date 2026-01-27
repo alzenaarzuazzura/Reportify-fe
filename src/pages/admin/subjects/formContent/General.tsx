@@ -1,8 +1,11 @@
-import RequiredMark from '@reportify/components/RequiredMark'
-import { TSubjectGeneralParams } from '@reportify/types'
-import { rules } from '@reportify/utils/rules'
 import { Form, Input } from 'antd'
 import { useIntl } from 'react-intl'
+
+import RequiredMark from '@reportify/components/RequiredMark'
+
+import { rules } from '@reportify/utils/rules'
+
+import { TSubjectGeneralParams } from '@reportify/types'
 
 const General = ({ viewMode }: TSubjectGeneralParams) => {
 	const intl = useIntl()

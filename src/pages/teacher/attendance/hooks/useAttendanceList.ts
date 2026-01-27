@@ -1,17 +1,19 @@
 import { Form } from 'antd'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useIntl } from 'react-intl'
 
 import { deleteById, getList } from '@reportify/services/api/attendance'
 import usePopupMessage from '@reportify/hooks/ui/usePopupMessage'
 
-import { TAttendanceListData, TAttendanceListParams, TStateSetter } from '@reportify/types'
+import { TAttendanceListParams, TStateSetter } from '@reportify/types'
 
 const QUERY_KEY = { queryKey: ['dataList', 'attendance'] }
 
 const useAttendanceList = (
 	dataFilter: TAttendanceListParams,
+	page: number,
+	pageSize: number,
 	setDataFilter: TStateSetter<TAttendanceListParams>,
 	resetPage: () => void,	
 ) => {
@@ -22,7 +24,7 @@ const useAttendanceList = (
 
 	const { data, isFetching, isLoading } = useQuery({
 		queryKey: ['dataList', 'attendance', dataFilter],
-		queryFn: () => getList(),
+		queryFn: () => getList(dataFilter),
 	})
 
 	const assignFilter = useCallback(
@@ -32,6 +34,12 @@ const useAttendanceList = (
 		},
 		[queryClient, setDataFilter]
 	)
+
+	useEffect(() => {
+		if (dataFilter.page !== page || dataFilter.limit !== pageSize) {
+			assignFilter({ page: page, limit: pageSize })
+		}
+	}, [page, pageSize, assignFilter, dataFilter])	
 
 	const [isDeleting, setIsDeleting] = useState(false)
 	

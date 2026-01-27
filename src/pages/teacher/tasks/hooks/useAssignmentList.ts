@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react'
 
 import { deleteById, getList } from '@reportify/services/api/assignment'
 
-import { TAssignmentListData, TAssignmentListParams, TStateSetter } from '@reportify/types'
+import { TAssignmentListParams, TStateSetter } from '@reportify/types'
 import { useIntl } from 'react-intl'
 import usePopupMessage from '@reportify/hooks/ui/usePopupMessage'
 

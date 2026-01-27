@@ -30,3 +30,20 @@ export const deleteById = async (id: number): Promise<TBaseResponse> => {
   const res = await api.delete(`/users/${id}`)
   return res.data
 };
+
+export const sendPasswordSetup = async (id: number): Promise<TBaseResponse> => {
+  const res = await api.post<TBaseResponse>(`/users/${id}/send-password-setup`)
+  return res.data
+};
+
+export const importFromExcel = async (file: File): Promise<TResponseData<any>> => {
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  const res = await api.post<TResponseData<any>>('/users/import', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return res.data;
+}

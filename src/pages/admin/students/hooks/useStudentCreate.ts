@@ -15,6 +15,7 @@ const useStudentCreate = () => {
   const { createData } = useCreateData<TStudentData, TStudentPostData>({
     menu: 'students',
     menuId: 'field.class',
+    baseRoute: 'admin',
     createFn: create,
     onSuccess: () => formInstance.resetFields(),
   })
@@ -35,7 +36,7 @@ const useStudentCreate = () => {
   )
 
   const onCancel = useCallback(
-    () => navigate('/students'),
+    () => navigate('/admin/students'),
     [navigate]
   )
 

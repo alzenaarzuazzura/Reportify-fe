@@ -73,7 +73,7 @@ const View = ({ isOnEdit = false }) => {
         title="Data tidak ditemukan"
         subTitle="Data absensi yang Anda cari tidak ditemukan."
         extra={
-          <Button type="primary" onClick={() => navigate('/attendance')}>
+          <Button type="primary" onClick={() => navigate('/teacher/attendances')}>
             Kembali ke Daftar
           </Button>
         }

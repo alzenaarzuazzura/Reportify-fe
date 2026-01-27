@@ -19,6 +19,7 @@ import { tableWidth } from '@reportify/constant/tableWidth';
 import { TTeachingAssignmentListData, TTeachingAssignmentListParams, TItemFilterDrawer } from '@reportify/types';
 
 import useTeachingAssignmentList from './hooks/useTeachingAssignmentList';
+import LinkTable from '@reportify/components/LinkTable';
 
 const defaultFilter: TTeachingAssignmentListParams = {
   ...defaultFilterSortMaster,
@@ -65,18 +66,18 @@ const TeachingAssignmentList = () => {
 		},
 		{
 			title: intl.formatMessage({ id: 'field.teacher' }),
-			dataIndex: 'user',
+			dataIndex: 'id_user',
 			sorter: true,
       className: 'center-header-left-content',
-			render: (_text, record) => (
-				<div className="text-left cell-line-clamp">{record.id_user.label}</div>
-			),
+      render: (_text, record) => (
+        <LinkTable to={`/teaching-assignments/view/${record.id}`}>{record.id_user.label}</LinkTable>
+      )  
 		},
 		{
 			title: intl.formatMessage({ id: 'field.class' }),
 			dataIndex: 'id_class',
 			sorter: true,
-      className: 'center-header-left-content',
+      className: 'center-header-right-content',
 			render: (_text, record) => (
 				<div className="text-left cell-line-clamp">{record.id_class.label}</div>
 			),
@@ -98,8 +99,8 @@ const TeachingAssignmentList = () => {
         <TableAction 
           itemId={record.id} 
           localId={intl.formatMessage({ id: 'menu.teachingassignment' })}
-          viewTo={`/teaching-assignments/view/${record.id}`}
-          editTo={`/teaching-assignments/update/${record.id}`}
+          viewTo={`/admin/teaching-assignments/view/${record.id}`}
+          editTo={`/admin/teaching-assignments/update/${record.id}`}
           onDelete={deleteData} 
         />
       ),

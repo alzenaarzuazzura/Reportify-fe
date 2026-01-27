@@ -1,93 +1,50 @@
-import { Card, Form, Input, DatePicker, Button, Space, message } from 'antd';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useIntl } from 'react-intl';
-import { useEffect, useState } from 'react';
-import dayjs from 'dayjs';
-import api from '@reportify/services/api';
-import { Announcement } from '@reportify/types';
+import { useIntl } from "react-intl"
+import { Tabs, Form as AntdForm } from 'antd'
 
-const AnnouncementForm = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const intl = useIntl();
-  const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
+import SaveCancelButton from "@reportify/components/Button/SaveCancelButton"
 
-  useEffect(() => {
-    if (id) {
-      setLoading(true);
-      api.get<Announcement>(`/announcements/${id}`)
-        .then(res => {
-          const data = {
-            ...res.data,
-            date: dayjs(res.data.date),
-          };
-          form.setFieldsValue(data);
-        })
-        .finally(() => setLoading(false));
-    }
-  }, [id, form]);
+import { TFormTransParams, TAnnouncementTransForm } from "@reportify/types"
 
-  const onFinish = async (values: any) => {
-    try {
-      const data = {
-        ...values,
-        date: values.date.format('YYYY-MM-DD'),
-      };
-      
-      if (id) {
-        await api.put(`/announcements/${id}`, data);
-        message.success('Data pengumuman berhasil diperbarui');
-      } else {
-        await api.post('/announcements', data);
-        message.success('Data pengumuman berhasil ditambahkan');
-      }
-      navigate('/announcements');
-    } catch (error) {
-      message.error('Gagal menyimpan data pengumuman');
-    }
-  };
+import General from "./formContent/General"
+
+const Form = ({
+  formInstance,
+  initialValues,
+  onSubmit,
+  onCancel,
+  viewMode = false,
+  createMode = false
+}: TFormTransParams<TAnnouncementTransForm>) => {
+  const intl = useIntl()
 
   return (
-    <Card 
-      title={id ? intl.formatMessage({ id: 'common.edit' }) : intl.formatMessage({ id: 'common.add' })}
-      loading={loading}
+    <AntdForm
+      layout="vertical"
+      form={formInstance}
+      onFinish={onSubmit}
+      initialValues={initialValues}
     >
-      <Form form={form} layout="vertical" onFinish={onFinish}>
-        <Form.Item
-          name="title"
-          label={intl.formatMessage({ id: 'announcement.title' })}
-          rules={[{ required: true }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="content"
-          label={intl.formatMessage({ id: 'announcement.content' })}
-          rules={[{ required: true }]}
-        >
-          <Input.TextArea rows={6} />
-        </Form.Item>
-        <Form.Item
-          name="date"
-          label={intl.formatMessage({ id: 'announcement.date' })}
-          rules={[{ required: true }]}
-        >
-          <DatePicker style={{ width: '100%' }} />
-        </Form.Item>
-        <Form.Item>
-          <Space>
-            <Button type="primary" htmlType="submit">
-              {intl.formatMessage({ id: 'common.save' })}
-            </Button>
-            <Button onClick={() => navigate('/announcements')}>
-              {intl.formatMessage({ id: 'common.cancel' })}
-            </Button>
-          </Space>
-        </Form.Item>
-      </Form>
-    </Card>
-  );
-};
+      <div className="card rounded">
+        <Tabs 
+          className="tabs"
+          defaultActiveKey="general"
+          items={[
+            {
+              label: intl.formatMessage({ id: 'field.general' }),
+              key: 'general',
+              className: 'pb-3',
+              children: <General viewMode={viewMode} createMode={createMode} />
+            }
+          ]}
+        />
+        <div className="mb-3">
+          {!viewMode && (
+            <SaveCancelButton onSave={formInstance.submit} onCancel={onCancel} />
+          )}
+        </div>
+      </div>
+    </AntdForm>
+  )
+}
 
-export default AnnouncementForm;
+export default Form

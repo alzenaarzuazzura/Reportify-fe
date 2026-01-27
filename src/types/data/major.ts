@@ -1,17 +1,22 @@
+import { TResponseData, TResponseList } from "../api";
+import { TPaginationFilter } from "../components/filter";
+
+export type TMajorGeneralParams = {
+    viewMode: boolean
+}
+
+export type TMajorListParams = TPaginationFilter & {
+  search?: string
+}
+
 export type TMajorData = {
-    id: number
-    code: string
-    name: string
+  id: number
+  code: string
+  name: string
 }
 
-export type TMajorPostData = Omit<TMajorData, 'id'>
+export type TMajorTransForm = Omit<TMajorData, 'id'>
 
-export type TMajorCreate = Omit<TMajorData, 'id'>
+export type TMajorResponse = TResponseData<TMajorData>
 
-export type TDialogMajorCreate = {
-    isVisible: boolean
-    setVisible: (visible: boolean) => void
-    initialValues?: Partial<TMajorCreate>
-    onReset?: () => void
-    onSuccess?: (data: TMajorData) => void
-}
+export type TMajorListResponse = TResponseList<TMajorData>
