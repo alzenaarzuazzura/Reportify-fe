@@ -12,6 +12,7 @@ import AnnouncementPage from '@reportify/pages/teacher/announcements';
 import AnnouncementCreate from '@reportify/pages/teacher/announcements/Create';
 import AnnouncementView from '@reportify/pages/teacher/announcements/View';
 import AnnouncementUpdate from '@reportify/pages/teacher/announcements/Update';
+import ProfilePage from '@reportify/pages/teacher/profile';
 
 interface RouteConfig {
   path: string;
@@ -32,4 +33,6 @@ export const teacherRoutes: RouteConfig[] = [
   { path: 'announcements/create', element: <AnnouncementCreate /> },
   { path: 'announcements/view/:id', element: <AnnouncementView /> },
   { path: 'announcements/update/:id', element: <AnnouncementUpdate /> },
+  { path: 'profile/*', element: <ProfilePage /> },
+  { path: 'change-password', element: <ProfilePage /> },
 ];

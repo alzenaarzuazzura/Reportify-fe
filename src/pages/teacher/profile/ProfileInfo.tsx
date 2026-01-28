@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
 import api from '@reportify/services/api';
 
 import { TResponseData } from '@reportify/types';
@@ -15,8 +14,6 @@ type TUser = {
 }
 
 const ProfileInfo = () => {
-  const navigate = useNavigate();
-
   const { data, isLoading } = useQuery({
     queryKey: ['profile'],
     queryFn: async () => {
@@ -29,11 +26,7 @@ const ProfileInfo = () => {
     <ProfileInfoComponent
       user={data?.data}
       isLoading={isLoading}
-      onAlertClick={() => navigate('/admin/teachers')}
-      alertMessage={{
-        id: 'msg.alert.profileinfo',
-        thing: 'field.profile'
-      }}
+      // Teacher tidak perlu alert message
     />
   );
 };
