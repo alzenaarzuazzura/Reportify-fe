@@ -9,7 +9,7 @@ import CmbRombel from '@reportify/components/Combos/CmbRombel';
 import SearchFilter from '@reportify/components/SearchFilter';
 import LinkTable from '@reportify/components/LinkTable';
 import CmbClass from '@reportify/components/Combos/CmbClass';
-import ImportExcelButton from '@reportify/components/ImportExcelButton';
+// import ImportExcelButton from '@reportify/components/ImportExcelButton';
 
 import { usePageListFilter } from '@reportify/hooks/ui';
 import usePagination from '@reportify/hooks/ui/usePagination';
@@ -21,7 +21,7 @@ import { tableWidth } from '@reportify/constant/tableWidth';
 import { TStudentListData, TStudentListParams, TItemFilterDrawer } from '@reportify/types';
 
 import useStudentList from './hooks/useStudentList';
-import { importFromExcel } from '@reportify/services/api/student';
+// import { importFromExcel } from '@reportify/services/api/student';
 
 const defaultFilter: TStudentListParams = {
   order: 'nis',
@@ -155,7 +155,7 @@ const ClassList = () => {
         <div className="col-24 d-flex justify-content-end">
           <div className="d-flex align-items-center gap-2">
             {/* Import di kiri */}
-            <ImportExcelButton
+            {/* <ImportExcelButton
               queryKey={['dataList', 'student']}
               importFn={importFromExcel}
               templateInfo={{
@@ -163,7 +163,7 @@ const ClassList = () => {
                 sheetName: 'Data Siswa',
                 columns: ['NIS', 'NAMA', 'KELAS', 'TELPON ORANGTUA', 'TELPON MURID'],
               }}
-            />
+            /> */}
 
             {/* Search di kanan */}
             <Form form={formInstance} component={false} initialValues={initialFilter}>

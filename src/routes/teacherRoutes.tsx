@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import TeacherDashboard from '@reportify/pages/teacher/Dashboard';
+import TeacherDashboard from '@reportify/pages/teacher/dashboard';
 import AttendancePage from '@reportify/pages/teacher/attendance';
 import AttendanceCreate from '@reportify/pages/teacher/attendance/Create';
 import AttendanceView from '@reportify/pages/teacher/attendance/View';

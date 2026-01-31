@@ -4,7 +4,6 @@ import {
   CheckSquareOutlined,
   FileTextOutlined,
   NotificationOutlined,
-  UserOutlined
 } from '@ant-design/icons';
 
 export const menuTeacher: MenuItem[] = [
@@ -31,11 +30,5 @@ export const menuTeacher: MenuItem[] = [
         label: 'menu.announcements', 
         icon: <NotificationOutlined />, 
         path: '/teacher/announcements' 
-    },
-    { 
-        key: 'profile', 
-        label: 'menu.profile', 
-        icon: <UserOutlined />, 
-        path: '/teacher/profile' 
     },
   ];

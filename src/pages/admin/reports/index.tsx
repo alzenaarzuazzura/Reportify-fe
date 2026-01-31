@@ -1,6 +1,7 @@
 import { Tabs } from 'antd';
-import { FileTextOutlined, CheckSquareOutlined, UserOutlined, TeamOutlined, HomeOutlined } from '@ant-design/icons';
+import { FileTextOutlined, CheckSquareOutlined, UserOutlined, TeamOutlined, HomeOutlined, FileDoneOutlined } from '@ant-design/icons';
 
+import ComprehensiveReport from './ComprehensiveReport';
 import AttendanceReport from './AttendanceReport';
 import AssignmentReport from './AssignmentReport';
 import TeacherActivityReport from './TeacherActivityReport';
@@ -9,6 +10,16 @@ import ClassSummaryReport from './ClassSummaryReport';
 
 const Reports = () => {
   const items = [
+    {
+      key: 'comprehensive',
+      label: (
+        <span>
+          <FileDoneOutlined />
+          Laporan Komprehensif
+        </span>
+      ),
+      children: <ComprehensiveReport />,
+    },
     {
       key: 'attendance',
       label: (
@@ -75,7 +86,7 @@ const Reports = () => {
         📊 Laporan
       </h1>
       <Tabs 
-        defaultActiveKey="attendance" 
+        defaultActiveKey="comprehensive" 
         items={items}
         size="large"
         style={{

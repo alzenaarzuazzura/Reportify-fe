@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import AdminDashboard from '@reportify/pages/admin/Dashboard';
+import AdminDashboard from '@reportify/pages/admin/dashboard';
 
 import ViewTeacher from '@reportify/pages/admin/teachers/View';
 import TeacherPage from '@reportify/pages/admin/teachers';

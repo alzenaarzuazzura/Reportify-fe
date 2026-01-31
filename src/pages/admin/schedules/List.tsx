@@ -53,12 +53,12 @@ const ScheduleList = () => {
   } = useScheduleList(dataFilter, page, pageSize, setDataFilter, resetPage);
 
   const dayOptions = [
-    { label: 'Senin', value: 'Senin' },
-    { label: 'Selasa', value: 'Selasa' },
-    { label: 'Rabu', value: 'Rabu' },
-    { label: 'Kamis', value: 'Kamis' },
-    { label: 'Jumat', value: 'Jumat' },
-    { label: 'Sabtu', value: 'Sabtu' },
+    { label: 'Senin', value: 'senin' },
+    { label: 'Selasa', value: 'selasa' },
+    { label: 'Rabu', value: 'rabu' },
+    { label: 'Kamis', value: 'kamis' },
+    { label: 'Jumat', value: 'jumat' },
+    { label: 'Sabtu', value: 'sabtu' },
   ]
 
   const columns: ColumnsType<TScheduleListData> = [

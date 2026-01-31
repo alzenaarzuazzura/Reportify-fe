@@ -1,4 +1,4 @@
-import { ChangePassword as ChangePasswordComponent } from '@reportify/components/Profile';
+import ChangePasswordComponent from '@reportify/components/ChangePassword'
 
 const ChangePassword = () => {
   return <ChangePasswordComponent />;

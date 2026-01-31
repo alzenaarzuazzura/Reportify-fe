@@ -20,7 +20,7 @@ export const onEnter = (doEnter: () => void) => (event: React.KeyboardEvent) => 
 export const numberOnlyKeyDown = (
 	e: ReactKeyboardEvent<HTMLInputElement>,
 ) => {
-	const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab']
+	const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Ctrl']
 
 	if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
 		e.preventDefault()

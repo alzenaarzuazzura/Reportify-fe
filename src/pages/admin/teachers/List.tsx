@@ -6,7 +6,7 @@ import CmbRole from '@reportify/components/Combos/CmbRole';
 import SearchFilter from '@reportify/components/SearchFilter';
 import TableAction from '@reportify/components/Actions/TableAction';
 import SendWaEmailButton from '@reportify/components/Button/SendWaEmailButton';
-import ImportExcelButton from '@reportify/components/ImportExcelButton';
+// import ImportExcelButton from '@reportify/components/ImportExcelButton';
 
 import usePagination from '@reportify/hooks/ui/usePagination';
 import usePageListFilter from '@reportify/hooks/ui/usePageListFilter';
@@ -21,7 +21,7 @@ import { TItemFilterDrawer, TTeacherListData, TTeacherListParams, TUserRole } fr
 
 import useTeacherList from './hooks/useTeacherList';
 import LinkTable from '@reportify/components/LinkTable';
-import { importFromExcel } from '@reportify/services/api/teacher';
+// import { importFromExcel } from '@reportify/services/api/teacher';
 
 const defaultFilter: TTeacherListParams = {
   ...defaultFilterSortMaster,
@@ -146,7 +146,7 @@ const TeacherList = () => {
         <div className="col-24 d-flex justify-content-end">
           <div className="d-flex align-items-center gap-2">
             {/* Import di kiri */}
-            <ImportExcelButton
+            {/* <ImportExcelButton
               queryKey={['dataList', 'teacher']}
               importFn={importFromExcel}
               templateInfo={{
@@ -154,7 +154,7 @@ const TeacherList = () => {
                 sheetName: 'Data Guru',
                 columns: ['NAME', 'EMAIL', 'TELEPON', 'ROLE'],
               }}
-            />
+            /> */}
 
             {/* Search di kanan */}
             <Form form={formInstance} component={false} initialValues={initialFilter}>

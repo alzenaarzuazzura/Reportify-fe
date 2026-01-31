@@ -4,6 +4,7 @@ import { TAssignmentGeneralParams } from "@reportify/types"
 import { rules } from "@reportify/utils/rules"
 import { Form, Input, DatePicker } from "antd"
 import { useIntl } from "react-intl"
+import dayjs from "dayjs"
 
 const General = ({ viewMode }: TAssignmentGeneralParams) => {
     const intl = useIntl()
@@ -56,7 +57,12 @@ const General = ({ viewMode }: TAssignmentGeneralParams) => {
                     rules.required(intl.formatMessage({ id: 'global.rulesfield' }))
                 ]}
             >
-                <DatePicker style={{ width: '100%' }} disabled={viewMode} format="YYYY-MM-DD" />
+                <DatePicker 
+                    style={{ width: '100%' }} 
+                    disabled={viewMode} 
+                    format="YYYY-MM-DD" 
+                    disabledDate={(current) => current && current < dayjs().startOf('day')}
+                />
             </Form.Item>
         </>
     )

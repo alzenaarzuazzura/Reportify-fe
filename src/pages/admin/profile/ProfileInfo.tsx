@@ -1,41 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
-import api from '@reportify/services/api';
+import ProfileInfoContainer from '@reportify/components/Profile'
 
-import { TResponseData } from '@reportify/types';
-import { ProfileInfo as ProfileInfoComponent } from '@reportify/components/Profile';
-
-type TUser = {
-  id: number
-  name: string
-  email: string
-  phone: string | null
-  role: string
-  created_at: string
+const AdminProfileInfo = () => {
+  return (
+    <ProfileInfoContainer
+      showAlert
+      redirectPath="/admin/teachers"
+    />
+  )
 }
 
-const ProfileInfo = () => {
-  const navigate = useNavigate();
-
-  const { data, isLoading } = useQuery({
-    queryKey: ['profile'],
-    queryFn: async () => {
-      const res = await api.get<TResponseData<TUser>>('/profile');
-      return res.data;
-    },
-  });
-
-  return (
-    <ProfileInfoComponent
-      user={data?.data}
-      isLoading={isLoading}
-      onAlertClick={() => navigate('/admin/teachers')}
-      alertMessage={{
-        id: 'msg.alert.profileinfo',
-        thing: 'field.profile'
-      }}
-    />
-  );
-};
-
-export default ProfileInfo;
+export default AdminProfileInfo
