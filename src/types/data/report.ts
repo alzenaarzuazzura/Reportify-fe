@@ -193,3 +193,46 @@ export type TReportParams = {
   id_subject?: number
   id_teacher?: number
 }
+
+export type TNotificationByStudent = {
+  student: {
+    id: number
+    nis: string
+    name: string
+    phone: string
+  }
+  class: string
+  total: number
+  sent: number
+  notSent: number
+  sentRate: string
+}
+
+export type TNotificationDetail = {
+  id: string
+  date: string
+  student: {
+    id: number
+    nis: string
+    name: string
+    phone: string
+  }
+  class: string
+  subject: string
+  teacher: string
+  attendanceStatus: string
+  notificationSent: boolean
+  notificationDate: string | null
+}
+
+export type TNotificationReport = {
+  period: TReportPeriod
+  statistics: {
+    total: number
+    sent: number
+    notSent: number
+    sentRate: string
+  }
+  byStudent: TNotificationByStudent[]
+  details: TNotificationDetail[]
+}

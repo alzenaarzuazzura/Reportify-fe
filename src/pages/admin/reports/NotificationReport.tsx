@@ -1,39 +1,39 @@
-import { Card, Row, Col, Button, Radio, DatePicker, Table, Statistic, Form } from 'antd';
+import { Card, Row, Col, Button, Radio, DatePicker, Table, Statistic, Form, Tag } from 'antd';
 import { SearchOutlined, ReloadOutlined, CalendarOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
 
 import CmbLevel from '@reportify/components/Combos/CmbLevel';
 import CmbClass from '@reportify/components/Combos/CmbClass';
-import CmbSubject from '@reportify/components/Combos/CmbSubject';
+import CmbStudent from '@reportify/components/Combos/CmbStudent';
 
-import { TAssignmentBySubject, TAssignmentDetail } from '@reportify/types/data/report';
+import { TNotificationByStudent, TNotificationDetail } from '@reportify/types/data/report';
 import { tableWidth } from '@reportify/constant/tableWidth';
 
-import useAssignmentReport from './hooks/useAssignmentReport';
+import useNotificationReport from './hooks/useNotificationReport';
 
 const { RangePicker } = DatePicker;
 
-const AssignmentReport = () => {
+const NotificationReport = () => {
   const {
     form,
     periodType,
     dateRange,
     selectedLevel,
     selectedClass,
-    selectedSubject,
+    selectedStudent,
     data,
     isLoading,
     setPeriodType,
     setDateRange,
     setSelectedLevel,
     setSelectedClass,
-    setSelectedSubject,
+    setSelectedStudent,
     handleGenerate,
     handleReset,
-  } = useAssignmentReport();
+  } = useNotificationReport();
 
-  const summaryColumns: ColumnsType<TAssignmentBySubject> = [
+  const summaryColumns: ColumnsType<TNotificationByStudent> = [
     {
       title: 'No',
       width: tableWidth.no,
@@ -42,42 +42,63 @@ const AssignmentReport = () => {
       render: (_text, _record, index) => index + 1,
     },
     {
-      title: 'Mata Pelajaran',
-      dataIndex: ['subject', 'name'],
-      key: 'subject',
+      title: 'NIS',
+      dataIndex: ['student', 'nis'],
+      key: 'nis',
+      width: 100,
       ellipsis: true,
     },
     {
-      title: 'Total Jadwal',
+      title: 'Nama Siswa',
+      dataIndex: ['student', 'name'],
+      key: 'name',
+      ellipsis: true,
+    },
+    {
+      title: 'Kelas',
+      dataIndex: 'class',
+      key: 'class',
+      width: 120,
+      ellipsis: true,
+    },
+    {
+      title: 'No. Wali Murid',
+      dataIndex: ['student', 'phone'],
+      key: 'phone',
+      width: 140,
+      ellipsis: true,
+    },
+    {
+      title: 'Total',
       dataIndex: 'total',
       key: 'total',
       align: 'center',
-      width: 120,
+      width: 80,
     },
     {
-      title: 'Ada Tugas',
-      dataIndex: 'withAssignment',
-      key: 'withAssignment',
+      title: 'Terkirim',
+      dataIndex: 'sent',
+      key: 'sent',
       align: 'center',
-      width: 120,
+      width: 100,
     },
     {
-      title: 'Tidak Ada Tugas',
-      dataIndex: 'withoutAssignment',
-      key: 'withoutAssignment',
+      title: 'Belum Terkirim',
+      dataIndex: 'notSent',
+      key: 'notSent',
       align: 'center',
       width: 140,
     },
     {
-      title: 'Tingkat Penyelesaian',
-      dataIndex: 'completionRate',
-      key: 'completionRate',
+      title: 'Tingkat Pengiriman',
+      dataIndex: 'sentRate',
+      key: 'sentRate',
       align: 'center',
       width: 160,
       render: (rate: string) => {
         const rateNum = parseFloat(rate);
         return (
-          <span style={{ color: rateNum >= 70 ? '#52c41a' : '#f5222d', fontWeight: 600 }}>
+          <span style={{ color: rateNum >= 80 ? '#52c41a' : '#f5222d', fontWeight: 600 }}>
             {rate}%
           </span>
         );
@@ -85,7 +106,7 @@ const AssignmentReport = () => {
     },
   ];
 
-  const detailColumns: ColumnsType<TAssignmentDetail> = [
+  const detailColumns: ColumnsType<TNotificationDetail> = [
     {
       title: 'No',
       width: tableWidth.no,
@@ -101,9 +122,9 @@ const AssignmentReport = () => {
       render: (date: string) => dayjs(date).format('DD/MM/YYYY'),
     },
     {
-      title: 'Mata Pelajaran',
-      dataIndex: 'subject',
-      key: 'subject',
+      title: 'Siswa',
+      dataIndex: ['student', 'name'],
+      key: 'studentName',
       ellipsis: true,
     },
     {
@@ -114,28 +135,59 @@ const AssignmentReport = () => {
       ellipsis: true,
     },
     {
+      title: 'Mata Pelajaran',
+      dataIndex: 'subject',
+      key: 'subject',
+      ellipsis: true,
+    },
+    {
       title: 'Guru',
       dataIndex: 'teacher',
       key: 'teacher',
       ellipsis: true,
     },
     {
-      title: 'Status',
-      dataIndex: 'hasAssignment',
-      key: 'hasAssignment',
+      title: 'Status Kehadiran',
+      dataIndex: 'attendanceStatus',
+      key: 'attendanceStatus',
       align: 'center',
-      width: 120,
-      render: (has: boolean) => (
-        <span style={{ color: has ? '#52c41a' : '#f5222d', fontWeight: 600 }}>
-          {has ? 'Ada Tugas' : 'Tidak Ada'}
-        </span>
+      width: 140,
+      render: (status: string) => {
+        const colors: Record<string, string> = {
+          hadir: '#52c41a',
+          izin: '#1890ff',
+          alfa: '#f5222d',
+        };
+        const labels: Record<string, string> = {
+          hadir: 'Hadir',
+          izin: 'Izin',
+          alfa: 'Alfa',
+        };
+        return (
+          <span style={{ color: colors[status] || '#000', fontWeight: 600 }}>
+            {labels[status] || status}
+          </span>
+        );
+      },
+    },
+    {
+      title: 'Status Notifikasi',
+      dataIndex: 'notificationSent',
+      key: 'notificationSent',
+      align: 'center',
+      width: 140,
+      render: (sent: boolean) => (
+        <Tag color={sent ? 'success' : 'error'}>
+          {sent ? 'Terkirim' : 'Belum Terkirim'}
+        </Tag>
       ),
     },
     {
-      title: 'Tugas',
-      dataIndex: 'assignment',
-      key: 'assignment',
-      ellipsis: true,
+      title: 'Tanggal Kirim',
+      dataIndex: 'notificationDate',
+      key: 'notificationDate',
+      width: 120,
+      render: (date: string | null) => (date ? dayjs(date).format('DD/MM/YYYY') : '-'),
     },
   ];
 
@@ -176,6 +228,7 @@ const AssignmentReport = () => {
                   onChange={(value) => {
                     setSelectedLevel(value);
                     setSelectedClass(undefined);
+                    setSelectedStudent(undefined);
                   }}
                   allowClear
                 />
@@ -185,14 +238,21 @@ const AssignmentReport = () => {
             {/* Class Filter */}
             <Col xs={24} md={5}>
               <Form.Item label="Kelas (Opsional)" name="class">
-                <CmbClass value={selectedClass} onChange={setSelectedClass} allowClear />
+                <CmbClass
+                  value={selectedClass}
+                  onChange={(value) => {
+                    setSelectedClass(value);
+                    setSelectedStudent(undefined);
+                  }}
+                  allowClear
+                />
               </Form.Item>
             </Col>
 
-            {/* Subject Filter */}
+            {/* Student Filter */}
             <Col xs={24} md={6}>
-              <Form.Item label="Mata Pelajaran (Opsional)" name="subject">
-                <CmbSubject value={selectedSubject} onChange={setSelectedSubject} allowClear />
+              <Form.Item label="Siswa (Opsional)" name="student">
+                <CmbStudent value={selectedStudent} onChange={setSelectedStudent} allowClear />
               </Form.Item>
             </Col>
           </Row>
@@ -217,25 +277,26 @@ const AssignmentReport = () => {
       {data?.data && (
         <>
           <Row gutter={16} style={{ marginBottom: 24 }}>
-            <Col xs={24} sm={8}>
+            <Col xs={24} sm={6}>
               <Card>
-                <Statistic title="Total Jadwal" value={data.data.statistics.total} valueStyle={{ color: '#1890ff' }} />
+                <Statistic title="Total Notifikasi" value={data.data.statistics.total} valueStyle={{ color: '#1890ff' }} />
               </Card>
             </Col>
-            <Col xs={24} sm={8}>
+            <Col xs={24} sm={6}>
               <Card>
-                <Statistic
-                  title="Ada Tugas"
-                  value={data.data.statistics.withAssignment}
-                  valueStyle={{ color: '#52c41a' }}
-                />
+                <Statistic title="Terkirim" value={data.data.statistics.sent} valueStyle={{ color: '#52c41a' }} />
               </Card>
             </Col>
-            <Col xs={24} sm={8}>
+            <Col xs={24} sm={6}>
+              <Card>
+                <Statistic title="Belum Terkirim" value={data.data.statistics.notSent} valueStyle={{ color: '#f5222d' }} />
+              </Card>
+            </Col>
+            <Col xs={24} sm={6}>
               <Card>
                 <Statistic
-                  title="Tingkat Penyelesaian"
-                  value={data.data.statistics.completionRate}
+                  title="Tingkat Pengiriman"
+                  value={data.data.statistics.sentRate}
                   suffix="%"
                   valueStyle={{ color: '#52c41a' }}
                 />
@@ -244,12 +305,12 @@ const AssignmentReport = () => {
           </Row>
 
           {/* Summary Table */}
-          {data.data.bySubject.length > 0 && (
-            <Card title="Ringkasan Per Mata Pelajaran" style={{ marginBottom: 24, borderRadius: '12px' }}>
+          {data.data.byStudent.length > 0 && (
+            <Card title="Ringkasan Per Siswa" style={{ marginBottom: 24, borderRadius: '12px' }}>
               <Table
                 columns={summaryColumns}
-                dataSource={data.data.bySubject}
-                rowKey={(record) => record.subject.id}
+                dataSource={data.data.byStudent}
+                rowKey={(record) => record.student.id}
                 pagination={{ pageSize: 10 }}
                 scroll={{ x: 'max-content' }}
               />
@@ -257,7 +318,7 @@ const AssignmentReport = () => {
           )}
 
           {/* Detail Table */}
-          <Card title="Detail Tugas" style={{ borderRadius: '12px' }}>
+          <Card title="Detail Notifikasi" style={{ borderRadius: '12px' }}>
             <Table
               columns={detailColumns}
               dataSource={data.data.details}
@@ -272,4 +333,4 @@ const AssignmentReport = () => {
   );
 };
 
-export default AssignmentReport;
+export default NotificationReport;

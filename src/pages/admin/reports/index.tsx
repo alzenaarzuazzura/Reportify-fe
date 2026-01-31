@@ -1,25 +1,12 @@
 import { Tabs } from 'antd';
-import { FileTextOutlined, CheckSquareOutlined, UserOutlined, TeamOutlined, HomeOutlined, FileDoneOutlined } from '@ant-design/icons';
+import { CheckSquareOutlined, FileTextOutlined, WhatsAppOutlined } from '@ant-design/icons';
 
-import ComprehensiveReport from './ComprehensiveReport';
 import AttendanceReport from './AttendanceReport';
 import AssignmentReport from './AssignmentReport';
-import TeacherActivityReport from './TeacherActivityReport';
-import StudentPerformanceReport from './StudentPerformanceReport';
-import ClassSummaryReport from './ClassSummaryReport';
+import NotificationReport from './NotificationReport';
 
 const Reports = () => {
   const items = [
-    {
-      key: 'comprehensive',
-      label: (
-        <span>
-          <FileDoneOutlined />
-          Laporan Komprehensif
-        </span>
-      ),
-      children: <ComprehensiveReport />,
-    },
     {
       key: 'attendance',
       label: (
@@ -41,52 +28,34 @@ const Reports = () => {
       children: <AssignmentReport />,
     },
     {
-      key: 'teacher',
+      key: 'notification',
       label: (
         <span>
-          <UserOutlined />
-          Aktivitas Guru
+          <WhatsAppOutlined />
+          Laporan Chat Wali Murid
         </span>
       ),
-      children: <TeacherActivityReport />,
-    },
-    {
-      key: 'student',
-      label: (
-        <span>
-          <TeamOutlined />
-          Performa Siswa
-        </span>
-      ),
-      children: <StudentPerformanceReport />,
-    },
-    {
-      key: 'class',
-      label: (
-        <span>
-          <HomeOutlined />
-          Ringkasan Kelas
-        </span>
-      ),
-      children: <ClassSummaryReport />,
+      children: <NotificationReport />,
     },
   ];
 
   return (
     <div>
-      <h1 style={{ 
-        marginBottom: 24, 
-        fontSize: '24px', 
-        fontWeight: 700,
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        backgroundClip: 'text',
-      }}>
+      <h1
+        style={{
+          marginBottom: 24,
+          fontSize: '24px',
+          fontWeight: 700,
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+        }}
+      >
         📊 Laporan
       </h1>
-      <Tabs 
-        defaultActiveKey="comprehensive" 
+      <Tabs
+        defaultActiveKey="attendance"
         items={items}
         size="large"
         style={{

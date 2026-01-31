@@ -1,151 +1,183 @@
-import { useState } from 'react';
-import { Card, DatePicker, Button, Table, Statistic, Row, Col, Space, message } from 'antd';
-import { DownloadOutlined, SearchOutlined } from '@ant-design/icons';
-import { useQuery } from '@tanstack/react-query';
-import dayjs, { Dayjs } from 'dayjs';
+import { Card, Row, Col, Button, Radio, DatePicker, Table, Statistic, Form } from 'antd';
+import { SearchOutlined, ReloadOutlined, CalendarOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
+import dayjs from 'dayjs';
 
+import CmbLevel from '@reportify/components/Combos/CmbLevel';
 import CmbClass from '@reportify/components/Combos/CmbClass';
 import CmbStudent from '@reportify/components/Combos/CmbStudent';
 
-import { getAttendanceReport } from '@reportify/services/api/report';
 import { TAttendanceByStudent, TAttendanceDetail } from '@reportify/types/data/report';
+import { tableWidth } from '@reportify/constant/tableWidth';
+
+import useAttendanceReport from './hooks/useAttendanceReport';
 
 const { RangePicker } = DatePicker;
 
 const AttendanceReport = () => {
-  const [dateRange, setDateRange] = useState<[Dayjs, Dayjs]>([
-    dayjs().startOf('month'),
-    dayjs().endOf('month')
-  ]);
-  const [selectedClass, setSelectedClass] = useState<number | undefined>();
-  const [selectedStudent, setSelectedStudent] = useState<number | undefined>();
-  const [shouldFetch, setShouldFetch] = useState(false);
+  const {
+    form,
+    periodType,
+    dateRange,
+    selectedLevel,
+    selectedClass,
+    selectedStudent,
+    data,
+    isLoading,
+    setPeriodType,
+    setDateRange,
+    setSelectedLevel,
+    setSelectedClass,
+    setSelectedStudent,
+    handleGenerate,
+    handleReset,
+  } = useAttendanceReport();
 
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ['attendanceReport', dateRange, selectedClass, selectedStudent],
-    queryFn: () => getAttendanceReport({
-      startDate: dateRange[0].format('YYYY-MM-DD'),
-      endDate: dateRange[1].format('YYYY-MM-DD'),
-      id_class: selectedClass,
-      id_student: selectedStudent
-    }),
-    enabled: shouldFetch
-  });
-
-  const handleGenerate = () => {
-    if (!dateRange) {
-      message.error('Pilih rentang tanggal terlebih dahulu');
-      return;
-    }
-    setShouldFetch(true);
-    refetch();
-  };
-
-  const handleExport = () => {
-    message.info('Fitur export akan segera tersedia');
-  };
-
-  const studentColumns: ColumnsType<TAttendanceByStudent> = [
+  const summaryColumns: ColumnsType<TAttendanceByStudent> = [
+    {
+      title: 'No',
+      width: tableWidth.no,
+      align: 'center',
+      fixed: 'left',
+      render: (_text, _record, index) => index + 1,
+    },
     {
       title: 'NIS',
       dataIndex: ['student', 'nis'],
       key: 'nis',
+      width: 100,
+      ellipsis: true,
     },
     {
       title: 'Nama Siswa',
       dataIndex: ['student', 'name'],
       key: 'name',
+      ellipsis: true,
     },
     {
       title: 'Kelas',
       dataIndex: ['student', 'class'],
       key: 'class',
+      width: 120,
+      ellipsis: true,
     },
     {
       title: 'Total',
       dataIndex: 'total',
       key: 'total',
       align: 'center',
+      width: 80,
     },
     {
       title: 'Hadir',
       dataIndex: 'hadir',
       key: 'hadir',
       align: 'center',
-    },
-    {
-      title: 'Sakit',
-      dataIndex: 'sakit',
-      key: 'sakit',
-      align: 'center',
+      width: 80,
     },
     {
       title: 'Izin',
       dataIndex: 'izin',
       key: 'izin',
       align: 'center',
+      width: 80,
     },
     {
-      title: 'Alpha',
+      title: 'Sakit',
+      dataIndex: 'sakit',
+      key: 'sakit',
+      align: 'center',
+      width: 80,
+    },
+    {
+      title: 'Alfa',
       dataIndex: 'alpha',
       key: 'alpha',
       align: 'center',
+      width: 80,
+      render: (alpha: number) => (
+        <span style={{ color: alpha >= 3 ? '#f5222d' : 'inherit', fontWeight: alpha >= 3 ? 600 : 400 }}>
+          {alpha}
+        </span>
+      ),
     },
     {
-      title: 'Tingkat Kehadiran',
+      title: 'Kehadiran',
       dataIndex: 'attendanceRate',
       key: 'attendanceRate',
       align: 'center',
-      render: (rate: string) => `${rate}%`,
+      width: 100,
+      render: (rate: string) => {
+        const rateNum = parseFloat(rate);
+        return (
+          <span style={{ color: rateNum >= 75 ? '#52c41a' : '#f5222d', fontWeight: 600 }}>
+            {rate}%
+          </span>
+        );
+      },
     },
   ];
 
   const detailColumns: ColumnsType<TAttendanceDetail> = [
     {
+      title: 'No',
+      width: tableWidth.no,
+      align: 'center',
+      fixed: 'left',
+      render: (_text, _record, index) => index + 1,
+    },
+    {
       title: 'Tanggal',
       dataIndex: 'date',
       key: 'date',
+      width: 100,
       render: (date: string) => dayjs(date).format('DD/MM/YYYY'),
     },
     {
       title: 'Siswa',
       dataIndex: ['student', 'name'],
       key: 'studentName',
+      ellipsis: true,
     },
     {
       title: 'Kelas',
       dataIndex: 'class',
       key: 'class',
+      width: 120,
+      ellipsis: true,
     },
     {
       title: 'Mata Pelajaran',
       dataIndex: 'subject',
       key: 'subject',
+      ellipsis: true,
     },
     {
       title: 'Guru',
       dataIndex: 'teacher',
       key: 'teacher',
+      ellipsis: true,
     },
     {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
       align: 'center',
+      width: 100,
       render: (status: string) => {
         const colors: Record<string, string> = {
-          Hadir: '#52c41a',
-          Sakit: '#faad14',
-          Izin: '#1890ff',
-          Alpha: '#f5222d'
+          hadir: '#52c41a',
+          izin: '#1890ff',
+          alfa: '#f5222d',
+        };
+        const labels: Record<string, string> = {
+          hadir: 'Hadir',
+          izin: 'Izin',
+          alfa: 'Alfa',
         };
         return (
-          <span style={{ 
-            color: colors[status] || '#000',
-            fontWeight: 600
-          }}>
-            {status}
+          <span style={{ color: colors[status] || '#000', fontWeight: 600 }}>
+            {labels[status] || status}
           </span>
         );
       },
@@ -160,108 +192,119 @@ const AttendanceReport = () => {
 
   return (
     <div>
+      {/* Filter Section */}
       <Card style={{ marginBottom: 24, borderRadius: '12px' }}>
-        <Space direction="vertical" size="large" style={{ width: '100%' }}>
-          <Row gutter={16}>
+        <Form form={form} layout="vertical">
+          <Row gutter={[16, 16]}>
+            {/* Period Type */}
+            <Col xs={24}>
+              <Form.Item label={<><CalendarOutlined /> Periode Laporan</>}>
+                <Radio.Group value={periodType} onChange={(e) => setPeriodType(e.target.value)} buttonStyle="solid">
+                  <Radio.Button value="daily">Harian</Radio.Button>
+                  <Radio.Button value="weekly">Mingguan</Radio.Button>
+                  <Radio.Button value="monthly">Bulanan</Radio.Button>
+                </Radio.Group>
+              </Form.Item>
+            </Col>
+
+            {/* Date Range */}
             <Col xs={24} md={8}>
-              <label style={{ display: 'block', marginBottom: 8, fontWeight: 500 }}>
-                Rentang Tanggal
-              </label>
-              <RangePicker
-                value={dateRange}
-                onChange={(dates) => dates && setDateRange(dates as [Dayjs, Dayjs])}
-                format="DD/MM/YYYY"
-                style={{ width: '100%' }}
-              />
+              <Form.Item label="Rentang Tanggal">
+                <RangePicker
+                  value={dateRange}
+                  onChange={(dates) => dates && setDateRange(dates as [dayjs.Dayjs, dayjs.Dayjs])}
+                  format="DD/MM/YYYY"
+                  style={{ width: '100%' }}
+                />
+              </Form.Item>
             </Col>
+
+            {/* Level Filter */}
+            <Col xs={24} md={5}>
+              <Form.Item label="Tingkat (Opsional)" name="level">
+                <CmbLevel
+                  value={selectedLevel}
+                  onChange={(value) => {
+                    setSelectedLevel(value);
+                    setSelectedClass(undefined);
+                    setSelectedStudent(undefined);
+                  }}
+                  allowClear
+                />
+              </Form.Item>
+            </Col>
+
+            {/* Class Filter */}
+            <Col xs={24} md={5}>
+              <Form.Item label="Kelas (Opsional)" name="class">
+                <CmbClass
+                  value={selectedClass}
+                  onChange={(value) => {
+                    setSelectedClass(value);
+                    setSelectedStudent(undefined);
+                  }}
+                  allowClear
+                />
+              </Form.Item>
+            </Col>
+
+            {/* Student Filter */}
             <Col xs={24} md={6}>
-              <label style={{ display: 'block', marginBottom: 8, fontWeight: 500 }}>
-                Kelas (Opsional)
-              </label>
-              <CmbClass
-                value={selectedClass}
-                onChange={(value) => setSelectedClass(value)}
-                allowClear
-              />
+              <Form.Item label="Siswa (Opsional)" name="student">
+                <CmbStudent value={selectedStudent} onChange={setSelectedStudent} allowClear />
+              </Form.Item>
             </Col>
-            <Col xs={24} md={6}>
-              <label style={{ display: 'block', marginBottom: 8, fontWeight: 500 }}>
-                Siswa (Opsional)
-              </label>
-              <CmbStudent
-                value={selectedStudent}
-                onChange={(value) => setSelectedStudent(value)}
-                allowClear
-              />
+          </Row>
+
+          {/* Action Buttons */}
+          <Row gutter={16}>
+            <Col>
+              <Button type="primary" icon={<SearchOutlined />} onClick={handleGenerate} loading={isLoading}>
+                Generate Laporan
+              </Button>
             </Col>
-            <Col xs={24} md={4}>
-              <label style={{ display: 'block', marginBottom: 8, opacity: 0 }}>Action</label>
-              <Button
-                type="primary"
-                icon={<SearchOutlined />}
-                onClick={handleGenerate}
-                loading={isLoading}
-                block
-              >
-                Generate
+            <Col>
+              <Button icon={<ReloadOutlined />} onClick={handleReset}>
+                Reset
               </Button>
             </Col>
           </Row>
-        </Space>
+        </Form>
       </Card>
 
+      {/* Statistics Cards */}
       {data?.data && (
         <>
           <Row gutter={16} style={{ marginBottom: 24 }}>
-            <Col xs={12} sm={6}>
+            <Col xs={12} sm={8} md={4}>
               <Card>
-                <Statistic
-                  title="Total Kehadiran"
-                  value={data.data.statistics.total}
-                  valueStyle={{ color: '#1890ff' }}
-                />
+                <Statistic title="Total" value={data.data.statistics.total} valueStyle={{ color: '#1890ff' }} />
               </Card>
             </Col>
-            <Col xs={12} sm={6}>
+            <Col xs={12} sm={8} md={4}>
               <Card>
-                <Statistic
-                  title="Hadir"
-                  value={data.data.statistics.hadir}
-                  valueStyle={{ color: '#52c41a' }}
-                />
+                <Statistic title="Hadir" value={data.data.statistics.hadir} valueStyle={{ color: '#52c41a' }} />
               </Card>
             </Col>
-            <Col xs={12} sm={6}>
+            <Col xs={12} sm={8} md={4}>
               <Card>
-                <Statistic
-                  title="Sakit"
-                  value={data.data.statistics.sakit}
-                  valueStyle={{ color: '#faad14' }}
-                />
+                <Statistic title="Izin" value={data.data.statistics.izin} valueStyle={{ color: '#1890ff' }} />
               </Card>
             </Col>
-            <Col xs={12} sm={6}>
+            <Col xs={12} sm={8} md={4}>
               <Card>
-                <Statistic
-                  title="Izin"
-                  value={data.data.statistics.izin}
-                  valueStyle={{ color: '#1890ff' }}
-                />
+                <Statistic title="Sakit" value={data.data.statistics.sakit} valueStyle={{ color: '#faad14' }} />
               </Card>
             </Col>
-            <Col xs={12} sm={6}>
+            <Col xs={12} sm={8} md={4}>
               <Card>
-                <Statistic
-                  title="Alpha"
-                  value={data.data.statistics.alpha}
-                  valueStyle={{ color: '#f5222d' }}
-                />
+                <Statistic title="Alfa" value={data.data.statistics.alpha} valueStyle={{ color: '#f5222d' }} />
               </Card>
             </Col>
-            <Col xs={12} sm={6}>
+            <Col xs={12} sm={8} md={4}>
               <Card>
                 <Statistic
-                  title="Tingkat Kehadiran"
+                  title="Kehadiran"
                   value={data.data.statistics.attendanceRate}
                   suffix="%"
                   valueStyle={{ color: '#52c41a' }}
@@ -270,18 +313,11 @@ const AttendanceReport = () => {
             </Col>
           </Row>
 
+          {/* Summary Table */}
           {data.data.byStudent.length > 0 && (
-            <Card 
-              title="Ringkasan Per Siswa" 
-              style={{ marginBottom: 24, borderRadius: '12px' }}
-              extra={
-                <Button icon={<DownloadOutlined />} onClick={handleExport}>
-                  Export
-                </Button>
-              }
-            >
+            <Card title="Ringkasan Per Siswa" style={{ marginBottom: 24, borderRadius: '12px' }}>
               <Table
-                columns={studentColumns}
+                columns={summaryColumns}
                 dataSource={data.data.byStudent}
                 rowKey={(record) => record.student.id}
                 pagination={{ pageSize: 10 }}
@@ -290,15 +326,8 @@ const AttendanceReport = () => {
             </Card>
           )}
 
-          <Card 
-            title="Detail Kehadiran" 
-            style={{ borderRadius: '12px' }}
-            extra={
-              <Button icon={<DownloadOutlined />} onClick={handleExport}>
-                Export
-              </Button>
-            }
-          >
+          {/* Detail Table */}
+          <Card title="Detail Kehadiran" style={{ borderRadius: '12px' }}>
             <Table
               columns={detailColumns}
               dataSource={data.data.details}

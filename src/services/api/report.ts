@@ -33,3 +33,8 @@ export const getClassSummaryReport = async (params: TReportParams): Promise<TRes
   const res = await api.get<TResponseData<TClassSummaryReport>>('/reports/class-summary', { params });
   return res.data;
 };
+
+export const getNotificationReport = async (params: TReportParams): Promise<TResponseData<TNotificationReport>> => {
+  const res = await api.get<TResponseData<TNotificationReport>>('/reports/notification', { params });
+  return res.data;
+};

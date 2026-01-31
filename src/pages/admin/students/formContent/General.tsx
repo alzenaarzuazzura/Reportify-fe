@@ -7,7 +7,6 @@ import RequiredMark from "@reportify/components/RequiredMark"
 import { rules } from "@reportify/utils/rules"
 
 import { TStudentGeneralParams } from "@reportify/types"
-import { numberOnlyKeyDown } from "@reportify/utils/Help"
 
 const General = ({ viewMode }: TStudentGeneralParams) => {
     const intl = useIntl()
@@ -66,7 +65,7 @@ const General = ({ viewMode }: TStudentGeneralParams) => {
                             rules.required(intl.formatMessage({ id: 'global.rulesfield' }))
                         ]}
                     >
-                        <Input placeholder={intl.formatMessage({ id: 'input.exTelephone' })} disabled={viewMode} onKeyDown={(e) => numberOnlyKeyDown(e)}/>
+                        <Input placeholder={intl.formatMessage({ id: 'input.exTelephone' })} disabled={viewMode}/>
                     </Form.Item>
                 </div>
                 <div className="col-sm-6 col-lg-3">
@@ -74,7 +73,7 @@ const General = ({ viewMode }: TStudentGeneralParams) => {
                         name='student_telephone' 
                         label={intl.formatMessage({ id: 'field.studenttlp' })}
                     >
-                        <Input placeholder={intl.formatMessage({ id: 'input.exTelephone' })} disabled={viewMode} onKeyDown={(e) => numberOnlyKeyDown(e)}/>
+                        <Input placeholder={intl.formatMessage({ id: 'input.exTelephone' })} disabled={viewMode}/>
                     </Form.Item>
                 </div>
             </div>
