@@ -3,7 +3,6 @@ import { SearchOutlined, ReloadOutlined, CalendarOutlined } from '@ant-design/ic
 import { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
 
-import CmbLevel from '@reportify/components/Combos/CmbLevel';
 import CmbClass from '@reportify/components/Combos/CmbClass';
 import CmbSubject from '@reportify/components/Combos/CmbSubject';
 
@@ -19,14 +18,12 @@ const AssignmentReport = () => {
     form,
     periodType,
     dateRange,
-    selectedLevel,
     selectedClass,
     selectedSubject,
     data,
     isLoading,
     setPeriodType,
     setDateRange,
-    setSelectedLevel,
     setSelectedClass,
     setSelectedSubject,
     handleGenerate,
@@ -199,31 +196,17 @@ const AssignmentReport = () => {
               </Form.Item>
             </Col>
 
-            {/* Level Filter */}
-            <Col xs={24} md={5}>
-              <Form.Item label="Tingkat (Opsional)" name="level">
-                <CmbLevel
-                  value={selectedLevel}
-                  onChange={(value) => {
-                    setSelectedLevel(value);
-                    setSelectedClass(undefined);
-                  }}
-                  allowClear
-                />
-              </Form.Item>
-            </Col>
-
             {/* Class Filter */}
-            <Col xs={24} md={5}>
+            <Col xs={24} md={8}>
               <Form.Item label="Kelas (Opsional)" name="class">
-                <CmbClass value={selectedClass} onChange={setSelectedClass} allowClear />
+                <CmbClass value={selectedClass} onChange={setSelectedClass} allowClear labelInValue={false} />
               </Form.Item>
             </Col>
 
             {/* Subject Filter */}
-            <Col xs={24} md={6}>
+            <Col xs={24} md={8}>
               <Form.Item label="Mata Pelajaran (Opsional)" name="subject">
-                <CmbSubject value={selectedSubject} onChange={setSelectedSubject} allowClear />
+                <CmbSubject value={selectedSubject} onChange={setSelectedSubject} allowClear labelInValue={false} />
               </Form.Item>
             </Col>
           </Row>

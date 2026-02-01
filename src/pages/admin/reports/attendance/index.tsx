@@ -3,9 +3,7 @@ import { SearchOutlined, ReloadOutlined, CalendarOutlined } from '@ant-design/ic
 import { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
 
-import CmbLevel from '@reportify/components/Combos/CmbLevel';
 import CmbClass from '@reportify/components/Combos/CmbClass';
-import CmbStudent from '@reportify/components/Combos/CmbStudent';
 
 import { TAttendanceByStudent, TAttendanceDetail } from '@reportify/types/data/report';
 import { tableWidth } from '@reportify/constant/tableWidth';
@@ -19,16 +17,12 @@ const AttendanceReport = () => {
     form,
     periodType,
     dateRange,
-    selectedLevel,
     selectedClass,
-    selectedStudent,
     data,
     isLoading,
     setPeriodType,
     setDateRange,
-    setSelectedLevel,
     setSelectedClass,
-    setSelectedStudent,
     handleGenerate,
     handleReset,
   } = useAttendanceReport();
@@ -208,7 +202,7 @@ const AttendanceReport = () => {
             </Col>
 
             {/* Date Range */}
-            <Col xs={24} md={8}>
+            <Col xs={24} md={12}>
               <Form.Item label="Rentang Tanggal">
                 <RangePicker
                   value={dateRange}
@@ -219,39 +213,15 @@ const AttendanceReport = () => {
               </Form.Item>
             </Col>
 
-            {/* Level Filter */}
-            <Col xs={24} md={5}>
-              <Form.Item label="Tingkat (Opsional)" name="level">
-                <CmbLevel
-                  value={selectedLevel}
-                  onChange={(value) => {
-                    setSelectedLevel(value);
-                    setSelectedClass(undefined);
-                    setSelectedStudent(undefined);
-                  }}
-                  allowClear
-                />
-              </Form.Item>
-            </Col>
-
             {/* Class Filter */}
-            <Col xs={24} md={5}>
+            <Col xs={24} md={12}>
               <Form.Item label="Kelas (Opsional)" name="class">
                 <CmbClass
                   value={selectedClass}
-                  onChange={(value) => {
-                    setSelectedClass(value);
-                    setSelectedStudent(undefined);
-                  }}
+                  onChange={setSelectedClass}
                   allowClear
+                  labelInValue={false}
                 />
-              </Form.Item>
-            </Col>
-
-            {/* Student Filter */}
-            <Col xs={24} md={6}>
-              <Form.Item label="Siswa (Opsional)" name="student">
-                <CmbStudent value={selectedStudent} onChange={setSelectedStudent} allowClear />
               </Form.Item>
             </Col>
           </Row>

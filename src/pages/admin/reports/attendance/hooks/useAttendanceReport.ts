@@ -14,14 +14,12 @@ const useAttendanceReport = () => {
 
   const [periodType, setPeriodType] = useState<TPeriodType>('daily');
   const [dateRange, setDateRange] = useState<[Dayjs, Dayjs]>([dayjs(), dayjs()]);
-  const [selectedLevel, setSelectedLevel] = useState<number | undefined>();
   const [selectedClass, setSelectedClass] = useState<number | undefined>();
-  const [selectedStudent, setSelectedStudent] = useState<number | undefined>();
   const [shouldFetch, setShouldFetch] = useState(false);
 
   // Query with proper dependency tracking
   const { data, isLoading, refetch, isFetching } = useQuery({
-    queryKey: ['attendanceReport', dateRange, selectedClass, selectedStudent],
+    queryKey: ['attendanceReport', dateRange, selectedClass],
     queryFn: () => {
       // Build params object with proper typing
       const params: TReportParams = {
@@ -31,10 +29,6 @@ const useAttendanceReport = () => {
 
       if (selectedClass) {
         params.id_class = selectedClass;
-      }
-
-      if (selectedStudent) {
-        params.id_student = selectedStudent;
       }
 
       return getAttendanceReport(params);
@@ -73,9 +67,7 @@ const useAttendanceReport = () => {
 
   const handleReset = () => {
     form.resetFields();
-    setSelectedLevel(undefined);
     setSelectedClass(undefined);
-    setSelectedStudent(undefined);
     setShouldFetch(false);
     setDateRange([dayjs(), dayjs()]);
     setPeriodType('daily');
@@ -85,16 +77,12 @@ const useAttendanceReport = () => {
     form,
     periodType,
     dateRange,
-    selectedLevel,
     selectedClass,
-    selectedStudent,
     data,
     isLoading: isLoading || isFetching,
     setPeriodType: handlePeriodChange,
     setDateRange,
-    setSelectedLevel,
     setSelectedClass,
-    setSelectedStudent,
     handleGenerate,
     handleReset,
   };

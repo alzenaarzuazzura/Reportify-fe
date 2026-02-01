@@ -11,7 +11,7 @@ export default defineConfig({
   },
     server: {
     allowedHosts: [
-      'tehpucuk.devops.my.id',       // allows my-app.com   // relevant for Docker setups where hostnames are container names
+      '5173.devops.my.id',       // allows my-app.com   // relevant for Docker setups where hostnames are container names
     ]
   },
 });

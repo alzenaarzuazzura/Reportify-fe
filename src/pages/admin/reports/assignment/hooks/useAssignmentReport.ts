@@ -14,7 +14,6 @@ const useAssignmentReport = () => {
 
   const [periodType, setPeriodType] = useState<TPeriodType>('daily');
   const [dateRange, setDateRange] = useState<[Dayjs, Dayjs]>([dayjs(), dayjs()]);
-  const [selectedLevel, setSelectedLevel] = useState<number | undefined>();
   const [selectedClass, setSelectedClass] = useState<number | undefined>();
   const [selectedSubject, setSelectedSubject] = useState<number | undefined>();
   const [shouldFetch, setShouldFetch] = useState(false);
@@ -73,7 +72,6 @@ const useAssignmentReport = () => {
 
   const handleReset = () => {
     form.resetFields();
-    setSelectedLevel(undefined);
     setSelectedClass(undefined);
     setSelectedSubject(undefined);
     setShouldFetch(false);
@@ -85,14 +83,12 @@ const useAssignmentReport = () => {
     form,
     periodType,
     dateRange,
-    selectedLevel,
     selectedClass,
     selectedSubject,
     data,
     isLoading: isLoading || isFetching,
     setPeriodType: handlePeriodChange,
     setDateRange,
-    setSelectedLevel,
     setSelectedClass,
     setSelectedSubject,
     handleGenerate,
