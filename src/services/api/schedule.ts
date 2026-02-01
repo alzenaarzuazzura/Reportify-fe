@@ -30,3 +30,32 @@ export const update = async (payload: TUpdateWithIDPayload<TSchedulePostData>): 
   )
   return res.data
 }
+
+type TCheckExistingResponse = {
+  status: boolean
+  message: string
+  data: {
+    hasConflict: boolean
+    conflicts?: Array<{
+      id: number
+      teacher: string
+      class: string
+      subject: string
+      day: string
+      start_time: string
+      end_time: string
+      room: string
+    }>
+  }
+}
+
+export const checkExisting = async (day: string, start_time: string, end_time: string, excludeId?: number): Promise<boolean> => {
+  try {
+    const res = await api.get<TCheckExistingResponse>('/schedules/check', {
+      params: { day, start_time, end_time, exclude_id: excludeId }
+    })
+    return res.data.data?.hasConflict || false
+  } catch {
+    return false
+  }
+}

@@ -6,10 +6,11 @@ import CmbTeachingAssignment from "@reportify/components/Combos/CmbTeachingAssig
 import RequiredMark from "@reportify/components/RequiredMark"
 
 import { rules } from "@reportify/utils/rules"
+import { checkExisting } from "@reportify/services/api/schedule"
 
 import { TScheduleGeneralParams } from "@reportify/types"
 
-const General = ({ viewMode }: TScheduleGeneralParams) => {
+const General = ({ viewMode, formInstance, excludeId }: TScheduleGeneralParams) => {
     const intl = useIntl()
 
     const dayOptions = [
@@ -20,6 +21,29 @@ const General = ({ viewMode }: TScheduleGeneralParams) => {
         { label: 'Jumat', value: 'jumat' },
         { label: 'Sabtu', value: 'sabtu' },
     ]
+
+    // Custom validator for time conflict
+    const validateTimeConflict = async (_: any, value: any) => {
+        if (!value || viewMode) {
+            return Promise.resolve()
+        }
+
+        const day = formInstance?.getFieldValue('day')
+        const startTime = formInstance?.getFieldValue('start_time')
+        const endTime = formInstance?.getFieldValue('end_time')
+
+        // Only validate when all fields are filled
+        if (day && startTime && endTime) {
+            const exists = await checkExisting(day, startTime, endTime, excludeId)
+            if (exists) {
+                return Promise.reject(
+                    new Error('Jadwal bentrok! Sudah ada guru lain yang mengajar di hari dan jam yang sama.')
+                )
+            }
+        }
+
+        return Promise.resolve()
+    }
 
     return (
         <div className="row">
@@ -44,8 +68,10 @@ const General = ({ viewMode }: TScheduleGeneralParams) => {
                         <RequiredMark prefix={intl.formatMessage({ id: 'field.day' })} />
                     }
                     rules={[
-                        rules.required(intl.formatMessage({ id: 'global.rulesfield' }))
+                        rules.required(intl.formatMessage({ id: 'global.rulesfield' })),
+                        { validator: validateTimeConflict }
                     ]}
+                    dependencies={['start_time', 'end_time']}
                 >
                     <Select 
                         disabled={viewMode}
@@ -76,8 +102,10 @@ const General = ({ viewMode }: TScheduleGeneralParams) => {
                         <RequiredMark prefix={intl.formatMessage({ id: 'field.starttime' })} />
                     }
                     rules={[
-                        rules.required(intl.formatMessage({ id: 'global.rulesfield' }))
+                        rules.required(intl.formatMessage({ id: 'global.rulesfield' })),
+                        { validator: validateTimeConflict }
                     ]}
+                    dependencies={['day', 'end_time']}
                     getValueProps={(value) => ({
                         value: value ? dayjs(value, 'HH:mm:ss') : undefined,
                     })}
@@ -96,8 +124,10 @@ const General = ({ viewMode }: TScheduleGeneralParams) => {
                         <RequiredMark prefix={intl.formatMessage({ id: 'field.endtime' })} />
                     }
                     rules={[
-                        rules.required(intl.formatMessage({ id: 'global.rulesfield' }))
+                        rules.required(intl.formatMessage({ id: 'global.rulesfield' })),
+                        { validator: validateTimeConflict }
                     ]}
+                    dependencies={['day', 'start_time']}
                     getValueProps={(value) => ({
                         value: value ? dayjs(value, 'HH:mm:ss') : undefined,
                     })}

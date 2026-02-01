@@ -24,7 +24,9 @@ import LinkTable from '@reportify/components/LinkTable';
 const defaultFilter: TScheduleListParams = {
   ...defaultFilterSortMaster,
   page: 1,
-  limit: 20
+  limit: 20,
+  order: 'day',
+  sort: 'asc'
 }
 
 const ScheduleList = () => {

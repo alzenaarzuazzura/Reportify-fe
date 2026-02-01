@@ -6,6 +6,7 @@ import { TLabelValue } from "../global"
 export type TScheduleGeneralParams = {
     viewMode: boolean
     formInstance: FormInstance
+    excludeId?: number
 }
 
 export type TScheduleListForm = {

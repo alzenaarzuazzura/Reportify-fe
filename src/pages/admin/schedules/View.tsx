@@ -62,6 +62,7 @@ const View = ({ isOnEdit = false }) => {
             onSubmit={onSubmit}
             initialValues={data?.data}
             viewMode={!isOnEdit}
+            excludeId={isOnEdit ? data?.data.id : undefined}
         />           
     </div>    
   )
