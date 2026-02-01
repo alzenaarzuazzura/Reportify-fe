@@ -7,13 +7,18 @@ import { TTeachingAssignmentTransForm, TFormTransParams } from "@reportify/types
 
 import General from "./formContent/General"
 
+type TFormProps = TFormTransParams<TTeachingAssignmentTransForm> & {
+  excludeId?: number
+}
+
 const Form = ({
   formInstance,
   initialValues,
   onSubmit,
   onCancel,
   viewMode = false,
-}: TFormTransParams<TTeachingAssignmentTransForm>) => {
+  excludeId,
+}: TFormProps) => {
   const intl = useIntl()
 
   return (
@@ -32,7 +37,7 @@ const Form = ({
               label: intl.formatMessage({ id: 'field.general' }),
               key: 'general',
               className: 'pb-3',
-              children: <General viewMode={viewMode} formInstance={formInstance} />
+              children: <General viewMode={viewMode} formInstance={formInstance} excludeId={excludeId} />
             }
           ]}
         />

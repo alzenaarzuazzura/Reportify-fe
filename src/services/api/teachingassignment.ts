@@ -30,3 +30,28 @@ export const update = async (payload: TUpdateWithIDPayload<TTeachingAssignmentPo
   )
   return res.data
 }
+
+type TCheckExistingResponse = {
+  status: boolean
+  message: string
+  data: {
+    exists: boolean
+    assignment?: {
+      id: number
+      teacher: string
+      class: string
+      subject: string
+    }
+  }
+}
+
+export const checkExisting = async (id_class: number, id_subject: number, excludeId?: number): Promise<boolean> => {
+  try {
+    const res = await api.get<TCheckExistingResponse>('/teaching-assignments/check', {
+      params: { id_class, id_subject, exclude_id: excludeId }
+    })
+    return res.data.data?.exists || false
+  } catch {
+    return false
+  }
+}

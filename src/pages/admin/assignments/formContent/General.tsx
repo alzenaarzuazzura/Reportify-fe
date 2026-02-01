@@ -6,9 +6,32 @@ import { TTeachingAssignmentGeneralParams } from "@reportify/types"
 import { rules } from "@reportify/utils/rules"
 import { Form } from "antd"
 import { useIntl } from "react-intl"
+import { checkExisting } from "@reportify/services/api/teachingassignment"
 
-const General = ({ viewMode }: TTeachingAssignmentGeneralParams) => {
+const General = ({ viewMode, formInstance, excludeId }: TTeachingAssignmentGeneralParams) => {
     const intl = useIntl()
+
+    // Custom validator for class + subject combination
+    const validateClassSubjectCombination = async (_: any, value: any) => {
+        if (!value || viewMode) {
+            return Promise.resolve()
+        }
+
+        const idClass = formInstance?.getFieldValue('id_class')?.value
+        const idSubject = formInstance?.getFieldValue('id_subject')?.value
+
+        // Only validate when both class and subject are selected
+        if (idClass && idSubject) {
+            const exists = await checkExisting(idClass, idSubject, excludeId)
+            if (exists) {
+                return Promise.reject(
+                    new Error('Kombinasi kelas dan mata pelajaran ini sudah ada penugasan!')
+                )
+            }
+        }
+
+        return Promise.resolve()
+    }
 
     return (
         <div className="row">
@@ -33,8 +56,10 @@ const General = ({ viewMode }: TTeachingAssignmentGeneralParams) => {
                         <RequiredMark prefix={intl.formatMessage({ id: 'field.class' })} />
                     }
                     rules={[
-                        rules.required(intl.formatMessage({ id: 'global.rulesfield' }))
+                        rules.required(intl.formatMessage({ id: 'global.rulesfield' })),
+                        { validator: validateClassSubjectCombination }
                     ]}
+                    dependencies={['id_subject']}
                 >
                     <CmbClass 
                         disabled={viewMode}
@@ -47,8 +72,10 @@ const General = ({ viewMode }: TTeachingAssignmentGeneralParams) => {
                         <RequiredMark prefix={intl.formatMessage({ id: 'menu.subjects' })} />
                     }
                     rules={[
-                        rules.required(intl.formatMessage({ id: 'global.rulesfield' }))
+                        rules.required(intl.formatMessage({ id: 'global.rulesfield' })),
+                        { validator: validateClassSubjectCombination }
                     ]}
+                    dependencies={['id_class']}
                 >
                     <CmbSubject 
                         disabled={viewMode}
