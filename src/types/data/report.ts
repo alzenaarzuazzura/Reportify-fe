@@ -76,6 +76,20 @@ export type TAssignmentDetail = {
   subject: string
   teacher: string
   class: string
+  totalStudents: number
+  submittedCount: number
+  notSubmittedCount: number
+  submittedStudents: Array<{
+    id: number
+    nis: string
+    name: string
+    submittedAt: string
+  }>
+  notSubmittedStudents: Array<{
+    id: number
+    nis: string
+    name: string
+  }>
 }
 
 export type TAssignmentReport = {

@@ -19,7 +19,7 @@ const StudentTable = ({ data }: StudentTableProps) => {
       key: 'nis',
       className: 'center-header-right-content',
       render: (text, record) => (
-        <LinkTable to={`/students/view/${record.id}`}>{text}</LinkTable>
+        <LinkTable to={`admin/students/view/${record.id}`}>{text}</LinkTable>
       )               
     },
     {
@@ -28,7 +28,7 @@ const StudentTable = ({ data }: StudentTableProps) => {
       key: 'name',
       className: 'center-header-left-content',
       render: (text, record) => (
-        <LinkTable to={`/students/view/${record.id}`}>{text}</LinkTable>
+        <LinkTable to={`admin/students/view/${record.id}`}>{text}</LinkTable>
       )         
     },
     {

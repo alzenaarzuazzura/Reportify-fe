@@ -3,6 +3,7 @@ import { Form } from 'antd';
 import { useQuery } from '@tanstack/react-query';
 import dayjs, { Dayjs } from 'dayjs';
 import { getAttendanceReport } from '@reportify/services/api/report';
+import { TReportParams } from '@reportify/types/data/report';
 import usePopupMessage from '@reportify/hooks/ui/usePopupMessage';
 
 export type TPeriodType = 'daily' | 'weekly' | 'monthly';
@@ -18,16 +19,29 @@ const useAttendanceReport = () => {
   const [selectedStudent, setSelectedStudent] = useState<number | undefined>();
   const [shouldFetch, setShouldFetch] = useState(false);
 
-  const { data, isLoading, refetch } = useQuery({
+  // Query with proper dependency tracking
+  const { data, isLoading, refetch, isFetching } = useQuery({
     queryKey: ['attendanceReport', dateRange, selectedClass, selectedStudent],
-    queryFn: () =>
-      getAttendanceReport({
+    queryFn: () => {
+      // Build params object with proper typing
+      const params: TReportParams = {
         startDate: dateRange[0].format('YYYY-MM-DD'),
         endDate: dateRange[1].format('YYYY-MM-DD'),
-        id_class: selectedClass,
-        id_student: selectedStudent,
-      }),
+      };
+
+      if (selectedClass) {
+        params.id_class = selectedClass;
+      }
+
+      if (selectedStudent) {
+        params.id_student = selectedStudent;
+      }
+
+      return getAttendanceReport(params);
+    },
     enabled: shouldFetch,
+    staleTime: 0, // Always fetch fresh data
+    gcTime: 0, // Don't cache results (replaces cacheTime in newer versions)
   });
 
   const handlePeriodChange = (type: TPeriodType) => {
@@ -48,10 +62,11 @@ const useAttendanceReport = () => {
   };
 
   const handleGenerate = () => {
-    if (!dateRange) {
+    if (!dateRange || !dateRange[0] || !dateRange[1]) {
       showMessage('error', 'Pilih rentang tanggal terlebih dahulu');
       return;
     }
+
     setShouldFetch(true);
     refetch();
   };
@@ -62,6 +77,8 @@ const useAttendanceReport = () => {
     setSelectedClass(undefined);
     setSelectedStudent(undefined);
     setShouldFetch(false);
+    setDateRange([dayjs(), dayjs()]);
+    setPeriodType('daily');
   };
 
   return {
@@ -72,7 +89,7 @@ const useAttendanceReport = () => {
     selectedClass,
     selectedStudent,
     data,
-    isLoading,
+    isLoading: isLoading || isFetching,
     setPeriodType: handlePeriodChange,
     setDateRange,
     setSelectedLevel,

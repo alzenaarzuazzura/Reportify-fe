@@ -1,4 +1,4 @@
-import { Card, Row, Col, Button, Radio, DatePicker, Table, Statistic, Form } from 'antd';
+import { Card, Row, Col, Button, Radio, DatePicker, Table, Statistic, Form, Tag } from 'antd';
 import { SearchOutlined, ReloadOutlined, CalendarOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
@@ -137,6 +137,37 @@ const AssignmentReport = () => {
       key: 'assignment',
       ellipsis: true,
     },
+    {
+      title: 'Total Siswa',
+      dataIndex: 'totalStudents',
+      key: 'totalStudents',
+      align: 'center',
+      width: 100,
+    },
+    {
+      title: 'Sudah Mengerjakan',
+      dataIndex: 'submittedCount',
+      key: 'submittedCount',
+      align: 'center',
+      width: 140,
+      render: (count: number) => (
+        <span style={{ color: '#52c41a', fontWeight: 600 }}>
+          {count}
+        </span>
+      ),
+    },
+    {
+      title: 'Belum Mengerjakan',
+      dataIndex: 'notSubmittedCount',
+      key: 'notSubmittedCount',
+      align: 'center',
+      width: 140,
+      render: (count: number) => (
+        <span style={{ color: count > 0 ? '#f5222d' : '#52c41a', fontWeight: 600 }}>
+          {count}
+        </span>
+      ),
+    },
   ];
 
   return (
@@ -214,7 +245,7 @@ const AssignmentReport = () => {
       </Card>
 
       {/* Statistics Cards */}
-      {data?.data && (
+      {data?.data && Array.isArray(data.data.details) && data.data.details.length > 0 && (
         <>
           <Row gutter={16} style={{ marginBottom: 24 }}>
             <Col xs={24} sm={8}>
@@ -244,7 +275,7 @@ const AssignmentReport = () => {
           </Row>
 
           {/* Summary Table */}
-          {data.data.bySubject.length > 0 && (
+          {Array.isArray(data.data.bySubject) && data.data.bySubject.length > 0 && (
             <Card title="Ringkasan Per Mata Pelajaran" style={{ marginBottom: 24, borderRadius: '12px' }}>
               <Table
                 columns={summaryColumns}
@@ -264,9 +295,78 @@ const AssignmentReport = () => {
               rowKey="id"
               pagination={{ pageSize: 10 }}
               scroll={{ x: 'max-content' }}
+              expandable={{
+                expandedRowRender: (record) => (
+                  <div style={{ padding: '16px', backgroundColor: '#fafafa' }}>
+                    <Row gutter={[16, 16]}>
+                      <Col xs={24} md={12}>
+                        <Card 
+                          title={
+                            <span>
+                              <Tag color="green">Sudah Mengerjakan ({record.submittedCount})</Tag>
+                            </span>
+                          }
+                          size="small"
+                        >
+                          {record.submittedStudents.length > 0 ? (
+                            <ul style={{ margin: 0, paddingLeft: 20 }}>
+                              {record.submittedStudents.map((student) => (
+                                <li key={student.id} style={{ marginBottom: 8 }}>
+                                  <strong>{student.nis}</strong> - {student.name}
+                                  <br />
+                                  <small style={{ color: '#888' }}>
+                                    Dikumpulkan: {dayjs(student.submittedAt).format('DD/MM/YYYY HH:mm')}
+                                  </small>
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p style={{ color: '#888', margin: 0 }}>Belum ada siswa yang mengerjakan</p>
+                          )}
+                        </Card>
+                      </Col>
+                      <Col xs={24} md={12}>
+                        <Card 
+                          title={
+                            <span>
+                              <Tag color="red">Belum Mengerjakan ({record.notSubmittedCount})</Tag>
+                            </span>
+                          }
+                          size="small"
+                        >
+                          {record.notSubmittedStudents.length > 0 ? (
+                            <ul style={{ margin: 0, paddingLeft: 20 }}>
+                              {record.notSubmittedStudents.map((student) => (
+                                <li key={student.id} style={{ marginBottom: 8 }}>
+                                  <strong>{student.nis}</strong> - {student.name}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p style={{ color: '#888', margin: 0 }}>Semua siswa sudah mengerjakan</p>
+                          )}
+                        </Card>
+                      </Col>
+                    </Row>
+                  </div>
+                ),
+                rowExpandable: (record) => record.hasAssignment,
+              }}
             />
           </Card>
         </>
+      )}
+
+      {/* Empty State */}
+      {data?.data && Array.isArray(data.data.details) && data.data.details.length === 0 && (
+        <Card style={{ borderRadius: '12px', textAlign: 'center', padding: '40px 20px' }}>
+          <p style={{ fontSize: '16px', color: '#888', marginBottom: 0 }}>
+            Tidak ada data tugas untuk filter yang dipilih
+          </p>
+          <p style={{ fontSize: '14px', color: '#aaa' }}>
+            Coba ubah filter atau rentang tanggal
+          </p>
+        </Card>
       )}
     </div>
   );

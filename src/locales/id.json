@@ -113,6 +113,8 @@
   "field.status": "Status",
   "field.title": "Judul",
   "field.desc": "Deskripsi",
+  "field.attendancereport": "Laporan Presensi",
+  "field.assignmentreport": "Laporan Tugas",
 
   "attendance.title": "Presensi",
   "attendance.create": "Tambah Presensi",

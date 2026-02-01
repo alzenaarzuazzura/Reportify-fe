@@ -210,3 +210,117 @@ body {
 	align-items: center;
 	justify-content: center;
 }
+
+/* ant tabs spacing */
+.ant-tabs-nav .ant-tabs-tab {
+  padding-left: 0;
+  padding-right: 0;
+  margin-right: 1.25rem !important;
+}
+
+.ant-tabs-nav .ant-tabs-tab:last-child,
+.ant-tabs-nav .ant-tabs-tab:last-of-type {
+  margin-right: 0 !important;
+}
+
+/* kit-tabs & kit-tabs-bold */
+.kit-tabs,
+.kit-tabs-bold:not(.kit-tabs-mobile) {
+  overflow: visible !important;
+}
+
+.kit-tabs .ant-tabs-top-bar,
+.kit-tabs-bold:not(.kit-tabs-mobile) .ant-tabs-top-bar {
+  margin-bottom: 0;
+  border-bottom: none;
+  height: 100%;
+}
+
+.kit-tabs .ant-tabs-nav,
+.kit-tabs-bold:not(.kit-tabs-mobile) .ant-tabs-nav {
+  height: 100%;
+}
+
+.kit-tabs .ant-tabs-nav::before,
+.kit-tabs-bold:not(.kit-tabs-mobile) .ant-tabs-nav::before {
+  bottom: -1px !important;
+}
+
+.kit-tabs .ant-tabs-nav > div,
+.kit-tabs-bold:not(.kit-tabs-mobile) .ant-tabs-nav > div {
+  height: 100%;
+}
+
+.kit-tabs .ant-tabs-ink-bar,
+.kit-tabs-bold:not(.kit-tabs-mobile) .ant-tabs-ink-bar {
+  height: 1px;
+  bottom: -1px !important;
+}
+
+.kit-tabs .ant-tabs-ink-bar[style*='width: 0px;'],
+.kit-tabs-bold:not(.kit-tabs-mobile) .ant-tabs-ink-bar[style*='width: 0px;'] {
+  width: 100% !important;
+}
+
+/* active tab */
+.kit-tabs .ant-tabs-tab-active .nav-link,
+.kit-tabs-bold:not(.kit-tabs-mobile) .ant-tabs-tab-active .nav-link {
+  background-color: var(--primary);
+  color: var(--white);
+  border-radius: 0.25rem;
+}
+
+/* kit-tabs-bold ink bar */
+.kit-tabs-bold .ant-tabs-nav .ant-tabs-ink-bar {
+  height: 7px !important;
+  bottom: -4px !important;
+  border-radius: 7px !important;
+}
+
+/* kit-tabs-pills */
+.kit-tabs-pills .ant-tabs-ink-bar {
+  display: none !important;
+}
+
+.kit-tabs-pills .ant-tabs-nav {
+  height: 100%;
+}
+
+.kit-tabs-pills .ant-tabs-nav::before {
+  bottom: -1px !important;
+}
+
+.kit-tabs-pills .ant-tabs-nav > div {
+  height: 100%;
+}
+
+.kit-tabs-pills .ant-tabs-tab {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.kit-tabs-pills .ant-tabs-nav-wrap .ant-tabs-nav-list .ant-tabs-tab {
+  border-radius: 5px;
+  margin: 0;
+  padding: 0.3125rem 0.625rem;
+  color: var(--headerColor1D);
+  background-color: var(--white);
+}
+
+.kit-tabs-pills .ant-tabs-nav-wrap .ant-tabs-nav-list .ant-tabs-tab:hover {
+  background-color: var(--headerBgHoverHexa);
+}
+
+.kit-tabs-pills .ant-tabs-nav-wrap .ant-tabs-nav-list .ant-tabs-tab:focus {
+  color: var(--headerBgActive);
+}
+
+/* kit-tabs-bordered */
+.kit-tabs-bordered .ant-tabs-nav-list {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.kit-tabs-bordered.kit-tabs-bold .ant-tabs-top-bar {
+  border-bottom: 1px solid var(--border);
+}

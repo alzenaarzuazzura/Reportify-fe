@@ -1,68 +1,32 @@
 import { Tabs } from 'antd';
-import { CheckSquareOutlined, FileTextOutlined, WhatsAppOutlined } from '@ant-design/icons';
 
-import AttendanceReport from './AttendanceReport';
-import AssignmentReport from './AssignmentReport';
-import NotificationReport from './NotificationReport';
+import AttendanceReport from './attendance';
+import AssignmentReport from './assignment';
+import { useIntl } from 'react-intl';
 
 const Reports = () => {
+  const intl = useIntl()
+
   const items = [
     {
       key: 'attendance',
-      label: (
-        <span>
-          <CheckSquareOutlined />
-          Laporan Kehadiran
-        </span>
-      ),
+      label: intl.formatMessage({ id: 'field.attendancereport' }),
       children: <AttendanceReport />,
     },
     {
       key: 'assignment',
-      label: (
-        <span>
-          <FileTextOutlined />
-          Laporan Tugas
-        </span>
-      ),
+      label: intl.formatMessage({ id: 'field.assignmentreport' }),
       children: <AssignmentReport />,
-    },
-    {
-      key: 'notification',
-      label: (
-        <span>
-          <WhatsAppOutlined />
-          Laporan Chat Wali Murid
-        </span>
-      ),
-      children: <NotificationReport />,
     },
   ];
 
   return (
     <div>
-      <h1
-        style={{
-          marginBottom: 24,
-          fontSize: '24px',
-          fontWeight: 700,
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-        }}
-      >
-        📊 Laporan
-      </h1>
       <Tabs
         defaultActiveKey="attendance"
+        className='kit-tabs-bold'
         items={items}
         size="large"
-        style={{
-          background: 'rgba(255, 255, 255, 0.9)',
-          padding: '16px',
-          borderRadius: '12px',
-        }}
       />
     </div>
   );

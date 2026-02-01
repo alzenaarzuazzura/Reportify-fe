@@ -273,7 +273,7 @@ const AttendanceReport = () => {
       </Card>
 
       {/* Statistics Cards */}
-      {data?.data && (
+      {data?.data && Array.isArray(data.data.details) && data.data.details.length > 0 && (
         <>
           <Row gutter={16} style={{ marginBottom: 24 }}>
             <Col xs={12} sm={8} md={4}>
@@ -314,7 +314,7 @@ const AttendanceReport = () => {
           </Row>
 
           {/* Summary Table */}
-          {data.data.byStudent.length > 0 && (
+          {Array.isArray(data.data.byStudent) && data.data.byStudent.length > 0 && (
             <Card title="Ringkasan Per Siswa" style={{ marginBottom: 24, borderRadius: '12px' }}>
               <Table
                 columns={summaryColumns}
@@ -337,6 +337,18 @@ const AttendanceReport = () => {
             />
           </Card>
         </>
+      )}
+
+      {/* Empty State */}
+      {data?.data && Array.isArray(data.data.details) && data.data.details.length === 0 && (
+        <Card style={{ borderRadius: '12px', textAlign: 'center', padding: '40px 20px' }}>
+          <p style={{ fontSize: '16px', color: '#888', marginBottom: 0 }}>
+            Tidak ada data kehadiran untuk filter yang dipilih
+          </p>
+          <p style={{ fontSize: '14px', color: '#aaa' }}>
+            Coba ubah filter atau rentang tanggal
+          </p>
+        </Card>
       )}
     </div>
   );

@@ -3,6 +3,7 @@ import { Form } from 'antd';
 import { useQuery } from '@tanstack/react-query';
 import dayjs, { Dayjs } from 'dayjs';
 import { getAssignmentReport } from '@reportify/services/api/report';
+import { TReportParams } from '@reportify/types/data/report';
 import usePopupMessage from '@reportify/hooks/ui/usePopupMessage';
 
 export type TPeriodType = 'daily' | 'weekly' | 'monthly';
@@ -18,16 +19,29 @@ const useAssignmentReport = () => {
   const [selectedSubject, setSelectedSubject] = useState<number | undefined>();
   const [shouldFetch, setShouldFetch] = useState(false);
 
-  const { data, isLoading, refetch } = useQuery({
+  // Query with proper dependency tracking
+  const { data, isLoading, refetch, isFetching } = useQuery({
     queryKey: ['assignmentReport', dateRange, selectedClass, selectedSubject],
-    queryFn: () =>
-      getAssignmentReport({
+    queryFn: () => {
+      // Build params object with proper typing
+      const params: TReportParams = {
         startDate: dateRange[0].format('YYYY-MM-DD'),
         endDate: dateRange[1].format('YYYY-MM-DD'),
-        id_class: selectedClass,
-        id_subject: selectedSubject,
-      }),
+      };
+
+      if (selectedClass) {
+        params.id_class = selectedClass;
+      }
+
+      if (selectedSubject) {
+        params.id_subject = selectedSubject;
+      }
+
+      return getAssignmentReport(params);
+    },
     enabled: shouldFetch,
+    staleTime: 0, // Always fetch fresh data
+    gcTime: 0, // Don't cache results (replaces cacheTime in newer versions)
   });
 
   const handlePeriodChange = (type: TPeriodType) => {
@@ -48,10 +62,11 @@ const useAssignmentReport = () => {
   };
 
   const handleGenerate = () => {
-    if (!dateRange) {
+    if (!dateRange || !dateRange[0] || !dateRange[1]) {
       showMessage('error', 'Pilih rentang tanggal terlebih dahulu');
       return;
     }
+
     setShouldFetch(true);
     refetch();
   };
@@ -62,6 +77,8 @@ const useAssignmentReport = () => {
     setSelectedClass(undefined);
     setSelectedSubject(undefined);
     setShouldFetch(false);
+    setDateRange([dayjs(), dayjs()]);
+    setPeriodType('daily');
   };
 
   return {
@@ -72,7 +89,7 @@ const useAssignmentReport = () => {
     selectedClass,
     selectedSubject,
     data,
-    isLoading,
+    isLoading: isLoading || isFetching,
     setPeriodType: handlePeriodChange,
     setDateRange,
     setSelectedLevel,

@@ -110,8 +110,8 @@ const TeacherLayout = () => {
             className="menu-btn"
           />
 
-          <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
-            <div className="user-box">
+          <Dropdown menu={{ items: userMenuItems }} placement="bottomRight" trigger={['click']}>
+            <div className="user-box" style={{ cursor: 'pointer' }}>
               <Avatar className="user-avatar">
                 {getInitials(user?.name)}
               </Avatar>
