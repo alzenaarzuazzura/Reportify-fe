@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://3000.devops.my.id/reportify',
+  baseURL: import.meta.env.VITE_API_URL || 'https://3000.devops.my.id/reportify',
   headers: {
     'Content-Type': 'application/json',
   },
