@@ -211,6 +211,22 @@ body {
 	justify-content: center;
 }
 
+/* Responsive: Mobile */
+@media (max-width: 768px) {
+	.search-bar-wrapper {
+		width: 100%;
+	}
+
+	.search-filter-wrapper {
+		width: 100%;
+	}
+
+	.search-filter-input {
+		flex: 1;
+		width: auto;
+	}
+}
+
 /* ant tabs spacing */
 .ant-tabs-nav .ant-tabs-tab {
   padding-left: 0;

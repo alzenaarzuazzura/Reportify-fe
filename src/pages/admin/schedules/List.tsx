@@ -81,7 +81,7 @@ const ScheduleList = () => {
 			sorter: true,
       className: 'center-header-left-content',
       render: (_text, record) => (
-        <LinkTable to={`/schedules/view/${record.id}`}>{record.id_teaching_assignment.label}</LinkTable>
+        <LinkTable to={`/admin/schedules/view/${record.id}`}>{record.id_teaching_assignment.label}</LinkTable>
       )  
 		},
 		{

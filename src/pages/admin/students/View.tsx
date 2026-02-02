@@ -55,7 +55,7 @@ const View = ({ isOnEdit = false }) => {
           <ActionsButton 
             editButton={!isOnEdit}
             moreMenu={menuOther}
-            onEdit={() => navigate(`admin/students/update/${data?.data.id}`)}
+            onEdit={() => navigate(`/admin/students/update/${data?.data.id}`)}
           />
         </div>
         <Form 

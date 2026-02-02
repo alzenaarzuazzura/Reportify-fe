@@ -134,7 +134,7 @@ const ClassList = () => {
     <>
       <div className="row mb-3">
         <div className="col-24 d-flex justify-content-end align-items-center">
-          <Form form={formInstance} component={false} initialValues={initialFilter}>
+          <Form form={formInstance} component={false} initialValues={initialFilter} style={{ width: '100%', maxWidth: '260px' }}>
             <SearchFilter
               onSearch={onSearch}
               onFilter={onFilter}

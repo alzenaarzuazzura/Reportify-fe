@@ -74,7 +74,7 @@ const TeacherList = () => {
       sorter: true, 
       className: 'center-header-left-content',
       render: (text, record) => (
-        <LinkTable to={`/teachers/view/${record.id}`}>{text}</LinkTable>
+        <LinkTable to={`/admin/teachers/view/${record.id}`}>{text}</LinkTable>
       )  
     },
     {
@@ -84,7 +84,7 @@ const TeacherList = () => {
       sorter: true, 
       className: 'center-header-left-content',
       render: (text, record) => (
-        <LinkTable to={`/teachers/view/${record.id}`}>{text}</LinkTable>
+        <LinkTable to={`/admin/teachers/view/${record.id}`}>{text}</LinkTable>
       )      
     },
     {

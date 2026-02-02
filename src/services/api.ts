@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://3000.devops.my.id/reportify',
+  baseURL: 'http://localhost:3000/reportify',
   headers: {
     'Content-Type': 'application/json',
   },
