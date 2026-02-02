@@ -41,7 +41,7 @@ const General = ({ viewMode }: TAssignmentGeneralParams) => {
                 rules={[
                     rules.required(intl.formatMessage({ id: 'global.rulesfield' }))
                 ]}
-            >
+            >             
                 <Input.TextArea 
                     rows={4}
                     placeholder={intl.formatMessage({ id: 'input.exAssignmentDesc' })} 

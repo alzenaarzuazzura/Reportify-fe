@@ -24,3 +24,4 @@ export * from './data/profile';
 export * from './data/assignment';
 export * from './data/attendance';
 export * from './data/announcement';
+export * from './data/room';

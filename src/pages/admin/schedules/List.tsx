@@ -1,4 +1,4 @@
-import { Table, Form, Input, Select, TimePicker } from 'antd';
+import { Table, Form, Select, TimePicker } from 'antd';
 import { useIntl } from 'react-intl';
 import { ColumnsType } from 'antd/es/table';
 
@@ -19,6 +19,7 @@ import useScheduleList from './hooks/useScheduleList';
 import CmbTeacher from '@reportify/components/Combos/CmbTeacher';
 import CmbClass from '@reportify/components/Combos/CmbClass';
 import CmbSubject from '@reportify/components/Combos/CmbSubject';
+import CmbRoom from '@reportify/components/Combos/CmbRoom';
 import LinkTable from '@reportify/components/LinkTable';
 
 const defaultFilter: TScheduleListParams = {
@@ -113,11 +114,11 @@ const ScheduleList = () => {
 		},
 		{
 			title: intl.formatMessage({ id: 'field.room' }),
-			dataIndex: 'room',
+			dataIndex: 'id_room',
 			sorter: true,
       className: 'center-header-left-content',
 			render: (_text, record) => (
-				<div className="text-left cell-line-clamp">{record.room}</div>
+				<div className="text-left cell-line-clamp">{record.id_room?.label || '-'}</div>
 			),
 		},
     {
@@ -175,9 +176,9 @@ const ScheduleList = () => {
       )
     },
     {
-      name: 'room',
+      name: 'id_room',
       label: intl.formatMessage({ id: 'field.room' }),
-      picker: <Input onPressEnter={onFilter} placeholder={intl.formatMessage({ id: 'input.room' })} />
+      picker: <CmbRoom onInputKeyDown={onEnter(onFilter)} placeholder={intl.formatMessage({ id: 'input.room' })} />
     }
   ]  
 

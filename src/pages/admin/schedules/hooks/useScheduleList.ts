@@ -67,7 +67,7 @@ const useScheduleList = (
       id_class: undefined,
       id_subject: undefined,
       day: undefined,
-      room: undefined,
+      id_room: undefined,
       start_time: undefined,
       end_time: undefined,
       order: 'day',
@@ -86,6 +86,7 @@ const useScheduleList = (
     const id_user = values.id_user?.value || null
     const id_class = values.id_class?.value || null
     const id_subject = values.id_subject?.value || null
+    const id_room = values.id_room?.value || null
     
     // Handle time range
     let start_time = null
@@ -98,6 +99,7 @@ const useScheduleList = (
     delete values?.id_user
     delete values?.id_class
     delete values?.id_subject
+    delete values?.id_room
     delete values?.time_range
 
     const fieldsValue = {
@@ -105,6 +107,7 @@ const useScheduleList = (
       id_user,
       id_class,
       id_subject,
+      id_room,
       start_time,
       end_time,
     }

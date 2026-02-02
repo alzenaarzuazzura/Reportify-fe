@@ -16,7 +16,7 @@ export type TScheduleListForm = {
     id_class: TLabelValue
     id_subject: TLabelValue
     day: string
-    room: string
+    id_room: TLabelValue
     start_time: string
     end_time: string
 }
@@ -26,7 +26,7 @@ export type TScheduleTransForm = {
     day: string
     start_time: string
     end_time: string
-    room: string
+    id_room: TLabelValue
 }
 
 export type TScheduleListParams = TPaginationFilter & Partial<TScheduleListForm>
@@ -37,7 +37,7 @@ export type TScheduleListData = {
     day: string
     start_time: string
     end_time: string
-    room: string
+    id_room: TLabelValue
 }
 
 export type TScheduleData = TScheduleListData
@@ -47,7 +47,7 @@ export type TSchedulePostData = {
     day: string | undefined
     start_time: string | undefined
     end_time: string | undefined
-    room: string | undefined
+    id_room: number | undefined
 }
 
 export type TScheduleListResponse = TResponseList<TScheduleListData>

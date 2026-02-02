@@ -24,7 +24,7 @@ const useScheduleCreate = () => {
         day: formData.day,
         start_time: formData.start_time,
         end_time: formData.end_time,
-        room: formData.room,
+        id_room: formData.id_room?.value,
       }
 
       createData(data)

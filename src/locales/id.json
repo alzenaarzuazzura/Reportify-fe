@@ -17,6 +17,7 @@
   "menu.major": "Jurusan",
   "menu.rombel": "Rombel",
   "menu.profile": "Profile",
+  "menu.room": "Ruangan",
 
   "button.save": "Simpan",
   "button.cancel": "Batal",
@@ -152,6 +153,7 @@
   "input.exsubjectcode": "Cth. MTK",
   "input.exsubjectname": "Cth. Matematika",
   "input.exlevel": "Cth. X",
+  "input.exroom": "Cth. Lab Perakitan",
   "input.exmajor": "Cth. Rekayasa Perangkat Lunak",
   "input.exrombel": "Cth. 1",
   "input.exmajorcode": "Cth. RPL",
@@ -164,6 +166,8 @@
   "input.currentPassword": "Masukkan password lama",
   "input.newPassword": "Masukkan password baru",
   "input.confirmPassword": "Konfirmasi password baru",
+  "input.exAnnouncementTitle": "Membawa peralatan bersih - bersih",
+  "input.exAnnouncementContent": "Membawa sapu, pel, kemoceng",
 
   "validation.currentPasswordRequired": "Password lama harus diisi",
   "validation.newPasswordRequired": "Password baru harus diisi",
@@ -179,8 +183,6 @@
   "profile.securityTips": "Tips Keamanan Password",
   "profile.tip1": "Gunakan minimal 8 karakter",
   "profile.tip2": "Kombinasikan huruf besar, kecil, angka, dan simbol",
-  "profile.tip3": "Jangan gunakan informasi pribadi yang mudah ditebak",
-  "profile.tip4": "Ubah password secara berkala",
 
   "cmb.fetching": "Mencari...",
   "cmb.selectnotfound": "Data tidak ditemukan",

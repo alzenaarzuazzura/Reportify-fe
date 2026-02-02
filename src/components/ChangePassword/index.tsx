@@ -39,6 +39,22 @@ const ChangePassword = () => {
             </p>
           </div>
 
+          <div style={{ 
+            marginTop: 24, 
+            padding: '16px', 
+            background: '#f0f7ff', 
+            borderRadius: '8px',
+            border: '1px solid #d6e4ff'
+          }}>
+            <h4 style={{ marginBottom: 8, color: '#1890ff', fontSize: '16px'}}>
+              💡 {intl.formatMessage({ id: 'profile.securityTips' })}:
+            </h4>
+            <ul style={{ margin: 0, paddingLeft: 20, color: '#666', fontSize: '12px' }}>
+              <li>{intl.formatMessage({ id: 'profile.tip1' })}</li>
+              <li>{intl.formatMessage({ id: 'profile.tip2' })}</li>
+            </ul>
+          </div>           
+
           <Form
             form={form}
             layout="vertical"
@@ -130,24 +146,6 @@ const ChangePassword = () => {
               </Button>
             </Form.Item>
           </Form>
-
-          <div style={{ 
-            marginTop: 24, 
-            padding: '16px', 
-            background: '#f0f7ff', 
-            borderRadius: '8px',
-            border: '1px solid #d6e4ff'
-          }}>
-            <h4 style={{ marginBottom: 8, color: '#1890ff' }}>
-              💡 {intl.formatMessage({ id: 'profile.securityTips' })}:
-            </h4>
-            <ul style={{ margin: 0, paddingLeft: 20, color: '#666' }}>
-              <li>{intl.formatMessage({ id: 'profile.tip1' })}</li>
-              <li>{intl.formatMessage({ id: 'profile.tip2' })}</li>
-              <li>{intl.formatMessage({ id: 'profile.tip3' })}</li>
-              <li>{intl.formatMessage({ id: 'profile.tip4' })}</li>
-            </ul>
-          </div>
         </Card>
     </>
   );

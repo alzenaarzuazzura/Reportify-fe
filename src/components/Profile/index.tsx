@@ -50,6 +50,18 @@ const ProfileInfo = ({
           </p>
         </div>
 
+        {showAlert && redirectPath && (
+          <div style={{ marginTop: 24, padding: '16px', borderRadius: '8px' }}>
+            <AlertFormatted
+              id="msg.alert.profileinfo"
+              thing="field.profile"
+              onClick={() => navigate(redirectPath)}
+              show
+              style={{ marginBottom: '20px' }}
+            />
+          </div>
+        )}        
+
         <Descriptions bordered column={1} size="middle">
           <Descriptions.Item label="Nama Lengkap">
             <strong>{user?.name}</strong>
@@ -75,18 +87,6 @@ const ProfileInfo = ({
               : '-'}
           </Descriptions.Item>
         </Descriptions>
-
-        {showAlert && redirectPath && (
-          <div style={{ marginTop: 24, padding: '16px', borderRadius: '8px' }}>
-            <AlertFormatted
-              id="msg.alert.profileinfo"
-              thing="field.profile"
-              onClick={() => navigate(redirectPath)}
-              show
-              style={{ marginBottom: '20px' }}
-            />
-          </div>
-        )}
       </Card>
     </>
   )

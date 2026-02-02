@@ -49,10 +49,10 @@ type TCheckExistingResponse = {
   }
 }
 
-export const checkExisting = async (day: string, start_time: string, end_time: string, excludeId?: number): Promise<boolean> => {
+export const checkExisting = async (day: string, start_time: string, end_time: string, id_teaching_assignment: number, excludeId?: number): Promise<boolean> => {
   try {
     const res = await api.get<TCheckExistingResponse>('/schedules/check', {
-      params: { day, start_time, end_time, exclude_id: excludeId }
+      params: { day, start_time, end_time, id_teaching_assignment, exclude_id: excludeId }
     })
     return res.data.data?.hasConflict || false
   } catch {

@@ -23,6 +23,12 @@ export async function level(params: TComboFetchParams) {
         .then(validateResponse)
 }
 
+export async function room(params: TComboFetchParams) {
+    return apiReportify
+        .get<TResponseCombo>('/combo/rooms', { params: { ...params } })
+        .then(validateResponse)
+}
+
 export async function major(params: TComboFetchParams) {
     return apiReportify
         .get<TResponseCombo>('/combo/majors', { params: { ...params } })

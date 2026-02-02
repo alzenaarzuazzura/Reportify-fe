@@ -8,12 +8,14 @@ import Classes from './classes'
 import Level from './level'
 import Major from './major'
 import Rombel from './rombel'
+import Room from './room'
 
 const subTabs = [
   { key: 'classes', intl: 'menu.classes', Component: Classes },
   { key: 'level', intl: 'menu.level', Component: Level },
   { key: 'major', intl: 'menu.major', Component: Major },
   { key: 'rombel', intl: 'menu.rombel', Component: Rombel },
+  { key: 'room', intl: 'menu.room', Component: Room },
 ]
 
 const General = () => {

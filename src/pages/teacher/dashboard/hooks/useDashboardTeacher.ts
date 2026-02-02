@@ -91,20 +91,29 @@ const useDashboardTeacher = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Fetch active schedule on mount
+  // Fetch active schedule on mount and poll every 30 seconds
   useEffect(() => {
     const fetchActiveSchedule = async () => {
       try {
         const data = await currentSchedule();
         if (data && Array.isArray(data) && data.length > 0) {
           setActiveSchedule(data[0] as TActiveSchedule);
+        } else {
+          setActiveSchedule(null);
         }
       } catch (error) {
         // No active schedule - silent fail
+        setActiveSchedule(null);
       }
     };
 
+    // Fetch immediately
     fetchActiveSchedule();
+
+    // Poll every 30 seconds
+    const interval = setInterval(fetchActiveSchedule, 30000);
+
+    return () => clearInterval(interval);
   }, []);
 
   // Show confirmation dialog before sending report
