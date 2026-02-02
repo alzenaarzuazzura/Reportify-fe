@@ -5,6 +5,7 @@ import { currentSchedule } from '@reportify/services/api/combo';
 import { sendReportToParents, getList as getAttendanceList } from '@reportify/services/api/attendance';
 import { getList as getAssignmentList } from '@reportify/services/api/assignment';
 import { getList as getAnnouncementList } from '@reportify/services/api/announcement';
+import { getMySchedules } from '@reportify/services/api/schedule';
 import usePopupMessage from '@reportify/hooks/ui/usePopupMessage';
 import useDlgMessage from '@reportify/hooks/ui/useDialogMessage';
 
@@ -81,6 +82,32 @@ const useDashboardTeacher = () => {
   }
   
   const totalAnnouncements = Array.isArray(announcementData) ? announcementData.length : 0;
+
+  // Fetch all schedules for the logged-in teacher
+  const { data: allSchedulesData } = useQuery({
+    queryKey: ['dashboard-teacher', 'my-schedules'],
+    queryFn: () => getMySchedules({ page: 1, limit: 1000 }),
+  });
+
+  const allSchedules = allSchedulesData?.data ?? [];
+
+  // Group schedules by day
+  const schedulesByDay = allSchedules.reduce((acc, schedule: any) => {
+    // Capitalize first letter to match daysOrder format (API returns lowercase)
+    const day = schedule.day.charAt(0).toUpperCase() + schedule.day.slice(1);
+    if (!acc[day]) {
+      acc[day] = [];
+    }
+    acc[day].push(schedule);
+    return acc;
+  }, {} as Record<string, typeof allSchedules>);
+
+  // Sort schedules within each day by start_time
+  Object.keys(schedulesByDay).forEach(day => {
+    schedulesByDay[day].sort((a, b) => {
+      return a.start_time.localeCompare(b.start_time);
+    });
+  });
 
   // Update current time every second
   useEffect(() => {
@@ -206,6 +233,8 @@ const useDashboardTeacher = () => {
     // Assignment completion statistics
     totalStudentsCompleted,
     totalStudentsNotCompleted,
+    // All schedules grouped by day
+    schedulesByDay,
   };
 };
 

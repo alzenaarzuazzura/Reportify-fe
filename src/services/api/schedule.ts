@@ -59,3 +59,8 @@ export const checkExisting = async (day: string, start_time: string, end_time: s
     return false
   }
 }
+
+export const getMySchedules = async (params?: TScheduleListParams): Promise<TScheduleListResponse> => {
+  const res = await api.get<TScheduleListResponse>('/schedules/my-schedules', { params })
+  return res.data
+}
